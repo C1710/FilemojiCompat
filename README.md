@@ -6,11 +6,13 @@ EmojiCompat fonts which are stored anywhere on the device's local storage.
 ## How do I get this library?
 That's relatively easy: Just add the following line to your module's `build.gradle` inside `dependencies`:
 ```
-implementation 'de.c1710:filemojicompat:1.0.7'
+implementation 'de.c1710:filemojicompat:1.0.14'
 ```
+
+(Note: You need to include JCenter first, which is usually the case)
 ## How do I use it?
 There are two different methods included in this library:
-1. ### [`AssetEmojiCompatConfig`](https://github.com/C1710/blobmoji/blob/filemojicompat/emojicompat/FileMojiCompat/filemojicompat/src/main/java/de/c1710/filemojicompat/AssetEmojiCompatConfig.java)  
+1. ### [`AssetEmojiCompatConfig`](https://github.com/C1710/FilemojiCompat/blob/master/filemojicompat/src/main/java/de/c1710/filemojicompat/AssetEmojiCompatConfig.java) (**deprecated, it's now included in `FileEmojiCompatConfig`**)  
    You can use this just like you would usually use [`BundledEmojiCompatConfig`](https://developer.android.com/guide/topics/ui/look-and-feel/emoji-compat#bundled-fonts)
    except for the detail that you can choose the font's name as the second parameter.  
    Example:
@@ -19,7 +21,7 @@ There are two different methods included in this library:
    ```
    This will create a new EmojiCompat configuration using the file provided in `assets/Blobmoji.ttf`.  
    Anyhow, I don't recommend using `AssetEmojiCompatConfig` anymore as [this](#i-want-to-let-my-users-only-choose-another-font-if-they-dont-like-my-current-one) approach is more flexible and just as easy to use.
-2. ### [`FileEmojiCompatConfig`](https://github.com/C1710/blobmoji/blob/filemojicompat/emojicompat/FileMojiCompat/filemojicompat/src/main/java/de/c1710/filemojicompat/FileEmojiCompatConfig.java)
+2. ### [`FileEmojiCompatConfig`](https://github.com/C1710/FilemojiCompat/blob/master/filemojicompat/src/main/java/de/c1710/filemojicompat/FileEmojiCompatConfig.java)
    This is the more complex and interesting option.  
    Instead of providing a short String containing the font's name, you can provide a [`File`](https://developer.android.com/reference/java/io/File)
    (or the String containing the full path of it).  
