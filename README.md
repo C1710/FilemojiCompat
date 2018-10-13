@@ -1,3 +1,6 @@
+### DISCLAIMER
+I am not affiliated with or supported by Google or any other people who orignally developed the EmojiCompat library. I only made a more flexible implementation of one of their classes.
+
 # FileMojiCompat
 ## What is this?
 This is a library providing an easy solution to use [EmojiCompat](https://developer.android.com/guide/topics/ui/look-and-feel/emoji-compat) 
