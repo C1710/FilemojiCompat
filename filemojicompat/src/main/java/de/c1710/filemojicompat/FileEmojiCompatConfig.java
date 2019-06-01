@@ -21,12 +21,13 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.text.emoji.EmojiCompat;
-import android.support.text.emoji.MetadataRepo;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.emoji.text.EmojiCompat;
+import androidx.emoji.text.MetadataRepo;
 
 import java.io.File;
 import java.io.FileInputStream;

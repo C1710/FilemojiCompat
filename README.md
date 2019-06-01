@@ -9,8 +9,10 @@ EmojiCompat fonts which are stored anywhere on the device's local storage.
 ## How do I get this library?
 That's relatively easy: Just add the following line to your module's `build.gradle` inside `dependencies`:
 ```
-implementation 'de.c1710:filemojicompat:1.0.14'
+implementation 'de.c1710:filemojicompat:1.0.16'
 ```
+(If you still rely on the original Android Support library, you might want to use `1.0.15` instead;
+however I don't know if this is necessary)
 
 (Note: You need to include JCenter first, which is usually the case)
 ## How do I use it?

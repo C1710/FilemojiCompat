@@ -19,10 +19,11 @@ package de.c1710.filemojicompat;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.text.emoji.EmojiCompat;
-import android.support.text.emoji.MetadataRepo;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.emoji.text.EmojiCompat;
+import androidx.emoji.text.MetadataRepo;
 
 /**
  * A simple implementation of EmojiCompat.Config using typeface assets.
