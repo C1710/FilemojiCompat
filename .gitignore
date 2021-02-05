@@ -74,3 +74,5 @@ Thumbs.db
 *.iml
 .idea
 output.json 
+
+*.gpg
