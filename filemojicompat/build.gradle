@@ -1,40 +1,26 @@
 apply plugin: 'com.android.library'
+apply from: file('publish.gradle')
+
 buildscript {
     repositories {
         mavenCentral()
         google()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:4.1.2'
     }
 }
 
-ext {
-    bintrayRepo = 'FileMojiCompat'
-    bintrayName = 'filemojicompat'
-    publishedGroupId = 'de.c1710'
-    libraryName = 'filemojicompat'
-    artifact = 'filemojicompat'
-    libraryDescription = 'An EmojiCompat implementation using files from a local file or a file inside your assets directory'
-    siteUrl = 'https://github.com/c1710/blobmoji'
-    gitUrl = 'https://github.com/c1710/blobmoji.git'
-    libraryVersion = '1.0.17'
-    developerId = 'c1710'
-    developerName = 'Constantin A.'
-    developerEmail = 'c1710.apps@outlook.com'
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
-        versionCode 17
-        versionName "1.0.17"
+        targetSdkVersion 30
+        versionCode 18
+        versionName "1.0.18"
     }
 
 
@@ -46,9 +32,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.emoji:emoji:1.0.0'
+    api 'androidx.emoji:emoji:1.1.0'
 }
-
-apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
-apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
 
