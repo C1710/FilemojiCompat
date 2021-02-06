@@ -1,6 +1,11 @@
 ### DISCLAIMER
 I am not affiliated with or supported by Google or any other people who orignally developed the EmojiCompat library. I only made a more flexible implementation of one of their classes.
 
+### Important note on older versions
+As JCenter/Bintray [will be shut down on 2021-05-01](https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/), the library needed to switch to another service, which is in this case [MavenCentral](https://search.maven.org/artifact/de.c1710/filemojicompat) (and Github Packages, but due to an [issue](https://github.community/t/download-from-github-package-registry-without-authentication/14407/7), downloading through the maven repository is not possible without authentication).  
+
+While the usage of MavenCentral should be very easy (you only might need to include it in your `repositories`-section), there's one disadvantage: Older versions of the library (that is  `1.0.17` or older) will not be available anymore, although I don't believe that these are needed. At least in comparison to `1.0.17`, there have been no changes in the API or in the behavior of the library other than an updated EmojiCompat-library and a newer target SDK.
+
 # FileMojiCompat
 ## What is this?
 This is a library providing an easy solution to use [EmojiCompat](https://developer.android.com/guide/topics/ui/look-and-feel/emoji-compat) 
@@ -9,12 +14,8 @@ EmojiCompat fonts which are stored anywhere on the device's local storage.
 ## How do I get this library?
 That's relatively easy: Just add the following line to your module's `build.gradle` inside `dependencies`:
 ```
-implementation 'de.c1710:filemojicompat:1.0.17'
+implementation 'de.c1710:filemojicompat:1.0.18'
 ```
-(If you still rely on the original Android Support library, you might want to use `1.0.14` instead (`1.0.15-1.0.16` are broken);
-however I don't know if this is necessary)
-
-(Note: You need to include JCenter first, which is usually the case)
 ## How do I use it?
 There are two different methods included in this library:
 1. ### [`AssetEmojiCompatConfig`](https://github.com/C1710/FilemojiCompat/blob/master/filemojicompat/src/main/java/de/c1710/filemojicompat/AssetEmojiCompatConfig.java) (**deprecated, it's now included in `FileEmojiCompatConfig`**)  
