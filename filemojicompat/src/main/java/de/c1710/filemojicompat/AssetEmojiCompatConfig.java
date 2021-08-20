@@ -48,68 +48,6 @@ public class AssetEmojiCompatConfig extends EmojiCompat.Config {
                                   // NEW
                                   @NonNull String assetName) {
         // This one is oviously new
-        super(new AssetMetadataLoader(context, assetName));
-    }
-
-    /**
-     * This is the MetadataLoader. Derived from BundledMetadataLoader but with
-     * the addition of a custom asset name.
-     */
-    private static class AssetMetadataLoader implements EmojiCompat.MetadataRepoLoader {
-        private final Context mContext;
-        // NEW
-        private final String assetName;
-
-        private AssetMetadataLoader(@NonNull Context context,
-                                    // NEW
-                                    String assetName) {
-            this.mContext = context.getApplicationContext();
-            // NEW
-            this.assetName = assetName;
-        }
-
-
-        // Copied from BundledEmojiCompatConfig
-        @Override
-        @RequiresApi(19)
-        public void load(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
-            // This one doesn't work as it's not android.support
-            //Preconditions.checkNotNull(loaderCallback, "loaderCallback cannot be null");
-            final InitRunnable runnable = new InitRunnable(mContext, loaderCallback, assetName);
-            final Thread thread = new Thread(runnable);
-            thread.setDaemon(false);
-            thread.start();
-        }
-    }
-
-    @RequiresApi(19)
-    private static class InitRunnable implements Runnable {
-        // The font name is assigned in the constructor.
-        private final String FONT_NAME;
-        // Slightly different variable names
-        private final EmojiCompat.MetadataRepoLoaderCallback loaderCallback;
-        private final Context context;
-
-        private InitRunnable(final Context context,
-                             final EmojiCompat.MetadataRepoLoaderCallback loaderCallback,
-                             // NEW parameter
-                             final String FONT_NAME) {
-            // This has been changed a bit in order to get some consistency
-            this.context = context;
-            this.loaderCallback = loaderCallback;
-            this.FONT_NAME = FONT_NAME;
-        }
-
-        // This has been copied from BundledEmojiCompatConfig
-        @Override
-        public void run() {
-            try {
-                final AssetManager assetManager = context.getAssets();
-                final MetadataRepo resourceIndex = MetadataRepo.create(assetManager, FONT_NAME);
-                loaderCallback.onLoaded(resourceIndex);
-            } catch (Throwable t) {
-                loaderCallback.onFailed(t);
-            }
-        }
+        super(new FileMetadataRepoLoader(context, null, assetName, null));
     }
 }
