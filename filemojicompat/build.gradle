@@ -5,7 +5,6 @@ buildscript {
     repositories {
         mavenCentral()
         google()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.2'
@@ -19,8 +18,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 18
-        versionName "1.0.18"
+        versionCode 19
+        versionName "1.0.19"
     }
 
 
