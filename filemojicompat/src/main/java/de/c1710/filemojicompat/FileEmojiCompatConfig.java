@@ -62,72 +62,6 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
     private final String fallbackFontName;
 
     /**
-     * Create a new configuration for this EmojiCompat
-     * @deprecated
-     * Please use {@link #init(Context, String)} instead to increase performance.
-     *
-     * @param path    The file name/path of the requested font
-     * @param context Context instance
-     */
-    @Deprecated
-    public FileEmojiCompatConfig(@NonNull Context context,
-                                 // NEW
-                                 @NonNull String path) {
-        // This one is obviously new
-        this(context, path, FONT_FALLBACK);
-    }
-
-    /**
-     * Create a new configuration for this EmojiCompat
-     * @deprecated
-     * Please use {@link #init(Context, String, String)} instead to increase performance.
-     *
-     * @param path         The file name/path of the requested font
-     * @param context      Context instance
-     * @param fallbackFontName The asset path of the fallback font that is used when the user didn't provide one
-     */
-    @Deprecated
-    public FileEmojiCompatConfig(@NonNull Context context,
-                                 // NEW
-                                 @NonNull String path,
-                                 @Nullable String fallbackFontName) {
-        // This one is obviously new
-        this(context, new File(path), fallbackFontName);
-    }
-
-    /**
-     * Create a new configuration for this EmojiCompat based on a file
-     * @deprecated
-     * Please use {@link #init(Context, File)} instead to increase performance.
-     *
-     * @param context  Context instance
-     * @param fontFile The file containing the EmojiCompat font
-     */
-    @Deprecated
-    public FileEmojiCompatConfig(@NonNull Context context,
-                                 // NEW
-                                 @Nullable File fontFile) {
-        this(context, fontFile, FONT_FALLBACK);
-    }
-
-    /**
-     * Create a new configuration for this EmojiCompat based on a file
-     * @deprecated
-     * Please use {@link #init(Context, File, String)} instead to increase performance.
-     *
-     * @param context      Context instance
-     * @param fontFile     The file containing the EmojiCompat font
-     * @param fallbackFontName The asset path of the fallback font
-     */
-    @Deprecated
-    public FileEmojiCompatConfig(@NonNull Context context,
-                                 // NEW
-                                 @Nullable File fontFile,
-                                 @Nullable String fallbackFontName) {
-        this(context, fontFile, fallbackFontName, null);
-    }
-
-    /**
      * Create a new configuration for this EmojiCompat based on a file
      *
      * @param context      Context instance
@@ -193,9 +127,6 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
     /**
      * Creates a new FileEmojiCompatConfig based on an asset.
      * <p>
-     * This means that you can have the flexibility of {@link AssetEmojiCompatConfig}
-     * while giving your users the choice to optionally override the font.
-     * <p>
      * The default location for a substituting font is
      * {@code /sdcard/Android/data/your.apps.package/files/EmojiCompat.ttf}.
      *
@@ -218,9 +149,6 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
 
     /**
      * Creates a new FileEmojiCompatConfig based on an asset.
-     * <p>
-     * This means that you can have the flexibility of {@link AssetEmojiCompatConfig}
-     * while giving your users the choice to optionally override the font.
      * <p>
      * The default location for a substituting font is
      * {@code /sdcard/Android/data/your.apps.package/files/EmojiCompat.ttf}.
