@@ -140,6 +140,7 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
     }
 
     /**
+     *
      * Creates a new FileEmojiCompatConfig based on an asset. Will set the replacement strategy
      * to treat the "normal" and the asset version equally.
      * <p>
@@ -154,7 +155,7 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
      * @return A FileEmojiCompatConfig which will use the given font by default
      */
     public static FileEmojiCompatConfig createFromAsset(@NonNull Context context) {
-        return createFromAsset(context, FONT_FALLBACK);
+        return createFromAsset(context, null);
     }
 
     /**

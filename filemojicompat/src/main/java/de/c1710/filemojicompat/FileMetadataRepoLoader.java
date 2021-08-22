@@ -48,10 +48,7 @@ public class FileMetadataRepoLoader implements EmojiCompat.MetadataRepoLoader {
 
     @Override
     public void load(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            this.loadSync(loaderCallback);
-        }
-        // Else don't do anything
+        this.loadSync(loaderCallback);
     }
 
     private void loadAsync(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
