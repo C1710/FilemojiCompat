@@ -48,18 +48,13 @@ public class FileMetadataRepoLoader implements EmojiCompat.MetadataRepoLoader {
 
     @Override
     public void load(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            this.loadSync(loaderCallback);
-        }
-        // Else don't do anything
+        this.loadSync(loaderCallback);
     }
 
-    @RequiresApi(19)
     private void loadAsync(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
         new Thread(() -> this.loadSync(loaderCallback)).start();
     }
 
-    @RequiresApi(19)
     public void loadSync(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
         if (fontFile != null && fontFile.exists() && fontFile.canRead()) {
             // The file seems to be okay. We can load the file
@@ -81,7 +76,6 @@ public class FileMetadataRepoLoader implements EmojiCompat.MetadataRepoLoader {
         }
     }
 
-    @RequiresApi(19)
     private void loadFallback(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
         this.fallbackEnabled.set(true);
         Log.i("FilemojiCompat", "Using the fallback font");

@@ -3,7 +3,7 @@ apply plugin: 'maven-publish'
 
 def LIB_GROUP_ID = "de.c1710"
 def LIB_ARTIFACT_ID = "filemojicompat"
-def LIB_VERSION = "1.0.18"
+def LIB_VERSION = "2.0.0"
 
 
 task sourceJar(type: Jar) {
@@ -20,8 +20,8 @@ task javadoc(type: Javadoc) {
         // Wait after evaluation to add the android classpath
         // to avoid "buildToolsVersion is not specified" error
         classpath += files(android.getBootClasspath())
-        options.linkSource true
-        options.links("http://d.android.com/reference/");
+        options.linkSource false
+        //options.links("http://d.android.com/reference/")
     }
     failOnError(false)
 }
