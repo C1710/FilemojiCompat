@@ -1,15 +1,17 @@
 package de.c1710.filemojicompat;
 
 import android.os.Bundle;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import androidx.emoji.text.EmojiCompat;
+import androidx.emoji2.text.EmojiCompat;
+
 
 public class Utils {
     /**
      * For some reason, EmojiCompat does not seem to automatically add IME support to text inputs.
      * This function does this in a rather easy way.
-     * @param text The {@link TextView} (typically an {@link androidx.emoji.widget.EmojiEditText}) to patch
+     * @param text The {@link TextView} (typically an EmojiEditText) to patch
      * @param config The configuration to use (will be used to retrieve whether all emojis are replaced)
      */
     public static void patchImeSupport(TextView text, FileEmojiCompatConfig config) {
@@ -23,7 +25,7 @@ public class Utils {
     /**
      * For some reason, EmojiCompat does not seem to automatically add IME support to text inputs.
      * This function does this in a rather easy way.
-     * @param text The {@link TextView} (typically an {@link androidx.emoji.widget.EmojiEditText}) to patch
+     * @param text The {@link TextView} (typically an EmojiEditText) to patch
      * @param replaceAll Whether all emojis are replaced or not (cf. {@link FileEmojiCompatConfig#setReplaceAll(ReplaceStrategy)})
      */
     public static void patchImeSupport(TextView text, boolean replaceAll) {

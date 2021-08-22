@@ -3,14 +3,12 @@ package de.c1710.filemojicompat;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.emoji.text.EmojiCompat;
-import androidx.emoji.text.MetadataRepo;
+import androidx.emoji2.text.EmojiCompat;
+import androidx.emoji2.text.MetadataRepo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,7 +58,9 @@ public class FileMetadataRepoLoader implements EmojiCompat.MetadataRepoLoader {
             // The file seems to be okay. We can load the file
             Typeface font = Typeface.createFromFile(this.fontFile);
             try {
-                MetadataRepo repo = MetadataRepo.create(font, new FileInputStream(fontFile));
+                FileInputStream fontStream = new FileInputStream(fontFile);
+                MetadataRepo repo = MetadataRepo.create(font, fontStream);
+                fontStream.close();
                 loaderCallback.onLoaded(repo);
             } catch (IOException e) {
                 Log.e("FilemojiCompat", "Could not load font file", e);

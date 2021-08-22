@@ -21,8 +21,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.emoji.text.EmojiCompat;
-import androidx.emoji.text.MetadataRepo;
+import androidx.emoji2.text.EmojiCompat;
+import androidx.emoji2.text.MetadataRepo;
 
 import java.io.File;
 
@@ -188,6 +188,7 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
      * @return This
      */
     @Override
+    @NonNull
     public FileEmojiCompatConfig setReplaceAll(boolean replaceAll) {
         return setReplaceAll(replaceAll ? ReplaceStrategy.ALWAYS : ReplaceStrategy.NORMAL);
     }
