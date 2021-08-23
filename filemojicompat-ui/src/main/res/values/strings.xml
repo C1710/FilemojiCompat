@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="download">Download</string>
+    <string name="systemDefault">System Default</string>
+    <string name="systemDefaultDescription">The default emoji set of your phone</string>
+    <string name="externalFile">From file</string>
+    <string name="externalFileDescription">Use a different emoji pack</string>
+    <string name="loadingFailed">Could not load emoji pack</string>
+</resources>

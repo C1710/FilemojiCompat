@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/emoji_pack_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:background="?android:selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/emoji_pack_icon"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+    />
+
+    <TextView
+        android:id="@+id/emoji_pack_name"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/emoji_pack_description"
+        app:layout_constraintVertical_chainStyle="packed"
+
+        android:layout_marginEnd="56dp"
+        android:layout_marginStart="72dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:textSize="16sp"
+        android:maxLines="1"
+    />
+
+    <TextView
+        android:id="@+id/emoji_pack_description"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emoji_pack_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_marginEnd="56dp"
+        android:layout_marginStart="72dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:textSize="14sp"
+        android:maxLines="2"
+        android:minLines="2"
+    />
+
+    <ProgressBar
+        android:id="@+id/emoji_pack_progress"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emoji_pack_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_marginEnd="56dp"
+        android:layout_marginStart="72dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+    />
+
+    <ImageView
+        android:id="@+id/emoji_pack_download"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_marginHorizontal="16dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+
+        android:contentDescription="@string/download"
+        app:srcCompat="@drawable/ic_download"
+        app:tint="?colorAccent"
+        />
+
+    <ImageView
+        android:id="@+id/emoji_pack_cancel"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:visibility="gone"
+
+        android:layout_marginHorizontal="16dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+
+        android:contentDescription="@string/download"
+        app:srcCompat="@drawable/ic_cancel"
+        app:tint="?colorAccent"
+        />
+
+    <RadioButton
+        android:id="@+id/emoji_pack_selction"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:visibility="gone"
+
+        android:layout_marginHorizontal="16dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

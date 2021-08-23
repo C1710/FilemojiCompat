@@ -1,1 +1,2 @@
 include ':filemojicompat'
+include ':filemojicompat-ui'
