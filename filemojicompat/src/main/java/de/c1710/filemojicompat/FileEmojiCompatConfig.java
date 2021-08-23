@@ -33,14 +33,10 @@ import java.io.File;
  * Changes are marked with comments. Formatting and other simple changes are not always marked.
  */
 public class FileEmojiCompatConfig extends EmojiCompat.Config {
-    /**
-     * The default name of the fallback font
-     */
-    private static final String FONT_FALLBACK = "NoEmojiCompat.ttf";
 
     private ReplaceStrategy replacementStrategy = ReplaceStrategy.NORMAL;
 
-    private MutableBoolean fallbackEnabled;
+    public MutableBoolean fallbackEnabled;
 
     private final Context context;
     private final File fontFile;
