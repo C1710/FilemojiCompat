@@ -44,6 +44,7 @@
 
         android:textSize="16sp"
         android:maxLines="1"
+        android:textColor="@android:color/primary_text_light"
 
         android:clickable="false"
         android:focusable="false"
@@ -67,6 +68,7 @@
         android:textSize="14sp"
         android:maxLines="2"
         android:minLines="2"
+        android:textColor="@android:color/secondary_text_light"
 
         android:clickable="false"
         android:focusable="false"
@@ -146,6 +148,26 @@
         android:layout_marginTop="12dp"
     />
 
+    <ImageView
+        android:id="@+id/emoji_pack_import"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:visibility="gone"
+
+        android:layout_marginHorizontal="16dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+
+        android:contentDescription="@string/import_file"
+        app:srcCompat="@drawable/ic_open"
+        app:tint="?colorAccent"
+        android:foreground="?android:selectableItemBackground"
+        />
+
+
 
     <!-- Now, the expanded version (doing everything in one layout is easier) -->
 
@@ -183,6 +205,7 @@
 
             android:textSize="14sp"
             android:minLines="2"
+            android:textColor="@android:color/secondary_text_light"
         />
 
         <TextView
@@ -199,6 +222,7 @@
 
             android:textSize="14sp"
             android:maxLines="1"
+            android:textColor="@android:color/secondary_text_light"
         />
 
         <Button

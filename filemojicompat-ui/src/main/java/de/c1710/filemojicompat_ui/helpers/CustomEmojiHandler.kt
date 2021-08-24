@@ -30,7 +30,7 @@ class CustomEmojiHandler(
 
         getContent = registry.register(PICK_EMOJI, owner, ActivityResultContracts.OpenDocument()) {
             if (it != null) {
-                storeCustomEmoji(it, callback)
+                receiveCustomEmoji(it, callback)
             }
         }
     }
@@ -41,7 +41,7 @@ class CustomEmojiHandler(
     }
 
     @Throws(FileNotFoundException::class)
-    private fun storeCustomEmoji(source: Uri, callback: CustomEmojiCallback?) {
+    private fun receiveCustomEmoji(source: Uri, callback: CustomEmojiCallback?) {
         if (source.scheme in arrayOf(
                 ContentResolver.SCHEME_FILE,
                 ContentResolver.SCHEME_ANDROID_RESOURCE,
@@ -53,9 +53,8 @@ class CustomEmojiHandler(
                     Log.d("FilemojiCompat", "storeCustomEmoji: Loading emoji pack from file")
                     val stream: InputStream? = context.contentResolver.openInputStream(source)
                     if (stream != null) {
-                        val file = storeAndHashPack(stream)
-                        EmojiPreference.setCustom(context, file)
-                        callback?.onLoaded(file)
+                        val hash = storeAndHashPack(stream)
+                        callback?.onLoaded(hash)
                     } else {
                         Log.e("FilemojiCompat", "storeCustomEmoji: Empty stream for %s".format(source.toString()))
                         callback?.onFailed(FileNotFoundException(source.toString()))

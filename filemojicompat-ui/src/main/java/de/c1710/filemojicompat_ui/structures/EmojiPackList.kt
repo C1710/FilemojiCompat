@@ -1,17 +1,19 @@
 package de.c1710.filemojicompat_ui.structures
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.helpers.Version
 import java.io.File
+import java.net.URL
 import java.util.*
 import kotlin.collections.HashMap
 
 const val SYSTEM_DEFAULT = "emoji_system_default"
-const val CUSTOM_PACK = "emoji_custom_pack"
+const val EXTERNAL_FILE = "emoji_load_external_file"
 
 class EmojiPackList(
     context: Context,
@@ -29,12 +31,15 @@ class EmojiPackList(
     )
 
     val externalFile: EmojiPack = EmojiPack(
-        CUSTOM_PACK,
+        EXTERNAL_FILE,
         context.resources.getString(R.string.external_file),
         null,
         context.resources.getString(R.string.external_file_description),
         ResourcesCompat.getDrawable(context.resources, R.drawable.ic_file, context.theme),
-        Version(IntArray(0))
+        Version(IntArray(0)),
+        null,
+        null,
+        context.resources.getString(R.string.external_file_description_long)
     )
 
     val size: Int
@@ -46,12 +51,11 @@ class EmojiPackList(
 
     init {
         emojiPacks.add(0, systemDefault)
+        loadStoredPacks(context)
         emojiPacks.add(externalFile)
-
-        loadDownloadedPacks()
     }
 
-    private fun loadDownloadedPacks() {
+    private fun loadStoredPacks(context: Context) {
         if (emojiStorage.exists()) {
             if (emojiStorage.isDirectory) {
                 // This cannot be null as we have already checked that we have a directory
@@ -69,7 +73,15 @@ class EmojiPackList(
                         Pair(name, parseVersion(version))
                     }
                     // FIXME: This looks gross
-                    .forEach { entry -> downloadedPacks[entry.first] = entry.second }
+                    .forEach { entry ->
+                        val customName: String? = EmojiPreference.getNameForCustom(context, entry.first)
+                        if (customName != null) {
+                            // Looks, like it is a custom pack
+                            emojiPacks.add(EmojiPack.customEmoji(context, entry.first))
+                        } else {
+                            downloadedPacks[entry.first] = entry.second
+                        }
+                    }
             } else {
                 Log.e("FilemojiCompat", "Emoji pack storage is not a directory!")
             }
@@ -94,6 +106,12 @@ class EmojiPackList(
 
     operator fun get(packId: String): EmojiPack? {
         return this.emojiPacks.firstOrNull { pack -> pack.id == packId }
+    }
+
+    fun addCustomPack(context: Context, hash: String): EmojiPack {
+        val newEmojiPack = EmojiPack.customEmoji(context, hash)
+        emojiPacks.add(emojiPacks.size - 1, newEmojiPack)
+        return newEmojiPack
     }
 
     private fun customEmojiFile(context: Context): File? {

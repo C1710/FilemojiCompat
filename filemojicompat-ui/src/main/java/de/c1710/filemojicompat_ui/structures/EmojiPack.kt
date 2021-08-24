@@ -3,6 +3,8 @@ package de.c1710.filemojicompat_ui.structures
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import androidx.core.content.res.ResourcesCompat
+import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.helpers.Version
@@ -85,15 +87,18 @@ class EmojiPack(
     fun getDownloadStatus(): DownloadStatus? = downloadStatus
 
     fun isDownloaded(list: EmojiPackList): Boolean {
-        return this == list.systemDefault
-                || this == list.externalFile
+        // We assume that an Emoji Pack without a source is always downloaded.
+        // At least it _can't_ be downloaded anyway...
+        return this.source == null
                 || list.downloadedPacks.containsKey(this.id)
     }
 
     fun isCurrentVersion(list: EmojiPackList): Boolean {
         return this == list.systemDefault
                 || this == list.externalFile
-                || list.downloadedPacks[this.id] ?: Version(IntArray(0)) >= this.version ?: Version(IntArray(0))
+                || list.downloadedPacks[this.id] ?: Version(IntArray(0)) >= this.version ?: Version(
+            IntArray(0)
+        )
     }
 
     fun cancelDownload() {
@@ -115,6 +120,23 @@ class EmojiPack(
             } else {
                 "%s.ttf".format(packId)
             }
+        }
+
+
+        fun customEmoji(context: Context, hash: String): EmojiPack {
+            val customName = EmojiPreference.getNameForCustom(context, hash) ?: hash
+
+            return EmojiPack(
+                hash,
+                customName,
+                null as URL?,
+                "",
+                ResourcesCompat.getDrawable(context.resources, R.drawable.ic_custom_emojis, context.theme),
+                null as Version?,
+                null as Uri?,
+                null as Uri?,
+                context.resources.getString(R.string.custom_emoji)
+            )
         }
     }
 }

@@ -1,8 +1,9 @@
 package de.c1710.filemojicompat_ui.helpers
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
-import de.c1710.filemojicompat_ui.structures.CUSTOM_PACK
+import de.c1710.filemojicompat_ui.structures.EXTERNAL_FILE
 import de.c1710.filemojicompat_ui.structures.SYSTEM_DEFAULT
 import java.lang.ClassCastException
 
@@ -12,14 +13,20 @@ const val CUSTOM_EMOJI = "de.c1710.filemojicompat.CUSTOM_EMOJI"
 
 object EmojiPreference {
     var initialSelection: String? = null
-    var initialCustom: String? = null
+    private var sharedPreferenceName: String? = null
+
+    fun getSharedPreferences(context: Context): SharedPreferences {
+        if (sharedPreferenceName == null) {
+            sharedPreferenceName = context.packageName + "-" + SHARED_PREFERENCES
+        }
+
+        return context
+            .getSharedPreferences(sharedPreferenceName!!, Context.MODE_PRIVATE)
+    }
 
     fun getSelected(context: Context): String {
-        val sharedPreferenceName = context.packageName + "-" + SHARED_PREFERENCES
-
         return try {
-            context
-                .getSharedPreferences(sharedPreferenceName, Context.MODE_PRIVATE)
+            getSharedPreferences(context)
                 .getString(EMOJI_PREFERENCE, SYSTEM_DEFAULT) ?: SYSTEM_DEFAULT
         } catch (e: ClassCastException) {
             Log.e("FilemojiCompat", "Emoji preference is not a String; using sytem default", e)
@@ -30,9 +37,7 @@ object EmojiPreference {
 
     fun setSelected(context: Context, value: String) {
         Log.d("FilemojiCompat", "Switching selected emoji pack to: %s".format(value))
-        val sharedPreferenceName = context.packageName + "-" + SHARED_PREFERENCES
-
-        val prefs = context.getSharedPreferences(sharedPreferenceName, Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences(context)
 
         // First, store the original setting to later determine whether it has been changed
         setInitial(context)
@@ -46,11 +51,8 @@ object EmojiPreference {
     }
 
     fun getCustom(context: Context): String? {
-        val sharedPreferenceName = context.packageName + "-" + SHARED_PREFERENCES
-
         return try {
-            context
-                .getSharedPreferences(sharedPreferenceName, Context.MODE_PRIVATE)
+            getSharedPreferences(context)
                 .getString(CUSTOM_EMOJI, null)
         } catch (e: ClassCastException) {
             Log.e("FilemojiCompat", "Custom Emoji preference is not a String", e)
@@ -58,42 +60,39 @@ object EmojiPreference {
         }
     }
 
-    fun setCustom(context: Context, value: String) {
-        Log.d("FilemojiCompat", "Switching custom emoji pack to: %s".format(value))
-        val sharedPreferenceName = context.packageName + "-" + SHARED_PREFERENCES
 
-        val prefs = context.getSharedPreferences(sharedPreferenceName, Context.MODE_PRIVATE)
+    private var customNamesPreferenceName: String? = null
 
-        // First, store the original setting to later determine whether it has been changed
-        setInitial(context)
-
-        with (prefs.edit()) {
-            putString(CUSTOM_EMOJI, value)
-            apply()
+    fun getCustomNamesPreferences(context: Context): SharedPreferences {
+        if (customNamesPreferenceName == null) {
+            customNamesPreferenceName = context.packageName + "-" + SHARED_PREFERENCES + "-CustomNames"
         }
 
-        EmojiPackHelper.reset(context)
+        return context
+            .getSharedPreferences(customNamesPreferenceName!!, Context.MODE_PRIVATE)
+    }
+
+    fun getNameForCustom(context: Context, hash: String): String? {
+        return getCustomNamesPreferences(context)
+            .getString(hash, null)
+    }
+
+    fun setNameForCustom(context: Context, name: String, hash: String) {
+        val prefs = getCustomNamesPreferences(context)
+
+        with(prefs.edit()) {
+            putString(hash, name)
+            apply()
+        }
     }
 
     private fun setInitial(context: Context) {
         if(initialSelection == null ) {
             initialSelection = getSelected(context)
         }
-        if(initialCustom == null) {
-            initialCustom = getCustom(context)
-        }
-    }
-
-    private fun hasSelectionChanged(context: Context): Boolean {
-        return initialSelection != null && getSelected(context) != initialSelection
-    }
-
-    private fun hasCustomChanged(context: Context): Boolean {
-        return initialSelection != null && getCustom(context) != initialCustom
     }
 
     fun hasEmojiPackChanged(context: Context): Boolean {
-        return hasSelectionChanged(context)
-                || (getSelected(context) == CUSTOM_PACK && hasCustomChanged(context))
+        return initialSelection != null && getSelected(context) != initialSelection
     }
 }

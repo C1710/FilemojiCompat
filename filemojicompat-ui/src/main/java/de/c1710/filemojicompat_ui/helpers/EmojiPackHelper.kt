@@ -8,7 +8,7 @@ import androidx.emoji2.text.EmojiCompat
 import de.c1710.filemojicompat.FileEmojiCompatConfig
 import de.c1710.filemojicompat.NoEmojiCompatConfig
 import de.c1710.filemojicompat_ui.R
-import de.c1710.filemojicompat_ui.structures.CUSTOM_PACK
+import de.c1710.filemojicompat_ui.structures.EXTERNAL_FILE
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import de.c1710.filemojicompat_ui.structures.SYSTEM_DEFAULT
@@ -37,10 +37,6 @@ class EmojiPackHelper {
                     Log.d("FilemojiCompat", "init: Using system default")
                     DefaultEmojiCompatConfig.create(context) ?: NoEmojiCompatConfig(context)
                 }
-                CUSTOM_PACK -> {
-                    Log.d("FilemojiCompat", "init: Loading from file")
-                    loadCustomPack(context, list)
-                }
                 else -> {
                     Log.d("FilemojiCompat", "init: Loading from downloaded pack")
                     loadDownloadedPack(context, selected, list)
@@ -60,18 +56,6 @@ class EmojiPackHelper {
             val fileName = EmojiPack.createFileName(selected, downloadedVersion)
             Log.d("FilemojiCompat", "loadDownloadedPack: File path: %s".format(fileName))
             return loadFromEmojiStorage(context, list, fileName)
-        }
-
-        private fun loadCustomPack(context: Context, list: EmojiPackList): EmojiCompat.Config {
-            val customName = EmojiPreference.getCustom(context)
-            Log.d("FilemojiCompat", "loadCustomPack: Hash: %s".format(customName.toString()))
-            if (customName != null) {
-                val fileName = EmojiPack.createFileName(customName, Version(IntArray(0)))
-                return loadFromEmojiStorage(context, list, fileName)
-            } else {
-                Toast.makeText(context, R.string.loading_failed, Toast.LENGTH_LONG).show()
-                return DefaultEmojiCompatConfig.create(context) ?: NoEmojiCompatConfig(context)
-            }
         }
 
         private fun loadFromEmojiStorage(context: Context, list: EmojiPackList, fileName: String): EmojiCompat.Config {

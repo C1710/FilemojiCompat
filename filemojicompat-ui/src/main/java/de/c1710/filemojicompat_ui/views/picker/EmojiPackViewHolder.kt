@@ -18,6 +18,7 @@ class EmojiPackViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val selection: RadioButton = view.findViewById(R.id.emoji_pack_selction)
     val cancel: ImageView = view.findViewById(R.id.emoji_pack_cancel)
     val progress: ProgressBar = view.findViewById(R.id.emoji_pack_progress)
+    val importFile: ImageView = view.findViewById(R.id.emoji_pack_import)
 
     val expandedItem: ConstraintLayout = view.findViewById(R.id.emoji_pack_expanded_item)
     val descriptionLong: TextView = view.findViewById(R.id.emoji_pack_description_long)
