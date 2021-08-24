@@ -19,6 +19,7 @@ class EmojiPackList(
     storageDirectory: String = "emoji",
     private var emojiPacks: ArrayList<EmojiPack>
 ) {
+
     val systemDefault: EmojiPack = EmojiPack(
         SYSTEM_DEFAULT,
         context.resources.getString(R.string.systemDefault),
@@ -103,5 +104,14 @@ class EmojiPackList(
         } else {
             null
         }
+    }
+
+    companion object {
+        var defaultList: EmojiPackList? = null
+            set(value) {
+                if (field == null) {
+                    field = value
+                }
+            }
     }
 }

@@ -29,6 +29,7 @@ object EmojiPreference {
 
 
     fun setSelected(context: Context, value: String) {
+        Log.d("FilemojiCompat", "Switching selected emoji pack to: %s".format(value))
         val sharedPreferenceName = context.packageName + "-" + SHARED_PREFERENCES
 
         val prefs = context.getSharedPreferences(sharedPreferenceName, Context.MODE_PRIVATE)
@@ -52,6 +53,7 @@ object EmojiPreference {
     }
 
     fun setCustom(context: Context, value: String) {
+        Log.d("FilemojiCompat", "Switching custom emoji pack to: %s".format(value))
         val sharedPreferenceName = context.packageName + "-" + SHARED_PREFERENCES
 
         val prefs = context.getSharedPreferences(sharedPreferenceName, Context.MODE_PRIVATE)

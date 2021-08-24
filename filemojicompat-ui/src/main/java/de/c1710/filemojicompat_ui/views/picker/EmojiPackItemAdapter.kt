@@ -40,7 +40,11 @@ class EmojiPackItemAdapter(
         holder.icon.setImageDrawable(item.icon)
         holder.name.text = item.name
         holder.description.text = item.description
-        holder.selection.isSelected = item.id == EmojiPreference.getSelected(holder.item.context.applicationContext)
+        val isSelected = item.id == EmojiPreference.getSelected(holder.item.context.applicationContext)
+        holder.selection.isChecked = isSelected
+        if (isSelected) {
+            EmojiPackViewHolder.selectedItem = holder.selection
+        }
 
         if (item.isDownloaded(dataSet) && item.isCurrentVersion(dataSet)) {
             setDownloaded(holder, item)
@@ -158,9 +162,9 @@ class EmojiPackItemAdapter(
             )
         }
 
-        EmojiPackViewHolder.selectedItem?.isSelected = false
-        holder.selection.isSelected = true
+        EmojiPackViewHolder.selectedItem?.isChecked = false
         EmojiPackViewHolder.selectedItem = holder.selection
+        holder.selection.isChecked = true
         item.select(holder.selection.context.applicationContext)
 
         // Show a dialog to restart the app to apply the changes

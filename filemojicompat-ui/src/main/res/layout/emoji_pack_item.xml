@@ -18,6 +18,9 @@
         android:layout_marginTop="16dp"
         android:layout_width="40dp"
         android:layout_height="40dp"
+
+        android:clickable="false"
+        android:focusable="false"
     />
 
     <TextView
@@ -36,6 +39,9 @@
 
         android:textSize="16sp"
         android:maxLines="1"
+
+        android:clickable="false"
+        android:focusable="false"
     />
 
     <TextView
@@ -54,6 +60,9 @@
         android:textSize="14sp"
         android:maxLines="2"
         android:minLines="2"
+
+        android:clickable="false"
+        android:focusable="false"
     />
 
     <ProgressBar
@@ -72,6 +81,9 @@
         android:layout_marginEnd="56dp"
         android:layout_marginStart="72dp"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+
+        android:clickable="false"
+        android:focusable="false"
     />
 
     <ImageView
@@ -88,6 +100,9 @@
         android:contentDescription="@string/download"
         app:srcCompat="@drawable/ic_download"
         app:tint="?colorAccent"
+
+        android:clickable="false"
+        android:focusable="false"
         />
 
     <ImageView
@@ -106,6 +121,9 @@
         android:contentDescription="@string/download"
         app:srcCompat="@drawable/ic_cancel"
         app:tint="?colorAccent"
+
+        android:clickable="false"
+        android:focusable="false"
         />
 
     <RadioButton
@@ -114,12 +132,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        android:visibility="gone"
 
-        android:layout_marginHorizontal="16dp"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="4dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+
+        android:clickable="false"
+        android:focusable="false"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
