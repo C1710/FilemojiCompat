@@ -6,4 +6,8 @@
     <string name="external_file">From file</string>
     <string name="external_file_description">Use a different emoji pack</string>
     <string name="loading_failed">Could not load emoji pack</string>
+    <string name="version">Version</string>
+    <string name="website">Website</string>
+    <string name="source">Source</string>
+    <string name="license">License</string>
 </resources>

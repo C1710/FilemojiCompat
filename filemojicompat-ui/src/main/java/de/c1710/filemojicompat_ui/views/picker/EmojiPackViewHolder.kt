@@ -2,10 +2,7 @@ package de.c1710.filemojicompat_ui.views.picker
 
 import android.annotation.SuppressLint
 import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.RadioButton
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import de.c1710.filemojicompat_ui.R
@@ -13,6 +10,7 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.structures.DownloadStatus
 
 class EmojiPackViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    val item: ConstraintLayout = view.findViewById(R.id.emoji_pack_item)
     val icon: ImageView = view.findViewById(R.id.emoji_pack_icon)
     val name: TextView = view.findViewById(R.id.emoji_pack_name)
     val description: TextView = view.findViewById(R.id.emoji_pack_description)
@@ -20,7 +18,13 @@ class EmojiPackViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val selection: RadioButton = view.findViewById(R.id.emoji_pack_selction)
     val cancel: ImageView = view.findViewById(R.id.emoji_pack_cancel)
     val progress: ProgressBar = view.findViewById(R.id.emoji_pack_progress)
-    val item: ConstraintLayout = view.findViewById(R.id.emoji_pack_item)
+
+    val expandedItem: ConstraintLayout = view.findViewById(R.id.emoji_pack_expanded_item)
+    val descriptionLong: TextView = view.findViewById(R.id.emoji_pack_description_long)
+    val version: TextView = view.findViewById(R.id.emoji_pack_version)
+    val website: Button = view.findViewById(R.id.emoji_pack_website)
+    val license: Button = view.findViewById(R.id.emoji_pack_license)
+
 
     var downloadCallback: EmojiPackDownloader.DownloadCallback? = null
     var downloadBoundTo: DownloadStatus? = null

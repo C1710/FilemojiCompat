@@ -2,6 +2,7 @@ package de.c1710.filemojicompat_ui.structures
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.helpers.Version
@@ -18,7 +19,10 @@ class EmojiPack(
     var description: String,
     // Assume it's svg
     var icon: Drawable?,
-    var version: Version
+    var version: Version?,
+    var website: Uri? = null,
+    var license: Uri? = null,
+    var descriptionLong: String? = null
 ) {
     private var downloadStatus: DownloadStatus? = null
     private var call: Call? = null
@@ -29,8 +33,43 @@ class EmojiPack(
         source: URL?,
         description: String,
         icon: Drawable?,
-        version: IntArray
-    ) : this(id, name, source, description, icon, Version(version))
+        version: IntArray?,
+        website: Uri? = null,
+        license: Uri? = null,
+        descriptionLong: String? = null
+    ) : this(
+        id,
+        name,
+        source,
+        description,
+        icon,
+        version?.let { Version(it) },
+        website,
+        license,
+        descriptionLong
+    )
+
+    constructor(
+        id: String,
+        name: String,
+        source: String?,
+        description: String,
+        icon: Drawable?,
+        version: IntArray?,
+        website: String? = null,
+        license: String? = null,
+        descriptionLong: String? = null
+    ) : this(
+        id,
+        name,
+        source?.let { URL(it) },
+        description,
+        icon,
+        version?.let { Version(it) },
+        website?.let { Uri.parse(it) },
+        license?.let { Uri.parse(it) },
+        descriptionLong
+    )
 
     fun select(context: Context) {
         EmojiPreference.setSelected(context, this.id)
@@ -54,7 +93,7 @@ class EmojiPack(
     fun isCurrentVersion(list: EmojiPackList): Boolean {
         return this == list.systemDefault
                 || this == list.externalFile
-                || list.downloadedPacks[this.id] ?: Version(IntArray(0)) >= this.version
+                || list.downloadedPacks[this.id] ?: Version(IntArray(0)) >= this.version ?: Version(IntArray(0))
     }
 
     fun cancelDownload() {

@@ -1,7 +1,7 @@
 package de.c1710.filemojicompat_ui.views.picker
 
-import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultRegistryOwner
+import androidx.constraintlayout.motion.widget.MotionScene
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -42,6 +43,14 @@ class EmojiPackItemAdapter(
         holder.icon.setImageDrawable(item.icon)
         holder.name.text = item.name
         holder.description.text = item.description
+
+        holder.item.setOnClickListener {
+            transitionCollapsedAndExpanded(holder, holder.expandedItem.visibility == View.GONE)
+        }
+
+        // Handle the expanded item
+        bindExpandedItem(holder, item)
+
         val isSelected = item.id == EmojiPreference.getSelected(holder.item.context.applicationContext)
         holder.selection.isChecked = isSelected
         if (isSelected) {
@@ -59,6 +68,54 @@ class EmojiPackItemAdapter(
         }
     }
 
+    private fun transitionCollapsedAndExpanded(
+        holder: EmojiPackViewHolder,
+        expand: Boolean
+    ) {
+        holder.description.visibility = visible(!expand)
+        holder.expandedItem.visibility = visible(expand)
+    }
+
+    private fun bindExpandedItem(holder: EmojiPackViewHolder, item: EmojiPack) {
+        holder.expandedItem.visibility = View.GONE
+
+        holder.descriptionLong.text = item.descriptionLong ?: item.description
+
+        holder.version.visibility = visible(item.version != null && !(item.version?.isZero() ?: true))
+        holder.version.text = "%s: %s".format(
+            holder.version.context.getText(R.string.version),
+            item.version?.version?.joinToString(".")
+        )
+
+        holder.website.visibility = visible(item.website != null)
+        holder.website.setOnClickListener {
+            if (item.website != null) {
+                // https://stackoverflow.com/a/3004542/5070653
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = item.website
+                holder.website.context.startActivity(intent)
+            }
+        }
+
+        holder.license.visibility = visible(item.license != null)
+        holder.license.setOnClickListener {
+            if (item.license != null) {
+                // https://stackoverflow.com/a/3004542/5070653
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = item.license
+                holder.license.context.startActivity(intent)
+            }
+        }
+    }
+
+    private fun visible(isVisible: Boolean): Int {
+        return if (isVisible) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
+
     override fun onViewRecycled(holder: EmojiPackViewHolder) {
         unbindDownload(holder)
         if (EmojiPackViewHolder.selectedItem == holder.selection) {
@@ -73,7 +130,9 @@ class EmojiPackItemAdapter(
         holder.cancel.visibility = View.GONE
         holder.download.visibility = View.GONE
 
-        holder.item.setOnClickListener {
+        holder.selection.setOnClickListener {
+            // Well, it selects itself even with this custom onClickListener, so let's undo that
+            holder.selection.isChecked = false
             select(holder, item)
         }
     }
@@ -87,7 +146,7 @@ class EmojiPackItemAdapter(
         // We are now interested in the progress
         bindToDownload(holder, item)
 
-        holder.item.setOnClickListener {
+        holder.cancel.setOnClickListener {
             item.cancelDownload()
             setDownloadable(holder, item)
         }
@@ -146,7 +205,7 @@ class EmojiPackItemAdapter(
             holder.download.context.theme
         ))
 
-        holder.item.setOnClickListener {
+        holder.download.setOnClickListener {
             item.download(dataSet)
             setDownloading(holder, item)
         }
