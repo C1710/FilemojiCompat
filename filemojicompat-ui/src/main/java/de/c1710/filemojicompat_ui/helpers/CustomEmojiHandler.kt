@@ -29,7 +29,9 @@ class CustomEmojiHandler(
         super.onCreate(owner)
 
         getContent = registry.register(PICK_EMOJI, owner, ActivityResultContracts.OpenDocument()) {
-            storeCustomEmoji(it, callback)
+            if (it != null) {
+                storeCustomEmoji(it, callback)
+            }
         }
     }
 
@@ -40,7 +42,7 @@ class CustomEmojiHandler(
 
     @Throws(FileNotFoundException::class)
     private fun storeCustomEmoji(source: Uri, callback: CustomEmojiCallback?) {
-        if (source.scheme !in arrayOf(
+        if (source.scheme in arrayOf(
                 ContentResolver.SCHEME_FILE,
                 ContentResolver.SCHEME_ANDROID_RESOURCE,
                 ContentResolver.SCHEME_CONTENT
@@ -48,6 +50,7 @@ class CustomEmojiHandler(
                 // As loading a custom emoji pack is not something that is done over and over,
                 // creating a new Thread for it is not a big problem
                 thread {
+                    Log.d("FilemojiCompat", "storeCustomEmoji: Loading emoji pack from file")
                     val stream: InputStream? = context.contentResolver.openInputStream(source)
                     if (stream != null) {
                         val file = storeAndHashPack(stream)
@@ -59,7 +62,7 @@ class CustomEmojiHandler(
                     }
                 }
         } else {
-            Log.e("FilemojiCompat", "storeCustomEmoji: Unsupported scheme for %s".format(source.toString()))
+            Log.e("FilemojiCompat", "storeCustomEmoji: Unsupported scheme for %s: %s".format(source.toString(), source.scheme))
         }
     }
 
@@ -81,7 +84,7 @@ class CustomEmojiHandler(
             digest.update(buffer, 0, bytesRead)
             writer.write(buffer, 0, bytesRead)
 
-            bytesRead = stream.read()
+            bytesRead = stream.read(buffer)
         }
 
         val hash = digest.digest()
@@ -93,9 +96,10 @@ class CustomEmojiHandler(
             // This is safe; both files are in the same directory, which is accessible to our app
             outputFile.renameTo(file)
         } else {
-            Log.i("FilemojiCompat", "storeAndHashPack: Emoji Pack already exists: %d".format(file.toString()))
+            Log.i("FilemojiCompat", "storeAndHashPack: Emoji Pack already exists: %s".format(file.toString()))
         }
-        return hash.toString()
+        // https://www.baeldung.com/kotlin/byte-arrays-to-hex-strings
+        return hashToString(hash)
     }
 
     private fun createTempFile(): File {
@@ -103,6 +107,10 @@ class CustomEmojiHandler(
     }
 
     private fun createFileFromHash(hash: ByteArray): File {
-        return File(list.emojiStorage, hash.joinToString("") + ".ttf")
+        return File(list.emojiStorage, hashToString(hash) + ".ttf")
+    }
+
+    private fun hashToString(hash: ByteArray): String {
+        return hash.joinToString(separator = "") { "%02x".format(it) }
     }
 }

@@ -156,16 +156,23 @@ class EmojiPackItemAdapter(
             customEmojiHandler.pickCustomEmoji (
                 object: CustomEmojiCallback {
                     override fun onLoaded(customEmoji: String) {
-                        EmojiPreference.setCustom(holder.item.context, customEmoji)
+                        mainHandler.post {
+                            EmojiPackViewHolder.selectedItem?.isChecked = false
+                            EmojiPackViewHolder.selectedItem = holder.selection
+                            holder.selection.isChecked = true
+                            item.select(holder.selection.context.applicationContext)
+                            EmojiPreference.setCustom(holder.item.context, customEmoji)
+                        }
                     }
                 }
             )
+            // We'll only switch if the selection was successful!
+        } else {
+            EmojiPackViewHolder.selectedItem?.isChecked = false
+            EmojiPackViewHolder.selectedItem = holder.selection
+            holder.selection.isChecked = true
+            item.select(holder.selection.context.applicationContext)
         }
-
-        EmojiPackViewHolder.selectedItem?.isChecked = false
-        EmojiPackViewHolder.selectedItem = holder.selection
-        holder.selection.isChecked = true
-        item.select(holder.selection.context.applicationContext)
 
         // Show a dialog to restart the app to apply the changes
     }
