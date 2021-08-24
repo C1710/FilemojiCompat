@@ -24,6 +24,15 @@ class EmojiPack(
     private var downloadStatus: DownloadStatus? = null
     private var call: Call? = null
 
+    constructor(
+        id: String,
+        name: String, 
+        source: URL?,
+        description: String,
+        icon: Drawable?,
+        version: IntArray
+    ) : this(id, name, source, description, icon, Version(version))
+
     fun select(context: Context) {
         EmojiPreference.setSelected(context, this.id)
     }
