@@ -1,13 +1,16 @@
 package de.c1710.filemojicompat_ui.views.picker
 
+import android.app.Activity
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultRegistry
+import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.CustomEmojiCallback
@@ -17,7 +20,6 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.structures.CUSTOM_PACK
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
-import java.io.File
 import java.io.IOException
 
 class EmojiPackItemAdapter(
@@ -177,6 +179,22 @@ class EmojiPackItemAdapter(
         // Show a dialog to restart the app to apply the changes
     }
 
-
     override fun getItemCount(): Int = dataSet.size
+
+    companion object {
+        fun <A> get(activity: A) : EmojiPackItemAdapter
+            where A: Context, A: ActivityResultRegistryOwner, A: LifecycleOwner
+        {
+            val customEmojiHandler = CustomEmojiHandler (
+                    activity.activityResultRegistry,
+                    EmojiPackList.defaultList!!,
+                    activity
+                )
+            activity.lifecycle.addObserver(customEmojiHandler)
+            return EmojiPackItemAdapter(
+                EmojiPackList.defaultList!!,
+                customEmojiHandler
+            )
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package de.c1710.filemojicompat_ui.helpers
 
 import java.lang.Integer.max
-import java.util.*
 
 class Version (val version: IntArray): Comparable<Version> {
 

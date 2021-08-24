@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import de.c1710.filemojicompat_ui.R
-import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.helpers.Version
 import java.io.File
@@ -22,18 +21,18 @@ class EmojiPackList(
 
     val systemDefault: EmojiPack = EmojiPack(
         SYSTEM_DEFAULT,
-        context.resources.getString(R.string.systemDefault),
+        context.resources.getString(R.string.system_default),
         null,
-        context.resources.getString(R.string.systemDefaultDescription),
+        context.resources.getString(R.string.system_default_description),
         ResourcesCompat.getDrawable(context.resources, R.drawable.ic_default_emojis, context.theme),
         Version(IntArray(0))
     )
 
     val externalFile: EmojiPack = EmojiPack(
         CUSTOM_PACK,
-        context.resources.getString(R.string.externalFile),
+        context.resources.getString(R.string.external_file),
         null,
-        context.resources.getString(R.string.externalFileDescription),
+        context.resources.getString(R.string.external_file_description),
         ResourcesCompat.getDrawable(context.resources, R.drawable.ic_file, context.theme),
         Version(IntArray(0))
     )
@@ -107,6 +106,7 @@ class EmojiPackList(
     }
 
     companion object {
+        @JvmStatic
         var defaultList: EmojiPackList? = null
             set(value) {
                 if (field == null) {

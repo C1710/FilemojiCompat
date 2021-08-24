@@ -1,6 +1,5 @@
 package de.c1710.filemojicompat_ui.helpers
 
-import android.content.Context
 import android.util.Log
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList

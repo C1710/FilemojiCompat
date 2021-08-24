@@ -6,7 +6,6 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.helpers.Version
 import okhttp3.Call
-import java.io.File
 import java.net.URL
 
 // Picked a number from random.org
@@ -26,7 +25,7 @@ class EmojiPack(
 
     constructor(
         id: String,
-        name: String, 
+        name: String,
         source: URL?,
         description: String,
         icon: Drawable?,
