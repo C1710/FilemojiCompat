@@ -197,13 +197,17 @@ class EmojiPackItemAdapter(
 
     private fun bindToDownload(holder: EmojiPackViewHolder, item: DownloadableEmojiPack) {
         // First update the progress bar
-        holder.progress.progress = (((item.getDownloadStatus()?.getProgress()) ?: 0.0) * holder.progress.max.toDouble()).toInt()
+        holder.progress.progress = displayedProgress (
+            item.getDownloadStatus()?.getBytesRead() ?: 0,
+            item.getDownloadStatus()?.getSize() ?: 0,
+            holder.progress.max
+        )
 
         val callback = object: EmojiPackDownloader.DownloadCallback {
             override fun onProgress(bytesRead: Long, contentLength: Long) {
                 val maxProgress = holder.progress.max
                 mainHandler.post {
-                    holder.progress.progress = (bytesRead * maxProgress / contentLength).toInt()
+                    holder.progress.progress = displayedProgress(bytesRead, contentLength, maxProgress)
                 }
             }
 
@@ -214,6 +218,7 @@ class EmojiPackItemAdapter(
 
             override fun onDone() {
                 mainHandler.post {
+                    item.select(holder.item.context)
                     setAvailable(holder, item)
                 }
                 unbindDownload(holder)
@@ -223,6 +228,18 @@ class EmojiPackItemAdapter(
         holder.downloadCallback = callback
         item.getDownloadStatus()?.addCallback(callback)
         holder.downloadBoundTo = item.getDownloadStatus()
+    }
+
+    private fun displayedProgress(bytesRead: Long, contentLength: Long, maxProgress: Int): Int {
+        // Normal, linear progress: (bytesRead * maxProgress / contentLength).toInt()
+        // According to https://chrisharrison.net/projects/progressbars/ProgBarHarrison.pdf
+        // slightly accelerating progress bars are perceived as faster.
+        // Therefore either Power or Fast Power is used. We use Power:
+        var progressDouble: Double = ((bytesRead * maxProgress).toDouble() / contentLength)
+        progressDouble = (progressDouble + (1 - progressDouble) * 0.03) *
+                         (progressDouble + (1 - progressDouble) * 0.03)
+        // TODO: Make this behavior optional?
+        return progressDouble.toInt()
     }
 
     private fun unbindDownload(holder: EmojiPackViewHolder) {
