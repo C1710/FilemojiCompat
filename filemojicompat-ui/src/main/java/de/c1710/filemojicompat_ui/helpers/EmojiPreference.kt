@@ -3,9 +3,7 @@ package de.c1710.filemojicompat_ui.helpers
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import de.c1710.filemojicompat_ui.structures.EXTERNAL_FILE
-import de.c1710.filemojicompat_ui.structures.SYSTEM_DEFAULT
-import java.lang.ClassCastException
+import de.c1710.filemojicompat_ui.packs.SYSTEM_DEFAULT
 
 const val SHARED_PREFERENCES = "de.c1710.filemojicompat"
 const val EMOJI_PREFERENCE = "de.c1710.filemojicompat.EMOJI_PREFERENCE"

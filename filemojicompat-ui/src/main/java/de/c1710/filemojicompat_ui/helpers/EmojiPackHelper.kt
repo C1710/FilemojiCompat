@@ -6,18 +6,22 @@ import android.widget.Toast
 import androidx.emoji2.text.DefaultEmojiCompatConfig
 import androidx.emoji2.text.EmojiCompat
 import de.c1710.filemojicompat.FileEmojiCompatConfig
-import de.c1710.filemojicompat.NoEmojiCompatConfig
 import de.c1710.filemojicompat_ui.R
-import de.c1710.filemojicompat_ui.structures.EXTERNAL_FILE
+import de.c1710.filemojicompat_ui.packs.SystemDefaultEmojiPack
+import de.c1710.filemojicompat_ui.packs.createFileName
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
-import de.c1710.filemojicompat_ui.structures.SYSTEM_DEFAULT
 import java.io.File
 
 class EmojiPackHelper {
     companion object {
         @JvmStatic
         fun init(context: Context) {
+            if (EmojiPackList.defaultList == null) {
+                EmojiPackList.defaultList = EmojiPackList(context, emojiPacks = ArrayList())
+                Log.w("FilemojiCompat", "init: No Emoji Pack list created. Using empty one")
+            }
+
             val config: EmojiCompat.Config = generateCurrentConfig(context);
 
             EmojiCompat.init(config)
@@ -32,16 +36,17 @@ class EmojiPackHelper {
         private fun generateCurrentConfig(context: Context): EmojiCompat.Config {
             val list = EmojiPackList.defaultList!!
 
-            return when (val selected = EmojiPreference.getSelected(context)) {
-                SYSTEM_DEFAULT -> {
-                    Log.d("FilemojiCompat", "init: Using system default")
-                    DefaultEmojiCompatConfig.create(context) ?: NoEmojiCompatConfig(context)
-                }
-                else -> {
-                    Log.d("FilemojiCompat", "init: Loading from downloaded pack")
-                    loadDownloadedPack(context, selected, list)
-                }
+            val emojiPack = list[EmojiPreference.getSelected(context)]
+            val selectedPack = if (emojiPack != null) {
+                emojiPack
+            } else {
+                Log.e("FilemojiCompat", "generateCurrentConfig: selected emoji pack %s not in list"
+                    .format(EmojiPreference.getSelected(context)))
+                Toast.makeText(context, R.string.loading_failed, Toast.LENGTH_SHORT).show()
+                SystemDefaultEmojiPack.getSystemDefaultPack()
             }
+
+            return selectedPack.load(context, list)
         }
 
         @JvmStatic
@@ -53,7 +58,7 @@ class EmojiPackHelper {
 
         private fun loadDownloadedPack(context: Context, selected: String, list: EmojiPackList): EmojiCompat.Config {
             val downloadedVersion = list.downloadedVersion(selected)
-            val fileName = EmojiPack.createFileName(selected, downloadedVersion)
+            val fileName = createFileName(selected, downloadedVersion)
             Log.d("FilemojiCompat", "loadDownloadedPack: File path: %s".format(fileName))
             return loadFromEmojiStorage(context, list, fileName)
         }

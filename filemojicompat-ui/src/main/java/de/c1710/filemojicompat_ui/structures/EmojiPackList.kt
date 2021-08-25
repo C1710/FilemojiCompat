@@ -1,47 +1,21 @@
 package de.c1710.filemojicompat_ui.structures
 
 import android.content.Context
-import android.net.Uri
 import android.util.Log
-import androidx.core.content.res.ResourcesCompat
-import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.helpers.Version
+import de.c1710.filemojicompat_ui.packs.CustomEmojiPack
+import de.c1710.filemojicompat_ui.packs.FilePickerDummyEmojiPack
+import de.c1710.filemojicompat_ui.packs.SystemDefaultEmojiPack
 import java.io.File
-import java.net.URL
 import java.util.*
 import kotlin.collections.HashMap
-
-const val SYSTEM_DEFAULT = "emoji_system_default"
-const val EXTERNAL_FILE = "emoji_load_external_file"
 
 class EmojiPackList(
     context: Context,
     storageDirectory: String = "emoji",
     private var emojiPacks: ArrayList<EmojiPack>
 ) {
-
-    val systemDefault: EmojiPack = EmojiPack(
-        SYSTEM_DEFAULT,
-        context.resources.getString(R.string.system_default),
-        null,
-        context.resources.getString(R.string.system_default_description),
-        ResourcesCompat.getDrawable(context.resources, R.drawable.ic_default_emojis, context.theme),
-        Version(IntArray(0))
-    )
-
-    val externalFile: EmojiPack = EmojiPack(
-        EXTERNAL_FILE,
-        context.resources.getString(R.string.external_file),
-        null,
-        context.resources.getString(R.string.external_file_description),
-        ResourcesCompat.getDrawable(context.resources, R.drawable.ic_file, context.theme),
-        Version(IntArray(0)),
-        null,
-        null,
-        context.resources.getString(R.string.external_file_description_long)
-    )
-
     val size: Int
         get() { return emojiPacks.size }
     val emojiStorage: File = File(context.getExternalFilesDir(null), storageDirectory)
@@ -50,9 +24,9 @@ class EmojiPackList(
     var downloadedPacks: HashMap<String, Version> = HashMap()
 
     init {
-        emojiPacks.add(0, systemDefault)
+        emojiPacks.add(0, SystemDefaultEmojiPack.setAndGetSystemDefaultPack(context))
         loadStoredPacks(context)
-        emojiPacks.add(externalFile)
+        emojiPacks.add(FilePickerDummyEmojiPack.setAndGetFilePickerPack(context))
     }
 
     private fun loadStoredPacks(context: Context) {
@@ -77,7 +51,7 @@ class EmojiPackList(
                         val customName: String? = EmojiPreference.getNameForCustom(context, entry.first)
                         if (customName != null) {
                             // Looks, like it is a custom pack
-                            emojiPacks.add(EmojiPack.customEmoji(context, entry.first))
+                            emojiPacks.add(CustomEmojiPack(context, entry.first))
                         } else {
                             downloadedPacks[entry.first] = entry.second
                         }
@@ -113,7 +87,7 @@ class EmojiPackList(
     }
 
     fun addCustomPack(context: Context, hash: String): EmojiPack {
-        val newEmojiPack = EmojiPack.customEmoji(context, hash)
+        val newEmojiPack = CustomEmojiPack(context, hash)
         emojiPacks.add(emojiPacks.size - 1, newEmojiPack)
         return newEmojiPack
     }

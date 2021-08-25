@@ -23,7 +23,8 @@ import de.c1710.filemojicompat_ui.helpers.CustomEmojiCallback
 import de.c1710.filemojicompat_ui.helpers.CustomEmojiHandler
 import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
-import de.c1710.filemojicompat_ui.structures.EXTERNAL_FILE
+import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
+import de.c1710.filemojicompat_ui.packs.FilePickerDummyEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import java.io.IOException
@@ -45,7 +46,14 @@ class EmojiPackItemAdapter(
     override fun onBindViewHolder(holder: EmojiPackViewHolder, position: Int) {
         val item = dataSet[position]
 
-        holder.icon.setImageDrawable(item.icon)
+        holder.icon.setImageDrawable(
+            item.icon ?:
+            ResourcesCompat.getDrawable(
+                holder.icon.context.resources,
+                R.drawable.ic_custom_emojis,
+                holder.icon.context.theme
+            )
+        )
         holder.name.text = item.name
         holder.description.text = item.description
 
@@ -56,20 +64,26 @@ class EmojiPackItemAdapter(
         // Handle the expanded item
         bindExpandedItem(holder, item)
 
-        val isSelected = item.id == EmojiPreference.getSelected(holder.item.context.applicationContext)
+        val isSelected = item.id == EmojiPreference.getSelected(holder.item.context)
         holder.selection.isChecked = isSelected
         if (isSelected) {
             EmojiPackViewHolder.selectedItem = holder.selection
         }
 
-        if (item.isDownloaded(dataSet) && item.isCurrentVersion(dataSet)) {
-            setDownloaded(holder, item)
-        } else {
-            if (item.getDownloadStatus() != null) {
+        if (item is DownloadableEmojiPack) {
+            if (item.isDownloading()) {
                 setDownloading(holder, item)
+            }
+            if (item.isDownloaded(dataSet) && item.isCurrentVersion(dataSet)) {
+                setAvailable(holder, item)
             } else {
                 setDownloadable(holder, item)
             }
+        } else if (item is FilePickerDummyEmojiPack) {
+            setFilePicker(holder)
+        } else {
+            // As of now, there are no other special cases. We can mark the pack as somehow available
+            setAvailable(holder, item)
         }
     }
 
@@ -129,25 +143,33 @@ class EmojiPackItemAdapter(
         super.onViewRecycled(holder)
     }
 
-    private fun setDownloaded(holder: EmojiPackViewHolder, item: EmojiPack) {
-        holder.selection.visibility = visible(item.id != EXTERNAL_FILE)
+    private fun setAvailable(holder: EmojiPackViewHolder, item: EmojiPack) {
+        holder.selection.visibility = View.VISIBLE
         holder.progress.visibility = View.GONE
         holder.cancel.visibility = View.GONE
         holder.download.visibility = View.GONE
-        holder.importFile.visibility = visible(item.id == EXTERNAL_FILE)
+        holder.importFile.visibility = View.GONE
 
         holder.selection.setOnClickListener {
             // Well, it selects itself even with this custom onClickListener, so let's undo that
             holder.selection.isChecked = false
             select(holder, item)
         }
+    }
+
+    private fun setFilePicker(holder: EmojiPackViewHolder) {
+        holder.selection.visibility = View.GONE
+        holder.progress.visibility = View.GONE
+        holder.cancel.visibility = View.GONE
+        holder.download.visibility = View.GONE
+        holder.importFile.visibility = View.VISIBLE
 
         holder.importFile.setOnClickListener {
             pickCustomEmoji(holder)
         }
     }
 
-    private fun setDownloading(holder: EmojiPackViewHolder, item: EmojiPack) {
+    private fun setDownloading(holder: EmojiPackViewHolder, item: DownloadableEmojiPack) {
         holder.selection.visibility = View.GONE
         holder.progress.visibility = View.VISIBLE
         holder.cancel.visibility = View.VISIBLE
@@ -163,7 +185,7 @@ class EmojiPackItemAdapter(
         }
     }
 
-    private fun bindToDownload(holder: EmojiPackViewHolder, item: EmojiPack) {
+    private fun bindToDownload(holder: EmojiPackViewHolder, item: DownloadableEmojiPack) {
         // First update the progress bar
         holder.progress.progress = (((item.getDownloadStatus()?.getProgress()) ?: 0.0) * holder.progress.max.toDouble()).toInt()
 
@@ -182,7 +204,7 @@ class EmojiPackItemAdapter(
 
             override fun onDone() {
                 mainHandler.post {
-                    setDownloaded(holder, item)
+                    setAvailable(holder, item)
                 }
                 unbindDownload(holder)
             }
@@ -201,7 +223,7 @@ class EmojiPackItemAdapter(
         holder.downloadBoundTo = null
     }
 
-    private fun setDownloadable(holder: EmojiPackViewHolder, item: EmojiPack) {
+    private fun setDownloadable(holder: EmojiPackViewHolder, item: DownloadableEmojiPack) {
         holder.selection.visibility = View.GONE
         holder.progress.visibility = View.GONE
         holder.cancel.visibility = View.GONE

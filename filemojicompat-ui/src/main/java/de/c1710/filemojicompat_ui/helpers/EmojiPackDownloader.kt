@@ -1,7 +1,6 @@
 package de.c1710.filemojicompat_ui.helpers
 
-import android.util.Log
-import de.c1710.filemojicompat_ui.structures.EmojiPack
+import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import okhttp3.*
 import okio.*
@@ -12,7 +11,7 @@ import java.io.IOException
 // rewritten in Kotlin with minor changes and additions to work in this context
 
 class EmojiPackDownloader(
-    pack: EmojiPack,
+    pack: DownloadableEmojiPack,
     list: EmojiPackList
 ) {
     private val url = pack.source
@@ -20,31 +19,26 @@ class EmojiPackDownloader(
     private val downloadLocation = File(list.emojiStorage, fileName)
 
     fun download(downloadCallback: DownloadCallback): Call? {
-        if (url != null) {
-            val client = OkHttpClient.Builder()
-                .addNetworkInterceptor {
-                        chain: Interceptor.Chain ->
-                    val response = chain.proceed(chain.request())
-                    response
-                        .newBuilder()
-                        .body(response.body?.let {
-                            ProgressResponseBody(it, downloadCallback)
-                        })
-                        .build()
-                }
-                .build()
+        val client = OkHttpClient.Builder()
+            .addNetworkInterceptor {
+                    chain: Interceptor.Chain ->
+                val response = chain.proceed(chain.request())
+                response
+                    .newBuilder()
+                    .body(response.body?.let {
+                        ProgressResponseBody(it, downloadCallback)
+                    })
+                    .build()
+            }
+            .build()
 
-            val request = Request.Builder()
-                .url(url)
-                .build()
+        val request = Request.Builder()
+            .url(url)
+            .build()
 
-            val call = client.newCall(request)
-            call.enqueue(DownloadedCallback(downloadCallback, downloadLocation))
-            return call
-        } else {
-            Log.e("FilemojiCompat", "Pack has no source URL. Could not download")
-            return null
-        }
+        val call = client.newCall(request)
+        call.enqueue(DownloadedCallback(downloadCallback, downloadLocation))
+        return call
     }
 
     interface DownloadCallback {
