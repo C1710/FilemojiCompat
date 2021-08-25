@@ -10,7 +10,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.security.MessageDigest
 import kotlin.concurrent.thread
 
@@ -96,6 +99,8 @@ class CustomEmojiHandler(
             outputFile.renameTo(file)
         } else {
             Log.i("FilemojiCompat", "storeAndHashPack: Emoji Pack already exists: %s".format(file.toString()))
+            // Delete the newly created duplicate
+            outputFile.delete()
         }
         // https://www.baeldung.com/kotlin/byte-arrays-to-hex-strings
         return hashToString(hash)
