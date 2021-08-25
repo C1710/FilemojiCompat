@@ -44,7 +44,7 @@ class EmojiPackList(
                         } else {
                             "0"
                         }
-                        Pair(name, parseVersion(version))
+                        Pair(name, Version.fromString(version))
                     } // Now the actual logic...
                     // FIXME: This looks gross
                     .forEach { entry ->
@@ -64,12 +64,6 @@ class EmojiPackList(
         } else {
             emojiStorage.mkdir()
         }
-    }
-
-    private fun parseVersion(version: String): Version {
-       return Version(version.split('.').stream()
-            .mapToInt { subVersion: String -> subVersion.toIntOrNull() ?: 0}
-           .toArray())
     }
 
     fun downloadedVersion(pack: String): Version? {

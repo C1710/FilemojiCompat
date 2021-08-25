@@ -27,4 +27,15 @@ class Version (val version: IntArray): Comparable<Version> {
     fun isZero(): Boolean {
         return version.all { subVersion -> subVersion == 0 }
     }
+
+    companion object {
+
+
+        fun fromString(string: String?): Version {
+            return Version((string ?: "").split('.').stream()
+                .mapToInt { subVersion: String -> subVersion.toIntOrNull() ?: 0}
+                .toArray())
+        }
+    }
 }
+
