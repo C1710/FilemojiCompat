@@ -45,9 +45,11 @@ class EmojiPackList(
                             "0"
                         }
                         Pair(name, parseVersion(version))
-                    }
+                    } // Now the actual logic...
                     // FIXME: This looks gross
                     .forEach { entry ->
+                        // We distinguish here between custom and downloadable packs
+                        // This needs to be done as we don't have any information about the types of packs yet
                         val customName: String? = EmojiPreference.getNameForCustom(context, entry.first)
                         if (customName != null) {
                             // Looks, like it is a custom pack

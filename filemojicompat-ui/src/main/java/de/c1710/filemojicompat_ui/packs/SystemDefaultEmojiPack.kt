@@ -44,4 +44,5 @@ class SystemDefaultEmojiPack private constructor(
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
+    override fun isDeletable(): Boolean = false
 }

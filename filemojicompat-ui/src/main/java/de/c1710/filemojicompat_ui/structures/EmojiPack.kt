@@ -24,5 +24,7 @@ abstract class EmojiPack (
     abstract fun load(context: Context, list: EmojiPackList): EmojiCompat.Config
 
     abstract fun isCurrentVersion(list: EmojiPackList): Boolean
+
+    abstract fun isDeletable(): Boolean
 }
 

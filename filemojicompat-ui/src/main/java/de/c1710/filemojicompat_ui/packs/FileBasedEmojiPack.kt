@@ -47,6 +47,8 @@ abstract class FileBasedEmojiPack(
 
         return config
     }
+
+    override fun isDeletable(): Boolean = true
 }
 
 fun createFileName(packId: String, version: Version?): String {

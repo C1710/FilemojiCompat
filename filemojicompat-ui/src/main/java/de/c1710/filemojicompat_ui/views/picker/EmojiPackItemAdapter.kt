@@ -149,12 +149,22 @@ class EmojiPackItemAdapter(
         holder.cancel.visibility = View.GONE
         holder.download.visibility = View.GONE
         holder.importFile.visibility = View.GONE
+        holder.delete.visibility = visible(item.isDeletable())
 
         holder.selection.setOnClickListener {
             // Well, it selects itself even with this custom onClickListener, so let's undo that
             holder.selection.isChecked = false
             select(holder, item)
         }
+
+        // TODO:
+        // For deletion, we want multiple things:
+        // 1. Clicking delete should only switch the UI until the Snackbar has expired
+        //    - However, what if the user immediately clicks Download again for a DownloadableEmoji?
+        // 2. Different behavior for different kinds:
+        //    - Custom emoji packs need their complete entry removed, in the UI and later the emoji list
+        //    - Downloadable emoji packs only need to be reset to a downloadable state again
+        //    - Everything else is not deletable, but what about new types? Default behavior?
     }
 
     private fun setFilePicker(holder: EmojiPackViewHolder) {

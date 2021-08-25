@@ -32,4 +32,5 @@ class AssetEmojiPack(
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
+    override fun isDeletable(): Boolean = false
 }
