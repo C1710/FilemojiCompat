@@ -18,14 +18,17 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.CustomEmojiCallback
 import de.c1710.filemojicompat_ui.helpers.CustomEmojiHandler
 import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
+import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.structures.EXTERNAL_FILE
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
+import de.c1710.filemojicompat_ui.structures.SYSTEM_DEFAULT
 import java.io.IOException
 
 class EmojiPackItemAdapter(
@@ -207,6 +210,7 @@ class EmojiPackItemAdapter(
         holder.cancel.visibility = View.GONE
         holder.download.visibility = View.VISIBLE
         holder.importFile.visibility = View.GONE
+        holder.delete.visibility = View.GONE
 
         holder.download.setImageDrawable(ResourcesCompat.getDrawable(
             holder.download.context.resources,

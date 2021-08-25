@@ -108,6 +108,10 @@ class EmojiPackList(
         return this.emojiPacks.firstOrNull { pack -> pack.id == packId }
     }
 
+    fun indexOf(pack: EmojiPack): Int {
+        return this.emojiPacks.indexOf(pack)
+    }
+
     fun addCustomPack(context: Context, hash: String): EmojiPack {
         val newEmojiPack = EmojiPack.customEmoji(context, hash)
         emojiPacks.add(emojiPacks.size - 1, newEmojiPack)

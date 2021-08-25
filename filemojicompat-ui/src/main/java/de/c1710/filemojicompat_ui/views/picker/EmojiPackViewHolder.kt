@@ -25,6 +25,7 @@ class EmojiPackViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val version: TextView = view.findViewById(R.id.emoji_pack_version)
     val website: Button = view.findViewById(R.id.emoji_pack_website)
     val license: Button = view.findViewById(R.id.emoji_pack_license)
+    val delete: Button = view.findViewById(R.id.emoji_pack_delete)
 
 
     var downloadCallback: EmojiPackDownloader.DownloadCallback? = null

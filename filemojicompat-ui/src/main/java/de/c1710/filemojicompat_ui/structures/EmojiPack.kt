@@ -9,17 +9,17 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.helpers.Version
 import okhttp3.Call
+import java.io.File
 import java.net.URL
 
 // Picked a number from random.org
 const val PICK_EMOJI_FONT = 0x31996763
 
-class EmojiPack(
+open class EmojiPack(
     var id: String,
     var name: String,
     var source: URL?,
     var description: String,
-    // Assume it's svg
     var icon: Drawable?,
     var version: Version?,
     var website: Uri? = null,

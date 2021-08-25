@@ -268,5 +268,27 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:foreground="?android:selectableItemBackground"
         />
+
+        <Button
+            android:id="@+id/emoji_pack_delete"
+            app:layout_constraintTop_toBottomOf="@id/emoji_pack_website"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:layout_marginTop="8dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:minWidth="88dp"
+
+            android:text="@string/delete"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?colorAccent"
+            android:textAllCaps="true"
+            android:textAlignment="textStart"
+
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:foreground="?android:selectableItemBackground"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
