@@ -27,6 +27,7 @@ import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.packs.FilePickerDummyEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
+import java.io.File
 import java.io.IOException
 
 class EmojiPackItemAdapter(
@@ -305,7 +306,7 @@ class EmojiPackItemAdapter(
 
             // First, we will need to determine a name
             val dialog = AlertDialog.Builder(context)
-                .setMessage(R.string.name_custom_emoji)
+                .setTitle(R.string.name_custom_emoji)
                 .setCancelable(true)
                 .setView(dialogLayout)
                 .setPositiveButton(R.string.save) { _: DialogInterface, _: Int ->
@@ -323,6 +324,11 @@ class EmojiPackItemAdapter(
                     EmojiPackViewHolder.selectedItem = null
                     // The new pack is now at the second to last position
                     notifyItemInserted(dataSet.size - 2)
+                }
+                .setOnCancelListener {
+                    // If we don't want to save it, delete it...
+                    val packFile = File(dataSet.emojiStorage, "$hash.ttf")
+                    packFile.delete()
                 }.create()
 
             inputField.addTextChangedListener(afterTextChanged = { s: Editable? ->
@@ -330,6 +336,9 @@ class EmojiPackItemAdapter(
             })
 
             dialog.show()
+
+            // Initially, we should not be able to save as the name is empty
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !inputField.text.isNullOrBlank()
         } else {
             // Whoops, looks like the pack was already present :S
             // FIXME: How to find the correct ViewHolder to select the pack?!
@@ -341,6 +350,7 @@ class EmojiPackItemAdapter(
     override fun getItemCount(): Int = dataSet.size
 
     companion object {
+        @JvmStatic
         fun <A> get(activity: A) : EmojiPackItemAdapter
             where A: Context, A: ActivityResultRegistryOwner, A: LifecycleOwner
         {

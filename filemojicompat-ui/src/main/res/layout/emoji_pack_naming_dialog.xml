@@ -6,10 +6,10 @@
     <EditText
         android:id="@+id/emoji_pack_naming"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/pack_name"
         android:layout_margin="24dp"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:maxLines="1"
         android:textColor="@android:color/primary_text_light"
         android:inputType="textCapWords"
