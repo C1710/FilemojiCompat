@@ -114,7 +114,9 @@ class CustomEmojiHandler(
         return File(list.emojiStorage, hashToString(hash) + ".ttf")
     }
 
-    private fun hashToString(hash: ByteArray): String {
-        return hash.joinToString(separator = "") { "%02x".format(it) }
+    companion object {
+        private fun hashToString(hash: ByteArray): String {
+            return hash.joinToString(separator = "") { "%02x".format(it) }
+        }
     }
 }
