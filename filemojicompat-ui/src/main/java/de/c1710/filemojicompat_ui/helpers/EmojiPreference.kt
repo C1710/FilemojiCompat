@@ -48,6 +48,12 @@ object EmojiPreference {
         EmojiPackHelper.reset(context)
     }
 
+    fun setDefault(context: Context, value: String) {
+        if (getSharedPreferences(context).getString(EMOJI_PREFERENCE, null) == null) {
+            setSelected(context, value)
+        }
+    }
+
     fun getCustom(context: Context): String? {
         return try {
             getSharedPreferences(context)
