@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.structures.DownloadStatus
 import de.c1710.filemojicompat_ui.structures.Version
@@ -75,7 +76,7 @@ class DownloadableEmojiPack(
             .download(status)
         this.downloadStatus = status
 
-        status.addListener(object : EmojiPackDownloader.DownloadListener {
+        status.addListener(object : EmojiPackDownloadListener {
             override fun onProgress(bytesRead: Long, contentLength: Long) {}
 
             override fun onFailure(e: IOException) {}
