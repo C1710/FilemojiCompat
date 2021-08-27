@@ -229,15 +229,6 @@ class EmojiPackItemAdapter(
             item.select(holder.itemView.context)
         }
 
-        // TODO:
-        // For deletion, we want multiple things:
-        // 1. Clicking delete should only switch the UI until the Snackbar has expired
-        //    - However, what if the user immediately clicks Download again for a DownloadableEmoji?
-        // 2. Different behavior for different kinds:
-        //    - Custom emoji packs need their complete entry removed, in the UI and later the emoji list
-        //    - Downloadable emoji packs only need to be reset to a downloadable state again
-        //    - Everything else is not deletable, but what about new types? Default behavior?
-
         holder.delete.setOnClickListener {
             if (item is DeletableEmojiPack) {
                 item.scheduleDeletion(
@@ -251,6 +242,7 @@ class EmojiPackItemAdapter(
     }
 
     private fun setDeleting(holder: EmojiPackViewHolder, item: DeletableEmojiPack) {
+        // FIXME: Looks weird for custom emoji pack
         holder.itemView.visibility = visible(item !is CustomEmojiPack)
         holder.selection.isEnabled = false
         holder.delete.visibility = View.GONE
