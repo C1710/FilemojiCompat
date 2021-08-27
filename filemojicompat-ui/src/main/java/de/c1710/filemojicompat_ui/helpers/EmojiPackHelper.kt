@@ -39,8 +39,10 @@ class EmojiPackHelper {
             val selectedPack = if (emojiPack != null) {
                 emojiPack
             } else {
-                Log.e("FilemojiCompat", "generateCurrentConfig: selected emoji pack %s not in list"
-                    .format(EmojiPreference.getSelected(context)))
+                Log.e(
+                    "FilemojiCompat", "generateCurrentConfig: selected emoji pack %s not in list"
+                        .format(EmojiPreference.getSelected(context))
+                )
                 Toast.makeText(context, R.string.loading_failed, Toast.LENGTH_SHORT).show()
                 SystemDefaultEmojiPack.getSystemDefaultPack(context)
             }
@@ -55,14 +57,22 @@ class EmojiPackHelper {
             init(context)
         }
 
-        private fun loadDownloadedPack(context: Context, selected: String, list: EmojiPackList): EmojiCompat.Config {
+        private fun loadDownloadedPack(
+            context: Context,
+            selected: String,
+            list: EmojiPackList
+        ): EmojiCompat.Config {
             val downloadedVersion = list.downloadedVersion(selected)
             val fileName = getFileName(selected, downloadedVersion)
             Log.d("FilemojiCompat", "loadDownloadedPack: File path: %s".format(fileName))
             return loadFromEmojiStorage(context, list, fileName)
         }
 
-        private fun loadFromEmojiStorage(context: Context, list: EmojiPackList, fileName: String): EmojiCompat.Config {
+        private fun loadFromEmojiStorage(
+            context: Context,
+            list: EmojiPackList,
+            fileName: String
+        ): EmojiCompat.Config {
             val file = File(list.emojiStorage, fileName)
             val config = FileEmojiCompatConfig.init(context, file)
             if (config.fallbackEnabled.get()) {
