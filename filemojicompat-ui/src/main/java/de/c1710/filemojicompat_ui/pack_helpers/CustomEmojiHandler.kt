@@ -1,4 +1,4 @@
-package de.c1710.filemojicompat_ui.helpers
+package de.c1710.filemojicompat_ui.pack_helpers
 
 import android.content.ContentResolver
 import android.content.Context

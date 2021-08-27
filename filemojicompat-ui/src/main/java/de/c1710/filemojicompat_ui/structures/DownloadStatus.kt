@@ -1,6 +1,6 @@
 package de.c1710.filemojicompat_ui.structures
 
-import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
+import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader
 import java.io.IOException
 
 class DownloadStatus: EmojiPackDownloader.DownloadListener {

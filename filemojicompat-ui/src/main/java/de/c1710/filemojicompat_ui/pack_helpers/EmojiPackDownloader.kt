@@ -1,4 +1,4 @@
-package de.c1710.filemojicompat_ui.helpers
+package de.c1710.filemojicompat_ui.pack_helpers
 
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
