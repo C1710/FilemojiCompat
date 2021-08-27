@@ -19,7 +19,7 @@ class VersionOnline
     private val source: URL,
     regex: Regex = Regex("<version>\\s*(\\d+(\\.\\d+)*)\\s*</version>"),
     // Because Android Java/Kotlin, we cannot get groups by their name...
-    groupId: Int = 1
+    regexGroupId: Int = 1
 ) {
     val versionOnline: Future<Version>
 
@@ -47,7 +47,7 @@ class VersionOnline
                     null
                 } else {
                     val groups = regex.find(response.body?.string() ?: "")?.groups
-                    groups?.get(groupId)?.value
+                    groups?.get(regexGroupId)?.value
                 }
             )
         }

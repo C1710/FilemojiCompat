@@ -16,14 +16,15 @@ class EmojiPackList(
     storageDirectory: String = "emoji",
     private var emojiPacks: ArrayList<EmojiPack>
 ) {
-    val size: Int
+    internal val size: Int
         get() {
             return emojiPacks.size
         }
-    val emojiStorage: File = File(context.getExternalFilesDir(null), storageDirectory)
+
+    internal val emojiStorage: File = File(context.getExternalFilesDir(null), storageDirectory)
 
     // Only store the IDs of the downloaded packs
-    var downloadedVersions: HashMap<String, Version> = HashMap()
+    internal var downloadedVersions: HashMap<String, Version> = HashMap()
 
     init {
         emojiPacks.add(0, SystemDefaultEmojiPack.getSystemDefaultPack(context))
@@ -84,7 +85,7 @@ class EmojiPackList(
         }
     }
 
-    fun getDefaultPack(context: Context): EmojiPack {
+    internal fun getDefaultPack(context: Context): EmojiPack {
         val default = EmojiPreference.getDefault(context)
 
         return emojiPacks.find {
@@ -95,23 +96,23 @@ class EmojiPackList(
         }
     }
 
-    fun downloadedVersion(pack: String): Version? {
+    internal fun downloadedVersion(pack: String): Version? {
         return downloadedVersions[pack]
     }
 
-    operator fun get(position: Int): EmojiPack {
+    internal operator fun get(position: Int): EmojiPack {
         return emojiPacks[position]
     }
 
-    operator fun get(packId: String): EmojiPack? {
+    internal operator fun get(packId: String): EmojiPack? {
         return this.emojiPacks.firstOrNull { pack -> pack.id == packId }
     }
 
-    operator fun contains(pack: EmojiPack): Boolean {
+    internal operator fun contains(pack: EmojiPack): Boolean {
         return pack in emojiPacks
     }
 
-    fun indexOf(pack: EmojiPack): Int {
+    internal fun indexOf(pack: EmojiPack): Int {
         return this.emojiPacks.indexOf(pack)
     }
 
@@ -121,11 +122,11 @@ class EmojiPackList(
         return newEmojiPack
     }
 
-    internal fun addPack(pack: EmojiPack, index: Int) {
+    fun addPack(pack: EmojiPack, index: Int = size) {
         emojiPacks.add(index, pack)
     }
 
-    internal fun removePack(pack: EmojiPack) {
+    fun removePack(pack: EmojiPack) {
         emojiPacks.remove(pack)
     }
 

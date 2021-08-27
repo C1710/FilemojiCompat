@@ -13,7 +13,7 @@ object EmojiPreference {
     var initialSelection: String? = null
     private var sharedPreferenceName: String? = null
 
-    fun getSharedPreferences(context: Context): SharedPreferences {
+    private fun getSharedPreferences(context: Context): SharedPreferences {
         if (sharedPreferenceName == null) {
             sharedPreferenceName = context.packageName + "-" + SHARED_PREFERENCES
         }
@@ -74,7 +74,7 @@ object EmojiPreference {
 
     private var customNamesPreferenceName: String? = null
 
-    fun getCustomNamesPreferences(context: Context): SharedPreferences {
+    private fun getCustomNamesPreferences(context: Context): SharedPreferences {
         if (customNamesPreferenceName == null) {
             customNamesPreferenceName =
                 context.packageName + "-" + SHARED_PREFERENCES + "-CustomNames"

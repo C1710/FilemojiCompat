@@ -12,7 +12,7 @@ import de.c1710.filemojicompat_ui.structures.Version
 
 const val EXTERNAL_FILE = "emoji_load_external_file"
 
-class FilePickerDummyEmojiPack(
+internal class FilePickerDummyEmojiPack(
     context: Context
 ) : EmojiPack(
     EXTERNAL_FILE,

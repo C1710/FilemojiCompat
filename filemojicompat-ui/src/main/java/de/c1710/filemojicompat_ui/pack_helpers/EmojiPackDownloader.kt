@@ -1,6 +1,7 @@
 package de.c1710.filemojicompat_ui.pack_helpers
 
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import okhttp3.*
 import okio.*
@@ -10,7 +11,7 @@ import java.io.IOException
 // Adapted from https://github.com/square/okhttp/blob/master/samples/guide/src/main/java/okhttp3/recipes/Progress.java;
 // rewritten in Kotlin with minor changes and additions to work in this context
 
-class EmojiPackDownloader(
+internal class EmojiPackDownloader(
     pack: DownloadableEmojiPack,
     val list: EmojiPackList
 ) {
@@ -18,7 +19,7 @@ class EmojiPackDownloader(
     private val fileName = pack.getFileName()
     private val downloadLocation = File(list.emojiStorage, fileName)
 
-    fun download(downloadListener: DownloadListener): Call {
+    fun download(downloadListener: EmojiPackDownloadListener): Call {
         val client = OkHttpClient.Builder()
             .addNetworkInterceptor { chain: Interceptor.Chain ->
                 val response = chain.proceed(chain.request())
@@ -40,16 +41,8 @@ class EmojiPackDownloader(
         return call
     }
 
-    interface DownloadListener {
-        fun onProgress(bytesRead: Long, contentLength: Long)
-
-        fun onFailure(e: IOException)
-
-        fun onDone()
-    }
-
     private class DownloadedCallback(
-        val downloadListener: DownloadListener,
+        val downloadListener: EmojiPackDownloadListener,
         val location: File
     ) : Callback {
         override fun onFailure(call: Call, e: IOException) {
@@ -69,7 +62,7 @@ class EmojiPackDownloader(
 
     private class ProgressResponseBody(
         val responseBody: ResponseBody,
-        val downloadListener: DownloadListener?
+        val downloadListener: EmojiPackDownloadListener?
     ) : ResponseBody() {
         var bufferedSource: BufferedSource = source(responseBody.source()).buffer()
 
@@ -100,3 +93,4 @@ class EmojiPackDownloader(
 
     }
 }
+

@@ -2,7 +2,7 @@ package de.c1710.filemojicompat_ui.structures
 
 import java.lang.Integer.max
 
-open class Version(open var version: IntArray) : Comparable<Version> {
+open class Version(var version: IntArray) : Comparable<Version> {
 
     override fun compareTo(other: Version): Int {
         // We need to pad the arrays to the longest size

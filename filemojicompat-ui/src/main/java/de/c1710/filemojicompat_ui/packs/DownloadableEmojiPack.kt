@@ -14,7 +14,7 @@ import java.net.URL
 class DownloadableEmojiPack(
     id: String,
     name: String,
-    val source: URL,
+    internal val source: URL,
     description: String,
     private val icon: Drawable?,
     version: Version?,
@@ -90,8 +90,6 @@ class DownloadableEmojiPack(
     fun getDownloadStatus(): DownloadStatus? = downloadStatus
 
     fun isDownloaded(list: EmojiPackList): Boolean {
-        // We assume that an Emoji Pack without a source is always downloaded.
-        // At least it _can't_ be downloaded anyway...
         return list.downloadedVersions.containsKey(this.id)
     }
 

@@ -14,7 +14,7 @@ import de.c1710.filemojicompat_ui.structures.EmojiPack
 
 // TODO: This might pose a security issue due to missing certificate/signature checks...
 class FontRequestEmojiPack(
-    val provider: ProviderInfo,
+    private val provider: ProviderInfo,
     packageManager: PackageManager,
 ) : EmojiPack(
     provider.packageName.replace('.', '_').replace('-', '_') + "_" + provider.name,

@@ -1,9 +1,9 @@
 package de.c1710.filemojicompat_ui.structures
 
-import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import java.io.IOException
 
-class DownloadStatus : EmojiPackDownloader.DownloadListener {
+class DownloadStatus : EmojiPackDownloadListener {
     var bytesRead: Long = 0
         private set
     var size: Long = 0
@@ -12,7 +12,7 @@ class DownloadStatus : EmojiPackDownloader.DownloadListener {
         private set
     var done: Boolean = false
         private set
-    private val listeners: ArrayList<EmojiPackDownloader.DownloadListener> = ArrayList(1)
+    private val listeners: ArrayList<EmojiPackDownloadListener> = ArrayList(1)
 
     override fun onProgress(bytesRead: Long, contentLength: Long) {
         this.bytesRead = bytesRead
@@ -30,11 +30,11 @@ class DownloadStatus : EmojiPackDownloader.DownloadListener {
         listeners.forEach { callback -> callback.onDone() }
     }
 
-    fun addListener(listener: EmojiPackDownloader.DownloadListener) {
+    fun addListener(listener: EmojiPackDownloadListener) {
         listeners.add(listener)
     }
 
-    fun removeListener(listener: EmojiPackDownloader.DownloadListener) {
+    fun removeListener(listener: EmojiPackDownloadListener) {
         listeners.remove(listener)
     }
 }

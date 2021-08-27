@@ -25,9 +25,9 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.interfaces.CustomEmojiCallback
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackListener
 import de.c1710.filemojicompat_ui.pack_helpers.CustomEmojiHandler
-import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.packs.CustomEmojiPack
 import de.c1710.filemojicompat_ui.packs.DeletableEmojiPack
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
@@ -37,9 +37,9 @@ import java.io.File
 import java.io.IOException
 
 // From SnackbarManager#LONG_DURATION_MS
-const val SNACKBAR_DURATION_LONG: Long = 2750
+internal const val SNACKBAR_DURATION_LONG: Long = 2750
 
-class EmojiPackItemAdapter(
+class EmojiPackItemAdapter internal constructor (
     private val dataSet: EmojiPackList,
     private val customEmojiHandler: CustomEmojiHandler
 ) : RecyclerView.Adapter<EmojiPackViewHolder>() {
@@ -355,7 +355,7 @@ class EmojiPackItemAdapter(
             holder.progress.max
         )
 
-        val callback = object : EmojiPackDownloader.DownloadListener {
+        val callback = object : EmojiPackDownloadListener {
             override fun onProgress(bytesRead: Long, contentLength: Long) {
                 val maxProgress = holder.progress.max
                 mainHandler.post {

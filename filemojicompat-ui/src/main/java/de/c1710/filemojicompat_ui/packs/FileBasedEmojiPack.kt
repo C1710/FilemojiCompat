@@ -58,7 +58,7 @@ abstract class FileBasedEmojiPack(
     }
 }
 
-fun getFileName(packId: String, version: Version?): String {
+private fun getFileName(packId: String, version: Version?): String {
     return if (!(version ?: Version(IntArray(0))).isZero()) {
         // We have already checked that the version is not zero. If it was null, the default
         // version _would_ be zero, therefore we can safely assume that that is not the case
