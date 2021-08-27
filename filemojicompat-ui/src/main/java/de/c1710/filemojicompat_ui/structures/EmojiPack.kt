@@ -12,7 +12,6 @@ abstract class EmojiPack (
     var id: String,
     var name: String,
     var description: String,
-    var icon: Drawable?,
     var version: Version?,
     var website: Uri? = null,
     var license: Uri? = null,
@@ -35,6 +34,8 @@ abstract class EmojiPack (
     abstract fun load(context: Context, list: EmojiPackList): EmojiCompat.Config
 
     abstract fun isCurrentVersion(list: EmojiPackList): Boolean
+
+    abstract fun getIcon(context: Context): Drawable?
 
 
     fun addListener(listener: EmojiPackListener) {

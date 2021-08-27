@@ -1,6 +1,7 @@
 package de.c1710.filemojicompat_ui.packs
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import androidx.emoji2.text.DefaultEmojiCompatConfig
@@ -19,7 +20,6 @@ class SystemDefaultEmojiPack private constructor(
     SYSTEM_DEFAULT,
     context.resources.getString(R.string.system_default),
     context.resources.getString(R.string.system_default_description),
-    ResourcesCompat.getDrawable(context.resources, R.drawable.ic_default_emojis, context.theme),
     Version(IntArray(0))
 ) {
 
@@ -42,4 +42,7 @@ class SystemDefaultEmojiPack private constructor(
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
+    override fun getIcon(context: Context): Drawable? {
+        return ResourcesCompat.getDrawable(context.resources, R.drawable.ic_default_emojis, context.theme)
+    }
 }

@@ -16,14 +16,14 @@ class AssetEmojiPack(
     private val assetPath: String = FileMetadataRepoLoader.DEFAULT_FALLBACK,
     name: String,
     description: String,
-    icon: Drawable?,
+    private val icon: Drawable?,
     version: Version? = Version(IntArray(0)),
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
 ): EmojiPack (
     "Asset-EmojiPack-%s".format(assetPath),
-    name, description, icon, version, website, license, descriptionLong
+    name, description, version, website, license, descriptionLong
 ) {
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
         // By using an empty file name, we force FileEmojiCompat to load the asset/fallback
@@ -32,4 +32,5 @@ class AssetEmojiPack(
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
+    override fun getIcon(context: Context): Drawable? = this.icon
 }

@@ -1,6 +1,7 @@
 package de.c1710.filemojicompat_ui.packs
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import androidx.emoji2.text.EmojiCompat
@@ -17,7 +18,6 @@ class FilePickerDummyEmojiPack(
     EXTERNAL_FILE,
     context.resources.getString(R.string.external_file),
     context.resources.getString(R.string.external_file_description),
-    ResourcesCompat.getDrawable(context.resources, R.drawable.ic_file, context.theme),
     Version(IntArray(0)),
     null,
     null,
@@ -42,4 +42,5 @@ class FilePickerDummyEmojiPack(
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
+    override fun getIcon(context: Context): Drawable? = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_file, context.theme)
 }

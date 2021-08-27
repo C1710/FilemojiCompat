@@ -44,7 +44,7 @@
 
         android:textSize="16sp"
         android:maxLines="1"
-        android:textColor="@android:color/primary_text_light"
+        android:textColor="?android:attr/textColorPrimary"
 
         android:clickable="false"
         android:focusable="false"
@@ -68,7 +68,7 @@
         android:textSize="14sp"
         android:maxLines="2"
         android:minLines="2"
-        android:textColor="@android:color/secondary_text_light"
+        android:textColor="?android:attr/textColorSecondary"
 
         android:clickable="false"
         android:focusable="false"
@@ -112,7 +112,6 @@
 
         android:contentDescription="@string/download"
         app:srcCompat="@drawable/ic_download"
-        app:tint="?colorAccent"
         android:foreground="?android:selectableItemBackground"
 
         android:visibility="gone"
@@ -134,7 +133,6 @@
 
         android:contentDescription="@string/download"
         app:srcCompat="@drawable/ic_cancel"
-        app:tint="?colorAccent"
         android:foreground="?android:selectableItemBackground"
         />
 
@@ -168,7 +166,6 @@
 
         android:contentDescription="@string/import_file"
         app:srcCompat="@drawable/ic_open"
-        app:tint="?colorAccent"
         android:foreground="?android:selectableItemBackground"
         />
 
@@ -210,7 +207,7 @@
 
             android:textSize="14sp"
             android:minLines="2"
-            android:textColor="@android:color/secondary_text_light"
+            android:textColor="?android:attr/textColorSecondary"
         />
 
         <TextView
@@ -227,7 +224,7 @@
 
             android:textSize="14sp"
             android:maxLines="1"
-            android:textColor="@android:color/secondary_text_light"
+            android:textColor="?android:attr/textColorSecondary"
         />
 
         <Button

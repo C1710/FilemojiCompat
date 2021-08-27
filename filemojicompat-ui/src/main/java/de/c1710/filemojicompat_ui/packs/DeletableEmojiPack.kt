@@ -1,7 +1,6 @@
 package de.c1710.filemojicompat_ui.packs
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Handler
 import de.c1710.filemojicompat_ui.helpers.EmojiPackDeletionListener
@@ -13,12 +12,11 @@ abstract class DeletableEmojiPack(
     id: String,
     name: String,
     description: String,
-    icon: Drawable?,
     version: Version?,
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
-): EmojiPack(id, name, description, icon, version, website, license, descriptionLong) {
+): EmojiPack(id, name, description, version, website, license, descriptionLong) {
     private val listeners: ArrayList<EmojiPackDeletionListener> = ArrayList(3)
     // Returns the index of the emoji in the list, if it is removed from the emojiList or -1 otherwise.
     protected abstract fun deleteImpl(context: Context, list: EmojiPackList): Int

@@ -1,7 +1,6 @@
 package de.c1710.filemojicompat_ui.packs
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -17,13 +16,12 @@ abstract class FileBasedEmojiPack(
     id: String,
     name: String,
     description: String,
-    icon: Drawable?,
     version: Version?,
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
 ): DeletableEmojiPack(
-    id, name, description, icon, version, website, license, descriptionLong
+    id, name, description, version, website, license, descriptionLong
 ) {
     fun getFileName(): String {
         return getFileName(this.id, this.version)

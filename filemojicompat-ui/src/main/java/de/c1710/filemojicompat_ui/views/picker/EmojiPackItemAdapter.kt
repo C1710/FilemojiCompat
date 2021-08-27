@@ -52,7 +52,7 @@ class EmojiPackItemAdapter(
 
         // These are some basic things that don't change on state transitions
         holder.icon.setImageDrawable(
-            item.icon ?:
+            item.getIcon(holder.icon.context) ?:
             ResourcesCompat.getDrawable(
                 holder.icon.context.resources,
                 R.drawable.ic_custom_emojis,
@@ -275,6 +275,7 @@ class EmojiPackItemAdapter(
         holder.cancel.visibility = View.GONE
         holder.download.visibility = View.GONE
         holder.importFile.visibility = View.VISIBLE
+        holder.delete.visibility = View.GONE
 
         holder.importFile.setOnClickListener {
             pickCustomEmoji(holder)

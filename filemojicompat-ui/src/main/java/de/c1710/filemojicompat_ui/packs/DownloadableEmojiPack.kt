@@ -15,12 +15,12 @@ class DownloadableEmojiPack(
     name: String,
     val source: URL,
     description: String,
-    icon: Drawable?,
+    private val icon: Drawable?,
     version: Version?,
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
-): FileBasedEmojiPack(id, name, description, icon, version, website, license, descriptionLong) {
+): FileBasedEmojiPack(id, name, description, version, website, license, descriptionLong) {
     constructor(
         id: String,
         name: String,
@@ -96,6 +96,8 @@ class DownloadableEmojiPack(
         return list.downloadedVersions[this.id] ?: Version(IntArray(0)) >=
                 this.version ?: Version(IntArray(0))
     }
+
+    override fun getIcon(context: Context): Drawable? = icon
 
     override fun deleteImpl(context: Context, list: EmojiPackList): Int {
         super.deleteImpl(context, list)

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.ProviderInfo
+import android.graphics.drawable.Drawable
 import androidx.core.provider.FontRequest
 import androidx.emoji2.text.EmojiCompat
 import androidx.emoji2.text.FontRequestEmojiCompatConfig
@@ -19,12 +20,13 @@ class FontRequestEmojiPack(
     provider.packageName.replace('.', '_').replace('-', '_') + "_" + provider.name,
     provider.name,
     "TODO",
-    provider.loadIcon(packageManager),
     null,
     null,
     null,
     "TODO looooooong"
 ) {
+    val icon = provider.loadIcon(packageManager)
+
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
         // TODO: Signatures?!
         val fontRequest = FontRequest(provider.authority, provider.packageName, DEFAULT_EMOJI_QUERY, ArrayList())
@@ -32,6 +34,7 @@ class FontRequestEmojiPack(
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
+    override fun getIcon(context: Context): Drawable? = icon
 }
 
 // TODO: Implement

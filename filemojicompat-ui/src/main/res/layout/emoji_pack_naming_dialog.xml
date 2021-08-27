@@ -11,7 +11,7 @@
         android:layout_margin="24dp"
         android:textSize="16sp"
         android:maxLines="1"
-        android:textColor="@android:color/primary_text_light"
+        android:textColor="?android:attr/textColorPrimary"
         android:inputType="textCapWords"
         android:importantForAutofill="no" />
 </FrameLayout>

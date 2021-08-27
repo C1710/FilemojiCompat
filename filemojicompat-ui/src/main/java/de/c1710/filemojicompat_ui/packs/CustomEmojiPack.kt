@@ -1,6 +1,7 @@
 package de.c1710.filemojicompat_ui.packs
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.core.content.res.ResourcesCompat
 import de.c1710.filemojicompat_ui.R
@@ -15,13 +16,13 @@ class CustomEmojiPack(
     hash,
     EmojiPreference.getNameForCustom(context, hash) ?: hash,
     "",
-    ResourcesCompat.getDrawable(context.resources, R.drawable.ic_custom_emojis, context.theme),
     null as Version?,
     null as Uri?,
     null as Uri?,
     context.resources.getString(R.string.custom_emoji)
 ) {
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
+    override fun getIcon(context: Context): Drawable? = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_custom_emojis, context.theme)
 
     override fun deleteImpl(context: Context, list: EmojiPackList): Int {
         super.deleteImpl(context, list)
