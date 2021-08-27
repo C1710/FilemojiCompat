@@ -12,13 +12,13 @@ import java.io.IOException
 
 class EmojiPackDownloader(
     pack: DownloadableEmojiPack,
-    list: EmojiPackList
+    val list: EmojiPackList
 ) {
     private val url = pack.source
     private val fileName = pack.getFileName()
     private val downloadLocation = File(list.emojiStorage, fileName)
 
-    fun download(downloadListener: DownloadListener): Call? {
+    fun download(downloadListener: DownloadListener): Call {
         val client = OkHttpClient.Builder()
             .addNetworkInterceptor {
                     chain: Interceptor.Chain ->
@@ -51,7 +51,8 @@ class EmojiPackDownloader(
 
     private class DownloadedCallback(
         val downloadListener: DownloadListener,
-        val location: File) : Callback {
+        val location: File
+    ) : Callback {
         override fun onFailure(call: Call, e: IOException) {
             downloadListener.onFailure(e)
         }

@@ -8,6 +8,7 @@ import de.c1710.filemojicompat_ui.helpers.Version
 import de.c1710.filemojicompat_ui.structures.DownloadStatus
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import okhttp3.Call
+import java.io.IOException
 import java.net.URL
 
 class DownloadableEmojiPack(
@@ -73,6 +74,17 @@ class DownloadableEmojiPack(
         EmojiPackDownloader(this, list)
             .download(status)
         this.downloadStatus = status
+
+        status.addListener(object: EmojiPackDownloader.DownloadListener {
+            override fun onProgress(bytesRead: Long, contentLength: Long) {}
+
+            override fun onFailure(e: IOException) {}
+
+            override fun onDone() {
+                version?.let { list.downloadedVersions[id] = version!! }
+            }
+
+        })
     }
 
     fun getDownloadStatus(): DownloadStatus? = downloadStatus

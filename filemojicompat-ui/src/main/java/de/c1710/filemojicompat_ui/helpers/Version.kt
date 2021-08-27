@@ -28,9 +28,11 @@ open class Version (open var version: IntArray): Comparable<Version> {
         return version.all { subVersion -> subVersion == 0 }
     }
 
+    override fun toString(): String {
+        return version.joinToString(".")
+    }
+
     companion object {
-
-
         fun fromString(string: String?): Version {
             return Version((string ?: "").split('.').stream()
                 .mapToInt { subVersion: String -> subVersion.toIntOrNull() ?: 0}
