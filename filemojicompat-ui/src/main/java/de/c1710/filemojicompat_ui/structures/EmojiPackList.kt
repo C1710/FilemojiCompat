@@ -26,6 +26,8 @@ class EmojiPackList(
     init {
         emojiPacks.add(0, SystemDefaultEmojiPack.getSystemDefaultPack(context))
         loadStoredPacks(context)
+        // TODO: First evaluate, whether this is not a security-problem...
+        // emojiPacks.addAll(collectFontProviders(context))
         emojiPacks.add(FilePickerDummyEmojiPack.setAndGetFilePickerPack(context))
 
         EmojiPack.selectedPack = getSelectedPack(context)

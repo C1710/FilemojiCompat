@@ -217,7 +217,7 @@ class EmojiPackItemAdapter(
         holder.cancel.visibility = View.GONE
         holder.download.visibility = View.GONE
         holder.importFile.visibility = View.GONE
-        holder.delete.visibility = View.VISIBLE
+        holder.delete.visibility = visible(item is DeletableEmojiPack)
         holder.description.visibility = visible(!holder.descriptionLong.isVisible)
 
         holder.selection.isEnabled = true
