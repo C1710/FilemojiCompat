@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="download">Herunterladen</string>
+    <string name="download_verb">Herunterladen</string>
     <string name="system_default">System Standard</string>
     <string name="system_default_description">Die Standard-Emojis deines Gerätes</string>
     <string name="import_pack">Emoji-Paket importieren</string>
-    <string name="external_file_description">Nutze ein anderes Emoji-Paket</string>
-    <string name="external_file_description_long">Du kannst alle Emoji-Schriftarten importieren, die mit <i>EmojiCompat</i> kompatibel sind.</string>
+    <string name="import_pack_description">Nutze ein anderes Emoji-Paket</string>
+    <string name="import_pack_description_long">Du kannst alle Emoji-Schriftarten importieren, die mit <i>EmojiCompat</i> kompatibel sind.</string>
     <string name="loading_failed">Konnte Emoji-Paket nicht laden.</string>
     <string name="version">Version: %1$s</string>
     <string name="website">Website</string>
     <string name="license">Lizenz</string>
-    <string name="custom_emoji">Dieses Emoji-Paket hast du selbst hinzugefügt.</string>
+    <string name="custom_emoji_description_long">Dieses Emoji-Paket hast du selbst hinzugefügt.</string>
     <string name="name_custom_emoji">Wie möchtest du dieses Emoji-Paket nennen?</string>
     <string name="save">Speichern</string>
-    <string name="pack_name">Das beste Emoji-Paket aller Zeiten</string>
+    <string name="pack_example_name">Das beste Emoji-Paket aller Zeiten</string>
     <string name="delete">Löschen</string>
-    <string name="deleted_pack">%1$s gelöscht</string>
+    <string name="pack_deleted">%1$s gelöscht</string>
     <string name="undo">Rückgänging</string>
 </resources>

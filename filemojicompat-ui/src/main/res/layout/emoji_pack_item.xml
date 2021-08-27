@@ -110,7 +110,7 @@
         android:padding="12dp"
         android:layout_marginTop="4dp"
 
-        android:contentDescription="@string/download"
+        android:contentDescription="@string/download_verb"
         app:srcCompat="@drawable/ic_download"
         android:foreground="?android:selectableItemBackground"
 

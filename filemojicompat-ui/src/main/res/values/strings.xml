@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="download">Download</string>
+    <string name="download_verb">Download</string>
     <string name="system_default">System Default</string>
     <string name="system_default_description">The default emoji set of your device</string>
     <string name="import_pack">Import emoji pack</string>
-    <string name="external_file_description">Use a different emoji pack</string>
-    <string name="external_file_description_long">You can provide any emoji font that supports the <i>EmojiCompat</i> library.</string>
+    <string name="import_pack_description">Use a different emoji pack</string>
+    <string name="import_pack_description_long">You can provide any emoji font that supports the <i>EmojiCompat</i> library.</string>
     <string name="loading_failed">Could not load emoji pack</string>
     <string name="version">Version: %1$s</string>
     <string name="website">Website</string>
     <string name="license">License</string>
-    <string name="custom_emoji">This is an emoji pack you have manually added</string>
+    <string name="custom_emoji_description_long">This is an emoji pack you have manually added</string>
     <string name="name_custom_emoji">How do you want to call this emoji pack?</string>
     <string name="save">Save</string>
-    <string name="pack_name">My Awesome Emoji Pack</string>
+    <string name="pack_example_name">My Awesome Emoji Pack</string>
     <string name="delete">Delete</string>
-    <string name="deleted_pack">%1$s deleted</string>
+    <string name="pack_deleted">%1$s deleted</string>
     <string name="undo">Undo</string>
 </resources>

@@ -134,7 +134,7 @@ class EmojiPackItemAdapter(
                     Snackbar.make(
                         holder.itemView,
                         // Show the name of the emoji font as well
-                        holder.itemView.context.getString(R.string.deleted_pack, pack.name),
+                        holder.itemView.context.getString(R.string.pack_deleted, pack.name),
                         Snackbar.LENGTH_LONG
                     )
                         .setAction(R.string.undo) { pack.cancelDeletion(holder.item.context) }

@@ -19,7 +19,7 @@ class CustomEmojiPack(
     null as Version?,
     null as Uri?,
     null as Uri?,
-    context.resources.getString(R.string.custom_emoji)
+    context.resources.getString(R.string.custom_emoji_description_long)
 ) {
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
     override fun getIcon(context: Context): Drawable? = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_custom_emojis, context.theme)

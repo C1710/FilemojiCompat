@@ -17,11 +17,11 @@ class FilePickerDummyEmojiPack(
 ): EmojiPack(
     EXTERNAL_FILE,
     context.resources.getString(R.string.import_pack),
-    context.resources.getString(R.string.external_file_description),
+    context.resources.getString(R.string.import_pack_description),
     Version(IntArray(0)),
     null,
     null,
-    context.resources.getString(R.string.external_file_description_long)
+    context.resources.getString(R.string.import_pack_description_long)
 ) {
     companion object {
         private var filePickerDummyEmojiPack: FilePickerDummyEmojiPack? = null
