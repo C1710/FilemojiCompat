@@ -11,7 +11,7 @@ import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.structures.DownloadStatus
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 
-class EmojiPackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+internal class EmojiPackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val item: ConstraintLayout = view.findViewById(R.id.emoji_pack_item)
     val icon: ImageView = view.findViewById(R.id.emoji_pack_icon)
     val name: TextView = view.findViewById(R.id.emoji_pack_name)

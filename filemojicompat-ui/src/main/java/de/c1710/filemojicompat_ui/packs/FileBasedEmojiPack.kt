@@ -9,7 +9,7 @@ import androidx.emoji2.text.EmojiCompat
 import de.c1710.filemojicompat.FileEmojiCompatConfig
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
-import de.c1710.filemojicompat_ui.helpers.Version
+import de.c1710.filemojicompat_ui.structures.Version
 import java.io.File
 
 abstract class FileBasedEmojiPack(
