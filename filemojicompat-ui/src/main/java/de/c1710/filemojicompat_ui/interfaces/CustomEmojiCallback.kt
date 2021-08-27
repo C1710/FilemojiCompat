@@ -1,4 +1,4 @@
-package de.c1710.filemojicompat_ui.helpers
+package de.c1710.filemojicompat_ui.interfaces
 
 interface CustomEmojiCallback {
     fun onLoaded(customEmoji: String)

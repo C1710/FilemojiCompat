@@ -1,4 +1,4 @@
-package de.c1710.filemojicompat_ui.helpers
+package de.c1710.filemojicompat_ui.interfaces
 
 import android.content.Context
 import de.c1710.filemojicompat_ui.structures.EmojiPack
