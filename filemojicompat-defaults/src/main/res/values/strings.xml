@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="blobmoji_description">The best emojis ever</string>
+    <string name="blobmoji_description_long">An emoji pack based on the emojis found in older Android versions, but updated for newer Emoji standards</string>
+    <string name="noto_description">The emoji family made by Google</string>
+    <string name="noto_description_long">A modern emoji pack that can be found on many modern Android devices\n<i>Noto is a trademark by Google Inc.</i></string>
+    <string name="twemoji_description">The emoji pack from Twitter</string>
+    <string name="twemoji_description_long">Twemoji is an emoji pack that can be found on many platforms throughout the internet, including, of course, Twitter.\n<i>CC BY 4.0, Copyright 2020 Twitter, Inc and other contributors\nAdapted for usage with EmojiCompat</i></string>
+    <string name="openmoji_description">An open-source emoji pack</string>
+    <string name="openmoji_description_long">A rather recent emoji pack featuring a minimalistic style.<i>All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0\nAdapted for usage with EmojiCompat</i></string>
+</resources>
