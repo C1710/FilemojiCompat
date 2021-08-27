@@ -38,9 +38,8 @@ class FilePickerDummyEmojiPack(
 
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
         Log.wtf("FilemojiCompat", "External file dummy selected as emoji pack. This should not happen")
-        return SystemDefaultEmojiPack.getSystemDefaultPack().load(context, list)
+        return SystemDefaultEmojiPack.getSystemDefaultPack(context).load(context, list)
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
-    override fun isDeletable(): Boolean = false
 }

@@ -21,12 +21,14 @@ class EmojiPackList(
     val emojiStorage: File = File(context.getExternalFilesDir(null), storageDirectory)
 
     // Only store the IDs of the downloaded packs
-    var downloadedPacks: HashMap<String, Version> = HashMap()
+    var downloadedVersions: HashMap<String, Version> = HashMap()
 
     init {
-        emojiPacks.add(0, SystemDefaultEmojiPack.setAndGetSystemDefaultPack(context))
+        emojiPacks.add(0, SystemDefaultEmojiPack.getSystemDefaultPack(context))
         loadStoredPacks(context)
         emojiPacks.add(FilePickerDummyEmojiPack.setAndGetFilePickerPack(context))
+
+        EmojiPack.selectedPack = getSelectedPack(context)
     }
 
     private fun loadStoredPacks(context: Context) {
@@ -55,7 +57,7 @@ class EmojiPackList(
                             // Looks, like it is a custom pack
                             emojiPacks.add(CustomEmojiPack(context, entry.first))
                         } else {
-                            downloadedPacks[entry.first] = entry.second
+                            downloadedVersions[entry.first] = entry.second
                         }
                     }
             } else {
@@ -66,8 +68,30 @@ class EmojiPackList(
         }
     }
 
+    private fun getSelectedPack(context: Context): EmojiPack {
+        val selection = EmojiPreference.getSelected(context)
+
+        return emojiPacks.find {
+            it.id == selection
+        } ?: run {
+            Log.w("FilemojiCompat", "Selected pack not found; using default")
+            getDefaultPack(context)
+        }
+    }
+
+    fun getDefaultPack(context: Context): EmojiPack {
+        val default = EmojiPreference.getDefault(context)
+
+        return emojiPacks.find {
+            it.id == default
+        } ?: run {
+            Log.w("FilemojiCompat", "Default pack not found; using system default")
+            SystemDefaultEmojiPack.getSystemDefaultPack(context)
+        }
+    }
+
     fun downloadedVersion(pack: String): Version? {
-        return downloadedPacks[pack]
+        return downloadedVersions[pack]
     }
 
     operator fun get(position: Int): EmojiPack {
@@ -76,6 +100,10 @@ class EmojiPackList(
 
     operator fun get(packId: String): EmojiPack? {
         return this.emojiPacks.firstOrNull { pack -> pack.id == packId }
+    }
+
+    operator fun contains(pack: EmojiPack): Boolean {
+        return pack in emojiPacks
     }
 
     fun indexOf(pack: EmojiPack): Int {
@@ -88,13 +116,12 @@ class EmojiPackList(
         return newEmojiPack
     }
 
-    private fun customEmojiFile(context: Context): File? {
-        val customFileName = EmojiPreference.getCustom(context)
-        return if (customFileName != null) {
-            File(emojiStorage, "$customFileName.ttf")
-        } else {
-            null
-        }
+    internal fun addPack(pack: EmojiPack, index: Int) {
+        emojiPacks.add(index, pack)
+    }
+
+    internal fun removePack(pack: EmojiPack) {
+        emojiPacks.remove(pack)
     }
 
     companion object {

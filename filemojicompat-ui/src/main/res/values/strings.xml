@@ -17,6 +17,6 @@
     <string name="save">Save</string>
     <string name="pack_name">My Awesome Emoji Pack</string>
     <string name="delete">Delete</string>
-    <string name="deleted_pack">Emoji pack deleted</string>
+    <string name="deleted_pack">%1$s deleted</string>
     <string name="undo">Undo</string>
 </resources>

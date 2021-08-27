@@ -23,4 +23,16 @@ class CustomEmojiPack(
 ) {
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
 
+    override fun deleteImpl(context: Context, list: EmojiPackList): Int {
+        super.deleteImpl(context, list)
+
+        // It may be possible, that the pack has already been removed
+        return if (this in list) {
+            val index = list.indexOf(this)
+            list.removePack(this)
+            index
+        } else {
+            -1
+        }
+    }
 }

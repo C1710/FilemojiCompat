@@ -10,7 +10,6 @@ import androidx.emoji2.text.EmojiCompat
 import de.c1710.filemojicompat.FileEmojiCompatConfig
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.Version
-import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import java.io.File
 
@@ -23,18 +22,18 @@ abstract class FileBasedEmojiPack(
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
-): EmojiPack(
+): DeletableEmojiPack(
     id, name, description, icon, version, website, license, descriptionLong
 ) {
-    fun createFileName(): String {
-        return createFileName(this.id, this.version)
+    fun getFileName(): String {
+        return getFileName(this.id, this.version)
     }
 
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
         val downloadedVersion = list.downloadedVersion(this.id)
 
         // Here we need the _actual_ version we have
-        val fileName = createFileName(this.id, downloadedVersion)
+        val fileName = getFileName(this.id, downloadedVersion)
         Log.d("FilemojiCompat", "Loading file based pack: File path: %s".format(fileName))
 
         val file = File(list.emojiStorage, fileName)
@@ -48,10 +47,16 @@ abstract class FileBasedEmojiPack(
         return config
     }
 
-    override fun isDeletable(): Boolean = true
+    override fun deleteImpl(context: Context, list: EmojiPackList): Int {
+        val file = File(list.emojiStorage, getFileName())
+
+        file.delete()
+
+        return -1
+    }
 }
 
-fun createFileName(packId: String, version: Version?): String {
+fun getFileName(packId: String, version: Version?): String {
     return if (!(version ?: Version(IntArray(0))).isZero()) {
         // We have already checked that the version is not zero. If it was null, the default
         // version _would_ be zero, therefore we can safely assume that that is not the case

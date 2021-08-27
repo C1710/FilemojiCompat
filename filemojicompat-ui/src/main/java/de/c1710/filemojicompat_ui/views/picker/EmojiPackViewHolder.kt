@@ -1,13 +1,15 @@
 package de.c1710.filemojicompat_ui.views.picker
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import de.c1710.filemojicompat_ui.R
+import de.c1710.filemojicompat_ui.helpers.EmojiPackDeletionListener
 import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
+import de.c1710.filemojicompat_ui.helpers.EmojiPackListener
 import de.c1710.filemojicompat_ui.structures.DownloadStatus
+import de.c1710.filemojicompat_ui.structures.EmojiPack
 
 class EmojiPackViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val item: ConstraintLayout = view.findViewById(R.id.emoji_pack_item)
@@ -27,13 +29,10 @@ class EmojiPackViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val license: Button = view.findViewById(R.id.emoji_pack_license)
     val delete: Button = view.findViewById(R.id.emoji_pack_delete)
 
+    var pack: EmojiPack? = null
+    var packListener: EmojiPackListener? = null
+    var packDeletionListener: EmojiPackDeletionListener? = null
 
-    var downloadCallback: EmojiPackDownloader.DownloadCallback? = null
+    var downloadListener: EmojiPackDownloader.DownloadListener? = null
     var downloadBoundTo: DownloadStatus? = null
-
-    companion object {
-        // I promise to always delete that reference again!
-        @SuppressLint("StaticFieldLeak")
-        var selectedItem: RadioButton? = null
-    }
 }

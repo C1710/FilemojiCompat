@@ -1,5 +1,6 @@
 package de.c1710.filemojicompat_ui.packs
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import de.c1710.filemojicompat_ui.helpers.EmojiPackDownloader
@@ -79,11 +80,11 @@ class DownloadableEmojiPack(
     fun isDownloaded(list: EmojiPackList): Boolean {
         // We assume that an Emoji Pack without a source is always downloaded.
         // At least it _can't_ be downloaded anyway...
-        return list.downloadedPacks.containsKey(this.id)
+        return list.downloadedVersions.containsKey(this.id)
     }
 
     fun isDownloading(): Boolean {
-        return downloadStatus != null && !downloadStatus!!.isDone()
+        return downloadStatus != null && !downloadStatus!!.done
     }
 
     fun cancelDownload() {
@@ -92,7 +93,17 @@ class DownloadableEmojiPack(
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean {
-        return list.downloadedPacks[this.id] ?: Version(IntArray(0)) >=
+        return list.downloadedVersions[this.id] ?: Version(IntArray(0)) >=
                 this.version ?: Version(IntArray(0))
+    }
+
+    override fun deleteImpl(context: Context, list: EmojiPackList): Int {
+        super.deleteImpl(context, list)
+
+        if (this.id in list.downloadedVersions) {
+            list.downloadedVersions.remove(this.id)
+        }
+
+        return -1
     }
 }

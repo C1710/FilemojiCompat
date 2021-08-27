@@ -15,10 +15,10 @@ class EmojiPackDownloader(
     list: EmojiPackList
 ) {
     private val url = pack.source
-    private val fileName = pack.createFileName()
+    private val fileName = pack.getFileName()
     private val downloadLocation = File(list.emojiStorage, fileName)
 
-    fun download(downloadCallback: DownloadCallback): Call? {
+    fun download(downloadListener: DownloadListener): Call? {
         val client = OkHttpClient.Builder()
             .addNetworkInterceptor {
                     chain: Interceptor.Chain ->
@@ -26,7 +26,7 @@ class EmojiPackDownloader(
                 response
                     .newBuilder()
                     .body(response.body?.let {
-                        ProgressResponseBody(it, downloadCallback)
+                        ProgressResponseBody(it, downloadListener)
                     })
                     .build()
             }
@@ -37,11 +37,11 @@ class EmojiPackDownloader(
             .build()
 
         val call = client.newCall(request)
-        call.enqueue(DownloadedCallback(downloadCallback, downloadLocation))
+        call.enqueue(DownloadedCallback(downloadListener, downloadLocation))
         return call
     }
 
-    interface DownloadCallback {
+    interface DownloadListener {
         fun onProgress(bytesRead: Long, contentLength: Long)
 
         fun onFailure(e: IOException)
@@ -50,10 +50,10 @@ class EmojiPackDownloader(
     }
 
     private class DownloadedCallback(
-        val downloadCallback: DownloadCallback,
+        val downloadListener: DownloadListener,
         val location: File) : Callback {
         override fun onFailure(call: Call, e: IOException) {
-            downloadCallback.onFailure(e)
+            downloadListener.onFailure(e)
         }
 
         override fun onResponse(call: Call, response: Response) {
@@ -62,14 +62,14 @@ class EmojiPackDownloader(
             val sink = location.sink(false).buffer()
             response.body?.source()?.let { sink.writeAll(it) }
             sink.close()
-            downloadCallback.onDone()
+            downloadListener.onDone()
         }
 
     }
 
     private class ProgressResponseBody(
         val responseBody: ResponseBody,
-        val downloadCallback: DownloadCallback?
+        val downloadListener: DownloadListener?
     ): ResponseBody() {
         var bufferedSource: BufferedSource = source(responseBody.source()).buffer()
 
@@ -91,7 +91,7 @@ class EmojiPackDownloader(
                         0
                     }
 
-                    downloadCallback?.onProgress(totalBytesRead, contentLength())
+                    downloadListener?.onProgress(totalBytesRead, contentLength())
 
                     return bytesRead
                 }

@@ -7,7 +7,7 @@ import de.c1710.filemojicompat_ui.packs.SYSTEM_DEFAULT
 
 const val SHARED_PREFERENCES = "de.c1710.filemojicompat"
 const val EMOJI_PREFERENCE = "de.c1710.filemojicompat.EMOJI_PREFERENCE"
-const val CUSTOM_EMOJI = "de.c1710.filemojicompat.CUSTOM_EMOJI"
+const val DEFAULT_PREFERENCE = "de.c1710.filemojicompat.DEFAULT_EMOJI_PACK"
 
 object EmojiPreference {
     var initialSelection: String? = null
@@ -25,10 +25,10 @@ object EmojiPreference {
     fun getSelected(context: Context): String {
         return try {
             getSharedPreferences(context)
-                .getString(EMOJI_PREFERENCE, SYSTEM_DEFAULT) ?: SYSTEM_DEFAULT
+                .getString(EMOJI_PREFERENCE, getDefault(context)) ?: getDefault(context)
         } catch (e: ClassCastException) {
-            Log.e("FilemojiCompat", "Emoji preference is not a String; using sytem default", e)
-            SYSTEM_DEFAULT
+            Log.e("FilemojiCompat", "Emoji preference is not a String; using default", e)
+            getDefault(context)
         }
     }
 
@@ -48,19 +48,22 @@ object EmojiPreference {
         EmojiPackHelper.reset(context)
     }
 
-    fun setDefault(context: Context, value: String) {
-        if (getSharedPreferences(context).getString(EMOJI_PREFERENCE, null) == null) {
-            setSelected(context, value)
+    fun getDefault(context: Context): String {
+        return try {
+            getSharedPreferences(context)
+                .getString(DEFAULT_PREFERENCE, SYSTEM_DEFAULT) ?: SYSTEM_DEFAULT
+        } catch (e: java.lang.ClassCastException) {
+            Log.e("FilemojiCompat", "Default Emoji preference is not a String; using sytem default", e)
+            SYSTEM_DEFAULT
         }
     }
 
-    fun getCustom(context: Context): String? {
-        return try {
-            getSharedPreferences(context)
-                .getString(CUSTOM_EMOJI, null)
-        } catch (e: ClassCastException) {
-            Log.e("FilemojiCompat", "Custom Emoji preference is not a String", e)
-            null
+    fun setDefault(context: Context, value: String) {
+        val prefs = getSharedPreferences(context)
+
+        with(prefs.edit()) {
+            putString(DEFAULT_PREFERENCE, value)
+            apply()
         }
     }
 

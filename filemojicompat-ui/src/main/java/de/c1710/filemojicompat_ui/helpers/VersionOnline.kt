@@ -17,7 +17,9 @@ class VersionOnline
     @JvmOverloads constructor (
         context: Context,
         private val source: URL,
-        regex: Regex = Regex("<version>\\s*(?<version>\\d+(\\.\\d+)*)\\s*</version")
+        regex: Regex = Regex("<version>\\s*(\\d+(\\.\\d+)*)\\s*</version>"),
+        // Because Android Java/Kotlin, we cannot get groups by their name...
+        groupId: Int = 1
     ) {
     val versionOnline: Future<Version>
 
@@ -45,12 +47,7 @@ class VersionOnline
                     null
                 } else {
                     val groups = regex.find(response.body?.string() ?: "")?.groups
-                    if (groups is MatchNamedGroupCollection?) {
-                        groups?.get("version")?.value
-                    } else {
-                        Log.e("FilemojiCompat", "getVersionOnline: Cannot use named group")
-                        groups?.get(0)?.value
-                    }
+                    groups?.get(groupId)?.value
                 }
             )
         }

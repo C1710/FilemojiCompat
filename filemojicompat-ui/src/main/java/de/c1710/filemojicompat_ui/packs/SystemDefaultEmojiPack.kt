@@ -28,12 +28,10 @@ class SystemDefaultEmojiPack private constructor(
     companion object {
         private var systemDefaultEmojiPack: SystemDefaultEmojiPack? = null
 
-        fun setAndGetSystemDefaultPack(context: Context): SystemDefaultEmojiPack {
-            systemDefaultEmojiPack = SystemDefaultEmojiPack(context)
-            return systemDefaultEmojiPack!!
-        }
-
-        fun getSystemDefaultPack(): SystemDefaultEmojiPack {
+        fun getSystemDefaultPack(context: Context): SystemDefaultEmojiPack {
+            if (systemDefaultEmojiPack == null) {
+                systemDefaultEmojiPack = SystemDefaultEmojiPack(context)
+            }
             return systemDefaultEmojiPack!!
         }
     }
@@ -44,5 +42,4 @@ class SystemDefaultEmojiPack private constructor(
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
-    override fun isDeletable(): Boolean = false
 }

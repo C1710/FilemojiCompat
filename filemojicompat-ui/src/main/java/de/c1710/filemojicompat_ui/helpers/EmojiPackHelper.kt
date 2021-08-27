@@ -8,7 +8,7 @@ import androidx.emoji2.text.EmojiCompat
 import de.c1710.filemojicompat.FileEmojiCompatConfig
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.packs.SystemDefaultEmojiPack
-import de.c1710.filemojicompat_ui.packs.createFileName
+import de.c1710.filemojicompat_ui.packs.getFileName
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import java.io.File
@@ -43,7 +43,7 @@ class EmojiPackHelper {
                 Log.e("FilemojiCompat", "generateCurrentConfig: selected emoji pack %s not in list"
                     .format(EmojiPreference.getSelected(context)))
                 Toast.makeText(context, R.string.loading_failed, Toast.LENGTH_SHORT).show()
-                SystemDefaultEmojiPack.getSystemDefaultPack()
+                SystemDefaultEmojiPack.getSystemDefaultPack(context)
             }
 
             return selectedPack.load(context, list)
@@ -58,7 +58,7 @@ class EmojiPackHelper {
 
         private fun loadDownloadedPack(context: Context, selected: String, list: EmojiPackList): EmojiCompat.Config {
             val downloadedVersion = list.downloadedVersion(selected)
-            val fileName = createFileName(selected, downloadedVersion)
+            val fileName = getFileName(selected, downloadedVersion)
             Log.d("FilemojiCompat", "loadDownloadedPack: File path: %s".format(fileName))
             return loadFromEmojiStorage(context, list, fileName)
         }
