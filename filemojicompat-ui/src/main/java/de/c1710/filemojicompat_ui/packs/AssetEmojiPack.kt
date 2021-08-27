@@ -21,7 +21,7 @@ class AssetEmojiPack(
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
-): EmojiPack (
+) : EmojiPack(
     "Asset-EmojiPack-%s".format(assetPath),
     name, description, version, website, license, descriptionLong
 ) {

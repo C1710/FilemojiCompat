@@ -20,8 +20,7 @@ class EmojiPackDownloader(
 
     fun download(downloadListener: DownloadListener): Call {
         val client = OkHttpClient.Builder()
-            .addNetworkInterceptor {
-                    chain: Interceptor.Chain ->
+            .addNetworkInterceptor { chain: Interceptor.Chain ->
                 val response = chain.proceed(chain.request())
                 response
                     .newBuilder()
@@ -71,7 +70,7 @@ class EmojiPackDownloader(
     private class ProgressResponseBody(
         val responseBody: ResponseBody,
         val downloadListener: DownloadListener?
-    ): ResponseBody() {
+    ) : ResponseBody() {
         var bufferedSource: BufferedSource = source(responseBody.source()).buffer()
 
         override fun contentLength(): Long = responseBody.contentLength()
@@ -81,7 +80,7 @@ class EmojiPackDownloader(
         override fun source(): BufferedSource = bufferedSource
 
         private fun source(source: Source): Source {
-            return object: ForwardingSource(source) {
+            return object : ForwardingSource(source) {
                 var totalBytesRead: Long = 0
 
                 override fun read(sink: Buffer, byteCount: Long): Long {

@@ -14,13 +14,13 @@ import java.util.concurrent.Future
 private const val VERSION_CACHE = "de.c1710.filemojicompat.version_cache"
 
 class VersionOnline
-    @JvmOverloads constructor (
-        context: Context,
-        private val source: URL,
-        regex: Regex = Regex("<version>\\s*(\\d+(\\.\\d+)*)\\s*</version>"),
-        // Because Android Java/Kotlin, we cannot get groups by their name...
-        groupId: Int = 1
-    ) {
+@JvmOverloads constructor(
+    context: Context,
+    private val source: URL,
+    regex: Regex = Regex("<version>\\s*(\\d+(\\.\\d+)*)\\s*</version>"),
+    // Because Android Java/Kotlin, we cannot get groups by their name...
+    groupId: Int = 1
+) {
     val versionOnline: Future<Version>
 
     init {
@@ -62,10 +62,12 @@ class VersionOnline
         private fun getOrSetClient(context: Context): OkHttpClient {
             if (client == null) {
                 client = OkHttpClient.Builder()
-                    .cache(Cache(
-                        directory = File(context.cacheDir, VERSION_CACHE),
-                        maxSize = 5 * 0x100000L // 5 MiB
-                    ))
+                    .cache(
+                        Cache(
+                            directory = File(context.cacheDir, VERSION_CACHE),
+                            maxSize = 5 * 0x100000L // 5 MiB
+                        )
+                    )
                     .build()
             }
 

@@ -21,7 +21,7 @@ class DownloadableEmojiPack(
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
-): FileBasedEmojiPack(id, name, description, version, website, license, descriptionLong) {
+) : FileBasedEmojiPack(id, name, description, version, website, license, descriptionLong) {
     constructor(
         id: String,
         name: String,
@@ -75,7 +75,7 @@ class DownloadableEmojiPack(
             .download(status)
         this.downloadStatus = status
 
-        status.addListener(object: EmojiPackDownloader.DownloadListener {
+        status.addListener(object : EmojiPackDownloader.DownloadListener {
             override fun onProgress(bytesRead: Long, contentLength: Long) {}
 
             override fun onFailure(e: IOException) {}

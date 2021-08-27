@@ -3,7 +3,7 @@ package de.c1710.filemojicompat_ui.structures
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader
 import java.io.IOException
 
-class DownloadStatus: EmojiPackDownloader.DownloadListener {
+class DownloadStatus : EmojiPackDownloader.DownloadListener {
     var bytesRead: Long = 0
         private set
     var size: Long = 0

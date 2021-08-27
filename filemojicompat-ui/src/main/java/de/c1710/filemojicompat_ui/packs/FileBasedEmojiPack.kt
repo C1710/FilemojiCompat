@@ -20,7 +20,7 @@ abstract class FileBasedEmojiPack(
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
-): DeletableEmojiPack(
+) : DeletableEmojiPack(
     id, name, description, version, website, license, descriptionLong
 ) {
     fun getFileName(): String {
@@ -29,7 +29,10 @@ abstract class FileBasedEmojiPack(
 
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
         val downloadedVersion = list.downloadedVersion(this.id)
-        Log.d("FilemojiCompat", "load: Loading %s with version %s".format(this.id, downloadedVersion.toString()))
+        Log.d(
+            "FilemojiCompat",
+            "load: Loading %s with version %s".format(this.id, downloadedVersion.toString())
+        )
 
         // Here we need the _actual_ version we have
         val fileName = getFileName(this.id, downloadedVersion)

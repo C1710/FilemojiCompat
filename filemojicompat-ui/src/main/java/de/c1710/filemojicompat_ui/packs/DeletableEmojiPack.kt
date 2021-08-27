@@ -16,8 +16,9 @@ abstract class DeletableEmojiPack(
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
-): EmojiPack(id, name, description, version, website, license, descriptionLong) {
+) : EmojiPack(id, name, description, version, website, license, descriptionLong) {
     private val listeners: ArrayList<EmojiPackDeletionListener> = ArrayList(3)
+
     // Returns the index of the emoji in the list, if it is removed from the emojiList or -1 otherwise.
     protected abstract fun deleteImpl(context: Context, list: EmojiPackList): Int
     private var deletion: Runnable? = null
@@ -42,7 +43,12 @@ abstract class DeletableEmojiPack(
         }
     }
 
-    fun scheduleDeletion(context: Context, timeToDelete: Long, handler: Handler, list: EmojiPackList) {
+    fun scheduleDeletion(
+        context: Context,
+        timeToDelete: Long,
+        handler: Handler,
+        list: EmojiPackList
+    ) {
         list.getDefaultPack(context).select(context, this)
 
         listeners.forEach {

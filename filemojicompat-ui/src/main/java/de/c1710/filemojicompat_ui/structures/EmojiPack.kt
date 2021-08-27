@@ -8,7 +8,7 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackListener
 
-abstract class EmojiPack (
+abstract class EmojiPack(
     var id: String,
     var name: String,
     var description: String,

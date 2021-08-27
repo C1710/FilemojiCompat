@@ -42,7 +42,7 @@ const val SNACKBAR_DURATION_LONG: Long = 2750
 class EmojiPackItemAdapter(
     private val dataSet: EmojiPackList,
     private val customEmojiHandler: CustomEmojiHandler
-): RecyclerView.Adapter<EmojiPackViewHolder>() {
+) : RecyclerView.Adapter<EmojiPackViewHolder>() {
     val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): EmojiPackViewHolder {
@@ -57,8 +57,7 @@ class EmojiPackItemAdapter(
 
         // These are some basic things that don't change on state transitions
         holder.icon.setImageDrawable(
-            item.getIcon(holder.icon.context) ?:
-            ResourcesCompat.getDrawable(
+            item.getIcon(holder.icon.context) ?: ResourcesCompat.getDrawable(
                 holder.icon.context.resources,
                 R.drawable.ic_custom_emojis,
                 holder.icon.context.theme
@@ -95,7 +94,10 @@ class EmojiPackItemAdapter(
             item is DeletableEmojiPack && item.isGettingDeleted() -> setDeleting(holder, item)
             item is DownloadableEmojiPack -> {
                 when {
-                    item.isDownloaded(dataSet) && item.isCurrentVersion(dataSet) -> setAvailable(holder, item)
+                    item.isDownloaded(dataSet) && item.isCurrentVersion(dataSet) -> setAvailable(
+                        holder,
+                        item
+                    )
                     item.isDownloading() -> setDownloading(holder, item)
                     else -> setDownloadable(holder, item)
                 }
@@ -107,7 +109,7 @@ class EmojiPackItemAdapter(
 
     private fun registerPackListener(holder: EmojiPackViewHolder, pack: EmojiPack) {
 
-        val listener = object: EmojiPackListener {
+        val listener = object : EmojiPackListener {
             override fun onSelected(context: Context, pack: EmojiPack) {
                 holder.selection.isChecked = true
             }
@@ -121,7 +123,7 @@ class EmojiPackItemAdapter(
         pack.addListener(listener)
 
         if (pack is DeletableEmojiPack) {
-            val deletionListener = object: EmojiPackDeletionListener {
+            val deletionListener = object : EmojiPackDeletionListener {
                 override fun onDeleted(context: Context, pack: DeletableEmojiPack, oldIndex: Int) {
                     setDeleted(holder, pack, oldIndex)
                 }
@@ -170,7 +172,8 @@ class EmojiPackItemAdapter(
 
         holder.descriptionLong.text = item.descriptionLong ?: item.description
 
-        holder.version.visibility = visible(item.version != null && !(item.version?.isZero() ?: true))
+        holder.version.visibility =
+            visible(item.version != null && !(item.version?.isZero() ?: true))
         holder.version.text = holder.version.context.getString(R.string.version).format(
             item.version?.version?.joinToString(".")
         )
@@ -204,7 +207,10 @@ class EmojiPackItemAdapter(
             if (holder.pack is DeletableEmojiPack) {
                 (holder.pack as DeletableEmojiPack).removeDeletionListener(it)
             } else {
-                Log.wtf("FilemojiCompat", "ViewHolder had deletion listener with non-deletable Emoji Pack")
+                Log.wtf(
+                    "FilemojiCompat",
+                    "ViewHolder had deletion listener with non-deletable Emoji Pack"
+                )
             }
         }
         holder.packDeletionListener = null
@@ -313,15 +319,17 @@ class EmojiPackItemAdapter(
         holder.importFile.visibility = View.GONE
         holder.delete.visibility = View.GONE
 
-        holder.download.setImageDrawable(ResourcesCompat.getDrawable(
-            holder.download.context.resources,
-            if (!item.isDownloaded(dataSet)) {
-                R.drawable.ic_download
-            } else {
-                R.drawable.ic_update
-            },
-            holder.download.context.theme
-        ))
+        holder.download.setImageDrawable(
+            ResourcesCompat.getDrawable(
+                holder.download.context.resources,
+                if (!item.isDownloaded(dataSet)) {
+                    R.drawable.ic_download
+                } else {
+                    R.drawable.ic_update
+                },
+                holder.download.context.theme
+            )
+        )
 
         holder.download.setOnClickListener {
             item.download(dataSet)
@@ -341,17 +349,18 @@ class EmojiPackItemAdapter(
 
     private fun bindToDownload(holder: EmojiPackViewHolder, item: DownloadableEmojiPack) {
         // First update the progress bar
-        holder.progress.progress = displayedProgress (
+        holder.progress.progress = displayedProgress(
             item.getDownloadStatus()?.bytesRead ?: 0,
             item.getDownloadStatus()?.size ?: 0,
             holder.progress.max
         )
 
-        val callback = object: EmojiPackDownloader.DownloadListener {
+        val callback = object : EmojiPackDownloader.DownloadListener {
             override fun onProgress(bytesRead: Long, contentLength: Long) {
                 val maxProgress = holder.progress.max
                 mainHandler.post {
-                    holder.progress.progress = displayedProgress(bytesRead, contentLength, maxProgress)
+                    holder.progress.progress =
+                        displayedProgress(bytesRead, contentLength, maxProgress)
                 }
             }
 
@@ -381,7 +390,7 @@ class EmojiPackItemAdapter(
         // Therefore either Power or Fast Power is used. We use Power:
         var progressDouble: Double = ((bytesRead * maxProgress).toDouble() / contentLength)
         progressDouble = (progressDouble + (1 - progressDouble) * 0.03) *
-                         (progressDouble + (1 - progressDouble) * 0.03)
+                (progressDouble + (1 - progressDouble) * 0.03)
         // TODO: Make this behavior optional?
         return progressDouble.toInt()
     }
@@ -396,8 +405,8 @@ class EmojiPackItemAdapter(
 
     private fun pickCustomEmoji(holder: EmojiPackViewHolder) {
         // Open the file picker, etc.
-        customEmojiHandler.pickCustomEmoji (
-            object: CustomEmojiCallback {
+        customEmojiHandler.pickCustomEmoji(
+            object : CustomEmojiCallback {
                 override fun onLoaded(customEmoji: String) {
                     mainHandler.post {
                         // Okay, we have a new emoji.
@@ -445,7 +454,8 @@ class EmojiPackItemAdapter(
             dialog.show()
 
             // Initially, we should not be able to save as the name is empty
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !inputField.text.isNullOrBlank()
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
+                !inputField.text.isNullOrBlank()
         } else {
             // Whoops, looks like the pack was already present :S
             // FIXME: How to find the correct ViewHolder to select the pack?!
@@ -458,14 +468,13 @@ class EmojiPackItemAdapter(
 
     companion object {
         @JvmStatic
-        fun <A> get(activity: A) : EmojiPackItemAdapter
-            where A: Context, A: ActivityResultRegistryOwner, A: LifecycleOwner
-        {
-            val customEmojiHandler = CustomEmojiHandler (
-                    activity.activityResultRegistry,
-                    EmojiPackList.defaultList!!,
-                    activity
-                )
+        fun <A> get(activity: A): EmojiPackItemAdapter
+                where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
+            val customEmojiHandler = CustomEmojiHandler(
+                activity.activityResultRegistry,
+                EmojiPackList.defaultList!!,
+                activity
+            )
             activity.lifecycle.addObserver(customEmojiHandler)
             return EmojiPackItemAdapter(
                 EmojiPackList.defaultList!!,

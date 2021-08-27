@@ -14,7 +14,7 @@ const val EXTERNAL_FILE = "emoji_load_external_file"
 
 class FilePickerDummyEmojiPack(
     context: Context
-): EmojiPack(
+) : EmojiPack(
     EXTERNAL_FILE,
     context.resources.getString(R.string.import_pack),
     context.resources.getString(R.string.import_pack_description),
@@ -37,10 +37,14 @@ class FilePickerDummyEmojiPack(
     }
 
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
-        Log.wtf("FilemojiCompat", "External file dummy selected as emoji pack. This should not happen")
+        Log.wtf(
+            "FilemojiCompat",
+            "External file dummy selected as emoji pack. This should not happen"
+        )
         return SystemDefaultEmojiPack.getSystemDefaultPack(context).load(context, list)
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
-    override fun getIcon(context: Context): Drawable? = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_file, context.theme)
+    override fun getIcon(context: Context): Drawable? =
+        ResourcesCompat.getDrawable(context.resources, R.drawable.ic_file, context.theme)
 }

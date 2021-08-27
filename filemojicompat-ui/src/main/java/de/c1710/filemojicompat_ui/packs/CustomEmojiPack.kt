@@ -12,7 +12,7 @@ import de.c1710.filemojicompat_ui.helpers.Version
 class CustomEmojiPack(
     context: Context,
     hash: String
-): FileBasedEmojiPack (
+) : FileBasedEmojiPack(
     hash,
     EmojiPreference.getNameForCustom(context, hash) ?: hash,
     "",
@@ -22,7 +22,8 @@ class CustomEmojiPack(
     context.resources.getString(R.string.custom_emoji_description_long)
 ) {
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
-    override fun getIcon(context: Context): Drawable? = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_custom_emojis, context.theme)
+    override fun getIcon(context: Context): Drawable? =
+        ResourcesCompat.getDrawable(context.resources, R.drawable.ic_custom_emojis, context.theme)
 
     override fun deleteImpl(context: Context, list: EmojiPackList): Int {
         super.deleteImpl(context, list)

@@ -16,13 +16,12 @@ const val SYSTEM_DEFAULT = "emoji_system_default"
 
 class SystemDefaultEmojiPack private constructor(
     context: Context
-): EmojiPack(
+) : EmojiPack(
     SYSTEM_DEFAULT,
     context.resources.getString(R.string.system_default),
     context.resources.getString(R.string.system_default_description),
     Version(IntArray(0))
 ) {
-
 
 
     companion object {
@@ -43,6 +42,10 @@ class SystemDefaultEmojiPack private constructor(
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean = true
     override fun getIcon(context: Context): Drawable? {
-        return ResourcesCompat.getDrawable(context.resources, R.drawable.ic_default_emojis, context.theme)
+        return ResourcesCompat.getDrawable(
+            context.resources,
+            R.drawable.ic_default_emojis,
+            context.theme
+        )
     }
 }

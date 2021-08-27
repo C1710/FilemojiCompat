@@ -17,7 +17,9 @@ class EmojiPackList(
     private var emojiPacks: ArrayList<EmojiPack>
 ) {
     val size: Int
-        get() { return emojiPacks.size }
+        get() {
+            return emojiPacks.size
+        }
     val emojiStorage: File = File(context.getExternalFilesDir(null), storageDirectory)
 
     // Only store the IDs of the downloaded packs
@@ -54,7 +56,8 @@ class EmojiPackList(
                     .forEach { entry ->
                         // We distinguish here between custom and downloadable packs
                         // This needs to be done as we don't have any information about the types of packs yet
-                        val customName: String? = EmojiPreference.getNameForCustom(context, entry.first)
+                        val customName: String? =
+                            EmojiPreference.getNameForCustom(context, entry.first)
                         if (customName != null) {
                             // Looks, like it is a custom pack
                             emojiPacks.add(CustomEmojiPack(context, entry.first))

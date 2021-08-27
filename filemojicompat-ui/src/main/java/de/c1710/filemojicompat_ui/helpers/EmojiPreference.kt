@@ -40,7 +40,7 @@ object EmojiPreference {
         // First, store the original setting to later determine whether it has been changed
         setInitial(context)
 
-        with (prefs.edit()) {
+        with(prefs.edit()) {
             putString(EMOJI_PREFERENCE, value)
             apply()
         }
@@ -53,7 +53,11 @@ object EmojiPreference {
             getSharedPreferences(context)
                 .getString(DEFAULT_PREFERENCE, SYSTEM_DEFAULT) ?: SYSTEM_DEFAULT
         } catch (e: java.lang.ClassCastException) {
-            Log.e("FilemojiCompat", "Default Emoji preference is not a String; using sytem default", e)
+            Log.e(
+                "FilemojiCompat",
+                "Default Emoji preference is not a String; using sytem default",
+                e
+            )
             SYSTEM_DEFAULT
         }
     }
@@ -72,7 +76,8 @@ object EmojiPreference {
 
     fun getCustomNamesPreferences(context: Context): SharedPreferences {
         if (customNamesPreferenceName == null) {
-            customNamesPreferenceName = context.packageName + "-" + SHARED_PREFERENCES + "-CustomNames"
+            customNamesPreferenceName =
+                context.packageName + "-" + SHARED_PREFERENCES + "-CustomNames"
         }
 
         return context
@@ -94,7 +99,7 @@ object EmojiPreference {
     }
 
     private fun setInitial(context: Context) {
-        if(initialSelection == null ) {
+        if (initialSelection == null) {
             initialSelection = getSelected(context)
         }
     }

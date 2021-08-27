@@ -16,7 +16,7 @@ import de.c1710.filemojicompat_ui.structures.EmojiPack
 class FontRequestEmojiPack(
     val provider: ProviderInfo,
     packageManager: PackageManager,
-): EmojiPack(
+) : EmojiPack(
     provider.packageName.replace('.', '_').replace('-', '_') + "_" + provider.name,
     provider.name,
     "TODO",
@@ -29,7 +29,8 @@ class FontRequestEmojiPack(
 
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
         // TODO: Signatures?!
-        val fontRequest = FontRequest(provider.authority, provider.packageName, DEFAULT_EMOJI_QUERY, ArrayList())
+        val fontRequest =
+            FontRequest(provider.authority, provider.packageName, DEFAULT_EMOJI_QUERY, ArrayList())
         return FontRequestEmojiCompatConfig(context, fontRequest)
     }
 
@@ -57,10 +58,12 @@ fun collectFontProviders(context: Context): List<FontRequestEmojiPack> {
         .filter { it.applicationInfo.flags.and(ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM }
 
     val packs = providers
-        .map { FontRequestEmojiPack(
-            it,
-            packageManager
-        ) }
+        .map {
+            FontRequestEmojiPack(
+                it,
+                packageManager
+            )
+        }
 
     return packs
 }

@@ -25,7 +25,7 @@ class CustomEmojiHandler(
     private val registry: ActivityResultRegistry,
     private val list: EmojiPackList,
     private val context: Context
-): DefaultLifecycleObserver {
+) : DefaultLifecycleObserver {
     private lateinit var getContent: ActivityResultLauncher<Array<String>>
     private var callback: CustomEmojiCallback? = null
 
@@ -50,22 +50,32 @@ class CustomEmojiHandler(
                 ContentResolver.SCHEME_FILE,
                 ContentResolver.SCHEME_ANDROID_RESOURCE,
                 ContentResolver.SCHEME_CONTENT
-            )) {
-                // As loading a custom emoji pack is not something that is done over and over,
-                // creating a new Thread for it is not a big problem
-                thread {
-                    Log.d("FilemojiCompat", "storeCustomEmoji: Loading emoji pack from file")
-                    val stream: InputStream? = context.contentResolver.openInputStream(source)
-                    if (stream != null) {
-                        val hash = storeAndHashPack(stream)
-                        callback?.onLoaded(hash)
-                    } else {
-                        Log.e("FilemojiCompat", "storeCustomEmoji: Empty stream for %s".format(source.toString()))
-                        callback?.onFailed(FileNotFoundException(source.toString()))
-                    }
+            )
+        ) {
+            // As loading a custom emoji pack is not something that is done over and over,
+            // creating a new Thread for it is not a big problem
+            thread {
+                Log.d("FilemojiCompat", "storeCustomEmoji: Loading emoji pack from file")
+                val stream: InputStream? = context.contentResolver.openInputStream(source)
+                if (stream != null) {
+                    val hash = storeAndHashPack(stream)
+                    callback?.onLoaded(hash)
+                } else {
+                    Log.e(
+                        "FilemojiCompat",
+                        "storeCustomEmoji: Empty stream for %s".format(source.toString())
+                    )
+                    callback?.onFailed(FileNotFoundException(source.toString()))
                 }
+            }
         } else {
-            Log.e("FilemojiCompat", "storeCustomEmoji: Unsupported scheme for %s: %s".format(source.toString(), source.scheme))
+            Log.e(
+                "FilemojiCompat",
+                "storeCustomEmoji: Unsupported scheme for %s: %s".format(
+                    source.toString(),
+                    source.scheme
+                )
+            )
         }
     }
 
@@ -99,7 +109,10 @@ class CustomEmojiHandler(
             // This is safe; both files are in the same directory, which is accessible to our app
             outputFile.renameTo(file)
         } else {
-            Log.i("FilemojiCompat", "storeAndHashPack: Emoji Pack already exists: %s".format(file.toString()))
+            Log.i(
+                "FilemojiCompat",
+                "storeAndHashPack: Emoji Pack already exists: %s".format(file.toString())
+            )
             // Delete the newly created duplicate
             outputFile.delete()
         }
