@@ -1,4 +1,4 @@
-package de.c1710.filemojicompat_ui.helpers
+package de.c1710.filemojicompat_ui.structures
 
 import android.content.Context
 import android.util.Log
