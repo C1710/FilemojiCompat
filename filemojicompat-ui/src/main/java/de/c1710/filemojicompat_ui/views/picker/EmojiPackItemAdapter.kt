@@ -166,8 +166,7 @@ class EmojiPackItemAdapter(
         holder.descriptionLong.text = item.descriptionLong ?: item.description
 
         holder.version.visibility = visible(item.version != null && !(item.version?.isZero() ?: true))
-        holder.version.text = "%s: %s".format(
-            holder.version.context.getText(R.string.version),
+        holder.version.text = holder.version.context.getString(R.string.version).format(
             item.version?.version?.joinToString(".")
         )
 

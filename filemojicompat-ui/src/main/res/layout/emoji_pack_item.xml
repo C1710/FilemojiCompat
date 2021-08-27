@@ -131,7 +131,7 @@
         android:padding="12dp"
         android:layout_marginTop="4dp"
 
-        android:contentDescription="@string/download"
+        android:contentDescription="@android:string/cancel"
         app:srcCompat="@drawable/ic_cancel"
         android:foreground="?android:selectableItemBackground"
         />
@@ -164,7 +164,7 @@
         android:padding="12dp"
         android:layout_marginTop="4dp"
 
-        android:contentDescription="@string/import_file"
+        android:contentDescription="@string/import_pack"
         app:srcCompat="@drawable/ic_open"
         android:foreground="?android:selectableItemBackground"
         />

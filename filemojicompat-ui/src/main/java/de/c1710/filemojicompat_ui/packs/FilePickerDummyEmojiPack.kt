@@ -16,7 +16,7 @@ class FilePickerDummyEmojiPack(
     context: Context
 ): EmojiPack(
     EXTERNAL_FILE,
-    context.resources.getString(R.string.external_file),
+    context.resources.getString(R.string.import_pack),
     context.resources.getString(R.string.external_file_description),
     Version(IntArray(0)),
     null,
