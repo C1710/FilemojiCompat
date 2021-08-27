@@ -1,7 +1,7 @@
 package de.c1710.filemojicompat_ui.pack_helpers
 
+import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
-import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import okhttp3.*
 import okio.*
 import java.io.File

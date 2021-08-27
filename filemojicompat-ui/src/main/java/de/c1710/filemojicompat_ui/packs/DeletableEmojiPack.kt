@@ -3,10 +3,10 @@ package de.c1710.filemojicompat_ui.packs
 import android.content.Context
 import android.net.Uri
 import android.os.Handler
+import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.Version
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
 import de.c1710.filemojicompat_ui.structures.EmojiPack
-import de.c1710.filemojicompat_ui.structures.EmojiPackList
 
 abstract class DeletableEmojiPack(
     id: String,

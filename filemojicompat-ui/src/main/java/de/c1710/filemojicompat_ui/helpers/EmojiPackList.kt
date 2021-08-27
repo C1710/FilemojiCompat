@@ -1,12 +1,12 @@
-package de.c1710.filemojicompat_ui.structures
+package de.c1710.filemojicompat_ui.helpers
 
 import android.content.Context
 import android.util.Log
-import de.c1710.filemojicompat_ui.helpers.EmojiPreference
-import de.c1710.filemojicompat_ui.helpers.Version
 import de.c1710.filemojicompat_ui.packs.CustomEmojiPack
 import de.c1710.filemojicompat_ui.packs.FilePickerDummyEmojiPack
 import de.c1710.filemojicompat_ui.packs.SystemDefaultEmojiPack
+import de.c1710.filemojicompat_ui.structures.EmojiPack
+import de.c1710.filemojicompat_ui.structures.Version
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap

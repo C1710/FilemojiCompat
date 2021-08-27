@@ -10,7 +10,6 @@ import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.packs.SystemDefaultEmojiPack
 import de.c1710.filemojicompat_ui.packs.getFileName
 import de.c1710.filemojicompat_ui.structures.EmojiPack
-import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import java.io.File
 
 class EmojiPackHelper {

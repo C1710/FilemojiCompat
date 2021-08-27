@@ -21,6 +21,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import de.c1710.filemojicompat_ui.R
+import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.interfaces.CustomEmojiCallback
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
@@ -32,7 +33,6 @@ import de.c1710.filemojicompat_ui.packs.DeletableEmojiPack
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.packs.FilePickerDummyEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
-import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import java.io.File
 import java.io.IOException
 

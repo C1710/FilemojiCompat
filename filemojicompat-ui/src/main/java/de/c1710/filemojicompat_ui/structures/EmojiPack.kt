@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.emoji2.text.EmojiCompat
+import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
-import de.c1710.filemojicompat_ui.helpers.Version
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackListener
 
 abstract class EmojiPack (

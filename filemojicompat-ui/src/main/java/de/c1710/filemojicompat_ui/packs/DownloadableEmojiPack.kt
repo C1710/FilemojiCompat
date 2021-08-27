@@ -3,10 +3,10 @@ package de.c1710.filemojicompat_ui.packs
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.Version
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.structures.DownloadStatus
-import de.c1710.filemojicompat_ui.structures.EmojiPackList
 import okhttp3.Call
 import java.io.IOException
 import java.net.URL

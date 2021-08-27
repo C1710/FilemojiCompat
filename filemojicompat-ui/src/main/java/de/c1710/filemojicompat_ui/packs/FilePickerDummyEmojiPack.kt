@@ -6,9 +6,9 @@ import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import androidx.emoji2.text.EmojiCompat
 import de.c1710.filemojicompat_ui.R
+import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.Version
 import de.c1710.filemojicompat_ui.structures.EmojiPack
-import de.c1710.filemojicompat_ui.structures.EmojiPackList
 
 const val EXTERNAL_FILE = "emoji_load_external_file"
 
