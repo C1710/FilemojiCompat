@@ -104,6 +104,14 @@ class DownloadableEmojiPack(
         downloadStatus = null
     }
 
+    override fun getFileName(): String {
+        return if (downloadedVersion != null && !downloadedVersion!!.isZero()) {
+            "%s-%s.ttf".format(id, downloadedVersion!!.version.joinToString("."))
+        } else {
+            "%s.ttf".format(id)
+        }
+    }
+
     override fun isCurrentVersion(list: EmojiPackList): Boolean {
         return downloadedVersion == version
     }

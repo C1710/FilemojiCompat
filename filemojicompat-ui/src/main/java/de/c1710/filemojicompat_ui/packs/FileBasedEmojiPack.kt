@@ -23,23 +23,18 @@ abstract class FileBasedEmojiPack(
 ) : DeletableEmojiPack(
     id, name, description, version, website, license, descriptionLong
 ) {
-    fun getFileName(): String {
-        return getFileName(this.id, this.version)
+    open fun getFileName(): String {
+        return "%s.ttf".format(id)
     }
 
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
-        val downloadedVersion = if (this is DownloadableEmojiPack) {
-            downloadedVersion
-        } else {
-            null
-        }
         Log.d(
             "FilemojiCompat",
-            "load: Loading %s with version %s".format(this.id, downloadedVersion.toString())
+            "load: Loading %s".format(this.id)
         )
 
         // Here we need the _actual_ version we have
-        val fileName = getFileName(this.id, downloadedVersion)
+        val fileName = getFileName()
         Log.d("FilemojiCompat", "Loading file based pack: File path: %s".format(fileName))
 
         val file = File(list.emojiStorage, fileName)
@@ -59,15 +54,5 @@ abstract class FileBasedEmojiPack(
         file.delete()
 
         return -1
-    }
-}
-
-private fun getFileName(packId: String, version: Version?): String {
-    return if (!(version ?: Version(IntArray(0))).isZero()) {
-        // We have already checked that the version is not zero. If it was null, the default
-        // version _would_ be zero, therefore we can safely assume that that is not the case
-        "%s-%s.ttf".format(packId, version!!.version.joinToString("."))
-    } else {
-        "%s.ttf".format(packId)
     }
 }

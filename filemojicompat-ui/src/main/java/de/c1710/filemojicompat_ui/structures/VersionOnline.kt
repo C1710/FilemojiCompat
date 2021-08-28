@@ -35,7 +35,7 @@ class VersionOnline
 
             val response = call.execute()
 
-            fromStringOrNull(
+            Version.fromStringOrNull(
                 if (!response.isSuccessful) {
                     Log.e(
                         "FilemojiCompat",
