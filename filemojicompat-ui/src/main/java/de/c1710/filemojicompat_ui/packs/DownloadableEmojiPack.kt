@@ -21,7 +21,8 @@ class DownloadableEmojiPack(
     version: Version?,
     website: Uri? = null,
     license: Uri? = null,
-    descriptionLong: String? = null
+    descriptionLong: String? = null,
+    var downloadedVersion: Version? = null
 ) : FileBasedEmojiPack(id, name, description, version, website, license, descriptionLong) {
     constructor(
         id: String,
@@ -82,7 +83,7 @@ class DownloadableEmojiPack(
             override fun onFailure(e: IOException) {}
 
             override fun onDone() {
-                version?.let { list.downloadedVersions[id] = version!! }
+                downloadedVersion = version
             }
 
         })
@@ -90,8 +91,8 @@ class DownloadableEmojiPack(
 
     fun getDownloadStatus(): DownloadStatus? = downloadStatus
 
-    fun isDownloaded(list: EmojiPackList): Boolean {
-        return list.downloadedVersions.containsKey(this.id)
+    fun isDownloaded(): Boolean {
+        return downloadedVersion != null
     }
 
     fun isDownloading(): Boolean {
@@ -104,8 +105,7 @@ class DownloadableEmojiPack(
     }
 
     override fun isCurrentVersion(list: EmojiPackList): Boolean {
-        return list.downloadedVersions[this.id] ?: Version(IntArray(0)) >=
-                this.version ?: Version(IntArray(0))
+        return downloadedVersion == version
     }
 
     override fun getIcon(context: Context): Drawable? = icon
@@ -113,9 +113,7 @@ class DownloadableEmojiPack(
     override fun deleteImpl(context: Context, list: EmojiPackList): Int {
         super.deleteImpl(context, list)
 
-        if (this.id in list.downloadedVersions) {
-            list.downloadedVersions.remove(this.id)
-        }
+        downloadedVersion = null
 
         return -1
     }

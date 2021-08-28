@@ -10,6 +10,14 @@ import de.c1710.filemojicompat_ui.structures.EmojiPack
 
 class EmojiPackHelper {
     companion object {
+        /**
+         * Initializes the helper with the [EmojiPackList.defaultList]. If it is not set, it will
+         * be created (empty).
+         *
+         * One of these [init]-functions should be called to set up [EmojiCompat] with this pack management.
+         *
+         * @param context Can be the Application Context, etc.
+         */
         @JvmStatic
         fun init(context: Context) {
             if (EmojiPackList.defaultList == null) {
@@ -22,6 +30,15 @@ class EmojiPackHelper {
             EmojiCompat.init(config)
         }
 
+        /**
+         * Initializes the helper. The [EmojiPackList.defaultList] will be created including the
+         * packs given as a parameter (plus system default and any imported packs).
+         *
+         * One of these [init]-functions should be called to set up [EmojiCompat] with this pack management.
+         *
+         * @param context Can be the Application Context, etc.
+         * @param emojiPacks A list of the emoji packs you want to add hardcoded.
+         */
         @JvmStatic
         fun init(context: Context, emojiPacks: ArrayList<EmojiPack>) {
             EmojiPackList.defaultList = EmojiPackList(context, emojiPacks = emojiPacks)
@@ -29,7 +46,10 @@ class EmojiPackHelper {
             init(context)
         }
 
-
+        /**
+         * Reloads the currently set emoji configuration
+         * @param context Can be the Application Context, etc.
+         */
         fun reset(context: Context) {
             val config = getCurrentConfig(context)
 

@@ -38,13 +38,13 @@ open class Version(var version: IntArray) : Comparable<Version> {
                 .mapToInt { subVersion: String -> subVersion.toIntOrNull() ?: 0 }
                 .toArray())
         }
-    }
-}
 
-internal fun fromStringOrNull(string: String?): Version? {
-    return if (string != null) {
-        Version.fromString(string)
-    } else {
-        null
+        internal fun fromStringOrNull(string: String?): Version? {
+            return if (string != null) {
+                fromString(string)
+            } else {
+                null
+            }
+        }
     }
 }

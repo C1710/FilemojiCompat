@@ -28,7 +28,11 @@ abstract class FileBasedEmojiPack(
     }
 
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
-        val downloadedVersion = list.downloadedVersion(this.id)
+        val downloadedVersion = if (this is DownloadableEmojiPack) {
+            downloadedVersion
+        } else {
+            null
+        }
         Log.d(
             "FilemojiCompat",
             "load: Loading %s with version %s".format(this.id, downloadedVersion.toString())

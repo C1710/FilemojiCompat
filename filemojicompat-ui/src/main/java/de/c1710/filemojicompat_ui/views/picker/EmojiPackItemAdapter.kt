@@ -94,7 +94,7 @@ class EmojiPackItemAdapter internal constructor (
             item is DeletableEmojiPack && item.isGettingDeleted() -> setDeleting(holder, item)
             item is DownloadableEmojiPack -> {
                 when {
-                    item.isDownloaded(dataSet) && item.isCurrentVersion(dataSet) -> setAvailable(
+                    item.isDownloaded() && item.isCurrentVersion(dataSet) -> setAvailable(
                         holder,
                         item
                     )
@@ -322,7 +322,7 @@ class EmojiPackItemAdapter internal constructor (
         holder.download.setImageDrawable(
             ResourcesCompat.getDrawable(
                 holder.download.context.resources,
-                if (!item.isDownloaded(dataSet)) {
+                if (!item.isDownloaded()) {
                     R.drawable.ic_download
                 } else {
                     R.drawable.ic_update
