@@ -21,7 +21,7 @@ import kotlin.concurrent.thread
 const val PICK_EMOJI = "de.c1710.filemojicompat_PICK_CUSTOM_EMOJI"
 
 // https://developer.android.com/training/basics/intents/result
-internal class CustomEmojiHandler(
+internal class EmojiImporter(
     private val registry: ActivityResultRegistry,
     private val list: EmojiPackList,
     private val context: Context

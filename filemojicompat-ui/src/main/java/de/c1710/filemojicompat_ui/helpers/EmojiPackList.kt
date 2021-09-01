@@ -21,13 +21,12 @@ class EmojiPackList(
             return emojiPacks.size
         }
 
-    internal val emojiStorage: File
+    internal val emojiStorage: File = File(context.getExternalFilesDir(null), storageDirectory)
 
     init {
-        emojiStorage = File(context.getExternalFilesDir(null), storageDirectory)
         emojiPacks.add(0, SystemDefaultEmojiPack.getSystemDefaultPack(context))
         loadStoredPacks(context)
-        // TODO: First evaluate, whether this is not a security-problem...
+        // TODO: First evaluate, whether this is a security-problem/possible with signatures...
         // emojiPacks.addAll(collectFontProviders(context))
         emojiPacks.add(FilePickerDummyEmojiPack.setAndGetFilePickerPack(context))
 
@@ -125,6 +124,11 @@ class EmojiPackList(
         return this.emojiPacks.indexOf(pack)
     }
 
+    /**
+     * Creates a Custom/imported emoji pack based on the given hash, adds it to the list and returns
+     * it.
+     * @param hash The hash for the file containing the pack
+     */
     fun addCustomPack(context: Context, hash: String): EmojiPack {
         val newEmojiPack = CustomEmojiPack(context, hash)
         emojiPacks.add(emojiPacks.size - 1, newEmojiPack)

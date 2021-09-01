@@ -27,7 +27,7 @@ import de.c1710.filemojicompat_ui.interfaces.CustomEmojiCallback
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackListener
-import de.c1710.filemojicompat_ui.pack_helpers.CustomEmojiHandler
+import de.c1710.filemojicompat_ui.pack_helpers.EmojiImporter
 import de.c1710.filemojicompat_ui.packs.CustomEmojiPack
 import de.c1710.filemojicompat_ui.packs.DeletableEmojiPack
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
@@ -41,7 +41,7 @@ internal const val SNACKBAR_DURATION_LONG: Long = 2750
 
 class EmojiPackItemAdapter internal constructor (
     private val dataSet: EmojiPackList,
-    private val customEmojiHandler: CustomEmojiHandler
+    private val emojiImporter: EmojiImporter
 ) : RecyclerView.Adapter<EmojiPackViewHolder>() {
     val mainHandler = Handler(Looper.getMainLooper())
 
@@ -418,7 +418,7 @@ class EmojiPackItemAdapter internal constructor (
 
     private fun pickCustomEmoji(holder: EmojiPackViewHolder) {
         // Open the file picker, etc.
-        customEmojiHandler.pickCustomEmoji(
+        emojiImporter.pickCustomEmoji(
             object : CustomEmojiCallback {
                 override fun onLoaded(customEmoji: String) {
                     mainHandler.post {
@@ -482,7 +482,7 @@ class EmojiPackItemAdapter internal constructor (
         @JvmStatic
         fun <A> get(activity: A): EmojiPackItemAdapter
                 where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
-            val customEmojiHandler = CustomEmojiHandler(
+            val customEmojiHandler = EmojiImporter(
                 activity.activityResultRegistry,
                 EmojiPackList.defaultList!!,
                 activity
