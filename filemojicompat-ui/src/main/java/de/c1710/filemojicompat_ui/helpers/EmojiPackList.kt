@@ -113,15 +113,15 @@ class EmojiPackList(
         return emojiPacks[position]
     }
 
-    internal operator fun get(packId: String): EmojiPack? {
+    operator fun get(packId: String): EmojiPack? {
         return this.emojiPacks.firstOrNull { pack -> pack.id == packId }
     }
 
-    internal operator fun contains(pack: EmojiPack): Boolean {
+    operator fun contains(pack: EmojiPack): Boolean {
         return pack in emojiPacks
     }
 
-    internal fun indexOf(pack: EmojiPack): Int {
+    fun indexOf(pack: EmojiPack): Int {
         return this.emojiPacks.indexOf(pack)
     }
 

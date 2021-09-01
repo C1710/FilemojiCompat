@@ -11,15 +11,19 @@ const val DEFAULT_PREFERENCE = "de.c1710.filemojicompat.DEFAULT_EMOJI_PACK"
 
 object EmojiPreference {
     private var initialSelection: String? = null
-    private var sharedPreferenceName: String? = null
+    var sharedPreferenceName: String? = null
 
     private fun getSharedPreferences(context: Context): SharedPreferences {
+        return context
+            .getSharedPreferences(getOrSetSharedPreferenceName(context), Context.MODE_PRIVATE)
+    }
+
+    private fun getOrSetSharedPreferenceName(context: Context): String {
         if (sharedPreferenceName == null) {
-            sharedPreferenceName = context.packageName + "-" + SHARED_PREFERENCES
+            sharedPreferenceName = context.packageName + "_" + SHARED_PREFERENCES
         }
 
-        return context
-            .getSharedPreferences(sharedPreferenceName!!, Context.MODE_PRIVATE)
+        return sharedPreferenceName!!
     }
 
     /**
@@ -96,7 +100,7 @@ object EmojiPreference {
     private fun getCustomNamesPreferences(context: Context): SharedPreferences {
         if (customNamesPreferenceName == null) {
             customNamesPreferenceName =
-                context.packageName + "-" + SHARED_PREFERENCES + "-CustomNames"
+                getOrSetSharedPreferenceName(context) + "_CustomNames"
         }
 
         return context
