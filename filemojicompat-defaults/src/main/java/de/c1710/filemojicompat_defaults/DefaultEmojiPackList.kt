@@ -10,6 +10,7 @@ import java.net.URL
 
 class DefaultEmojiPackList {
     companion object {
+        @JvmStatic
         fun get(context: Context): ArrayList<EmojiPack> {
             val blobmoji = DownloadableEmojiPack (
             "blobmoji",
@@ -27,7 +28,7 @@ class DefaultEmojiPackList {
             val noto = DownloadableEmojiPack (
                 "noto",
                 "Noto Emoji",
-                URL(""),
+                URL("https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/emoji-compat/font/NotoColorEmojiCompat.ttf?format=TEXT"),
                 context.resources.getString(R.string.noto_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_noto, context.theme),
                 Version(intArrayOf(13, 1)),
@@ -39,7 +40,7 @@ class DefaultEmojiPackList {
             val twemoji = DownloadableEmojiPack (
                 "twemoji",
                 "Twemoji",
-                URL(""),
+                URL("https://github.com/C1710/twemoji/raw/master/fonts/TwemojiCompat.ttf"),
                 context.resources.getString(R.string.twemoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_twemoji, context.theme),
                 Version(intArrayOf(13, 1)),
@@ -51,7 +52,7 @@ class DefaultEmojiPackList {
             val openmoji = DownloadableEmojiPack (
                 "openmoji",
                 "OpenMoji",
-                URL(""),
+                URL("https://github.com/C1710/openmoji/raw/master/fonts/OpenMojiCompat.ttf"),
                 context.resources.getString(R.string.openmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_openmoji, context.theme),
                 Version(intArrayOf(13, 1)),
