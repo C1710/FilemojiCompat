@@ -177,9 +177,9 @@ class EmojiPackItemAdapter internal constructor (
 
         holder.descriptionLong.text = item.descriptionLong ?: item.description
 
-        holder.version.isVisible = item.version != null && !(item.version?.isZero() ?: true)
+        holder.version.isVisible = item.getVersion() != null && !(item.getVersion()?.isZero() ?: true)
         holder.version.text = holder.version.context.getString(R.string.version).format(
-            item.version?.version?.joinToString(".")
+            item.getVersion()?.toString()
         )
 
         holder.website.isVisible = item.website != null

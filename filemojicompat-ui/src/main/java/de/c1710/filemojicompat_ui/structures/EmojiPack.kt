@@ -34,14 +34,11 @@ abstract class EmojiPack(
     var id: String,
     var name: String,
     var description: String,
-    version: VersionProvider?,
+    private val version: VersionProvider?,
     var website: Uri? = null,
     var license: Uri? = null,
     var descriptionLong: String? = null
 ) {
-    private val versionProvider = version
-    val version: Version?
-        get() = versionProvider?.getVersion()
 
     private val selectionListeners: ArrayList<EmojiPackSelectionListener> = ArrayList(3)
 
@@ -79,6 +76,13 @@ abstract class EmojiPack(
      */
     abstract fun getIcon(context: Context): Drawable?
 
+    /**
+     * Returns the current version of this pack. Should be called as late as possible.
+     */
+    fun getVersion(): Version? {
+        return version?.getVersion()
+    }
+
     fun addSelectionListener(selectionListener: EmojiPackSelectionListener) {
         selectionListeners.add(selectionListener)
     }
@@ -86,6 +90,8 @@ abstract class EmojiPack(
     fun removeSelectionListener(selectionListener: EmojiPackSelectionListener) {
         selectionListeners.remove(selectionListener)
     }
+
+    override fun toString(): String = this.id
 
     companion object {
         /**

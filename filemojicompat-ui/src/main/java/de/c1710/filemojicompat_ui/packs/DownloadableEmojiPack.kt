@@ -3,6 +3,7 @@ package de.c1710.filemojicompat_ui.packs
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader
@@ -149,7 +150,7 @@ class DownloadableEmojiPack(
             }
 
             override fun onDone() {
-                downloadedVersion = version?.getVersion()
+                downloadedVersion = getVersion()
             }
 
         })
@@ -184,11 +185,11 @@ class DownloadableEmojiPack(
         val versionForFileName = if (forDownloadedVersion) {
             downloadedVersion
         } else {
-            version?.getVersion()
+            getVersion()
         }
 
         return if (versionForFileName != null && !versionForFileName.isZero()) {
-            "%s-%s.ttf".format(id, versionForFileName.version.joinToString("."))
+            "%s-%s.ttf".format(id, versionForFileName.toString())
         } else {
             "%s.ttf".format(id)
         }
@@ -198,7 +199,8 @@ class DownloadableEmojiPack(
      * Returns whether the version currently downloaded is the current one.
      */
     fun isCurrentVersion(): Boolean {
-        return downloadedVersion == version
+        Log.d("FilemojiCompat", "isCurrentVersion: %s, %s".format( downloadedVersion, getVersion()))
+        return (downloadedVersion ?: Version(IntArray(0))) >= (getVersion() ?: Version(IntArray(0)))
     }
 
     override fun getIcon(context: Context): Drawable? = icon

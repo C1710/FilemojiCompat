@@ -5,7 +5,7 @@ import java.lang.Integer.max
 /**
  * A simple structure for (comparable) versions
  */
-class Version(var version: IntArray) : Comparable<Version>, VersionProvider {
+class Version(private var version: IntArray) : Comparable<Version>, VersionProvider {
 
     override fun compareTo(other: Version): Int {
         // We need to pad the arrays to the longest size

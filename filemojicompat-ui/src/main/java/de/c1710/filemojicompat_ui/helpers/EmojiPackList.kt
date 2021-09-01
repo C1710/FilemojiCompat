@@ -64,6 +64,7 @@ class EmojiPackList(
                             if(existingEntry != null) {
                                 // it is a downloadable pack
                                 if (existingEntry is DownloadableEmojiPack) {
+                                    Log.d("FilemojiCompat", "Updating downloaded version for %s: %s".format(existingEntry, entry.second))
                                     existingEntry.downloadedVersion = entry.second
                                 } else {
                                     Log.w(
