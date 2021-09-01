@@ -7,7 +7,7 @@ import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.packs.FilePickerDummyEmojiPack
 import de.c1710.filemojicompat_ui.packs.SystemDefaultEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
-import de.c1710.filemojicompat_ui.structures.Version
+import de.c1710.filemojicompat_ui.versions.Version
 import java.io.File
 import java.util.*
 

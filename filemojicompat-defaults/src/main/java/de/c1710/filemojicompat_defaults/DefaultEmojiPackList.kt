@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.core.content.res.ResourcesCompat
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
-import de.c1710.filemojicompat_ui.structures.Version
+import de.c1710.filemojicompat_ui.versions.Version
 import java.net.URL
 
 class DefaultEmojiPackList {

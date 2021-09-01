@@ -9,7 +9,8 @@ import de.c1710.filemojicompat.FileMetadataRepoLoader
 import de.c1710.filemojicompat.ReplaceStrategy
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.structures.EmojiPack
-import de.c1710.filemojicompat_ui.structures.Version
+import de.c1710.filemojicompat_ui.versions.Version
+import de.c1710.filemojicompat_ui.versions.VersionProvider
 import java.io.File
 
 /**
@@ -22,7 +23,7 @@ class AssetEmojiPack(
     name: String,
     description: String,
     private val icon: Drawable?,
-    version: Version? = Version(IntArray(0)),
+    version: VersionProvider? = Version(IntArray(0)),
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null

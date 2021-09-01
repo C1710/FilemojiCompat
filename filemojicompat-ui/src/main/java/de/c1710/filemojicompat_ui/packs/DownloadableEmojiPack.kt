@@ -7,7 +7,8 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader
 import de.c1710.filemojicompat_ui.structures.DownloadStatus
-import de.c1710.filemojicompat_ui.structures.Version
+import de.c1710.filemojicompat_ui.versions.Version
+import de.c1710.filemojicompat_ui.versions.VersionProvider
 import okhttp3.Call
 import java.io.File
 import java.io.IOException
@@ -39,7 +40,7 @@ class DownloadableEmojiPack(
     internal val source: URL,
     description: String,
     private val icon: Drawable?,
-    version: Version?,
+    version: VersionProvider?,
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null
@@ -148,7 +149,7 @@ class DownloadableEmojiPack(
             }
 
             override fun onDone() {
-                downloadedVersion = version
+                downloadedVersion = version?.getVersion()
             }
 
         })
@@ -183,7 +184,7 @@ class DownloadableEmojiPack(
         val versionForFileName = if (forDownloadedVersion) {
             downloadedVersion
         } else {
-            version
+            version?.getVersion()
         }
 
         return if (versionForFileName != null && !versionForFileName.isZero()) {

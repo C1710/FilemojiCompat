@@ -8,6 +8,8 @@ import androidx.emoji2.text.EmojiCompat
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackSelectionListener
+import de.c1710.filemojicompat_ui.versions.Version
+import de.c1710.filemojicompat_ui.versions.VersionProvider
 
 /**
  * A data structure representing an emoji pack.
@@ -17,8 +19,11 @@ import de.c1710.filemojicompat_ui.interfaces.EmojiPackSelectionListener
  *           or get translated, etc.
  * @param name The user-facing name of the pack. May be translated or changed
  * @param description The (short) user-facing description that is visible in the normal emoji picker
- * @param version The current version of the pack. It needs to be changed to a larger value, when the
- *                font should be updated. May be retrieved from the web, see [de.c1710.filemojicompat_ui.structures.VersionOnline.versionOnline]
+ * @param version The current version of the pack.
+ *                It needs to be changed to a larger value, when the font should be updated.
+ *                May be retrieved from the web, see [de.c1710.filemojicompat_ui.structures.VersionOnline.versionOnline],
+ *                therefore an interface, [VersionProvider] is used. [Version] already implements this
+ *                interface, therefore it can be directly used as an argument.
  * @param website The URL of the website/repository for the emoji pack
  * @param license The URL of the license for the emoji pack
  *                (This might be auto-downloaded in the future, so it should point to a rather small/plaintext file, if possible)
@@ -29,12 +34,15 @@ abstract class EmojiPack(
     var id: String,
     var name: String,
     var description: String,
-    // TODO: The version should also accept a Future such that we don't need an online version immediately
-    var version: Version?,
+    version: VersionProvider?,
     var website: Uri? = null,
     var license: Uri? = null,
     var descriptionLong: String? = null
 ) {
+    private val versionProvider = version
+    val version: Version?
+        get() = versionProvider?.getVersion()
+
     private val selectionListeners: ArrayList<EmojiPackSelectionListener> = ArrayList(3)
 
     /**

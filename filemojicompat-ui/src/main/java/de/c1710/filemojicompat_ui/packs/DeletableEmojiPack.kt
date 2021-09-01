@@ -6,7 +6,7 @@ import android.os.Handler
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
 import de.c1710.filemojicompat_ui.structures.EmojiPack
-import de.c1710.filemojicompat_ui.structures.Version
+import de.c1710.filemojicompat_ui.versions.VersionProvider
 
 /**
  * An emoji pack that can be deleted (somehow)
@@ -15,7 +15,7 @@ abstract class DeletableEmojiPack(
     id: String,
     name: String,
     description: String,
-    version: Version?,
+    version: VersionProvider?,
     website: Uri? = null,
     license: Uri? = null,
     descriptionLong: String? = null

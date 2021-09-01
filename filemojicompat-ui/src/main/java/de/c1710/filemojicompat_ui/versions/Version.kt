@@ -1,11 +1,11 @@
-package de.c1710.filemojicompat_ui.structures
+package de.c1710.filemojicompat_ui.versions
 
 import java.lang.Integer.max
 
 /**
  * A simple structure for (comparable) versions
  */
-class Version(var version: IntArray) : Comparable<Version> {
+class Version(var version: IntArray) : Comparable<Version>, VersionProvider {
 
     override fun compareTo(other: Version): Int {
         // We need to pad the arrays to the longest size
@@ -29,6 +29,10 @@ class Version(var version: IntArray) : Comparable<Version> {
 
     fun isZero(): Boolean {
         return version.all { subVersion -> subVersion == 0 }
+    }
+
+    override fun getVersion(): Version {
+        return this
     }
 
     override fun toString(): String {

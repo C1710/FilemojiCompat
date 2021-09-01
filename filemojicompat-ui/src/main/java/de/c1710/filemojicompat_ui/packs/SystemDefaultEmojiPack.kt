@@ -10,7 +10,7 @@ import de.c1710.filemojicompat.NoEmojiCompatConfig
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.structures.EmojiPack
-import de.c1710.filemojicompat_ui.structures.Version
+import de.c1710.filemojicompat_ui.versions.Version
 
 const val SYSTEM_DEFAULT = "emoji_system_default"
 

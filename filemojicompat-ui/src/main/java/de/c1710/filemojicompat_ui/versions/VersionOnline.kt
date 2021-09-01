@@ -1,4 +1,4 @@
-package de.c1710.filemojicompat_ui.structures
+package de.c1710.filemojicompat_ui.versions
 
 import android.content.Context
 import android.util.Log
@@ -27,8 +27,8 @@ class VersionOnline
     regex: Regex = Regex("<version>\\s*(\\d+(\\.\\d+)*)\\s*</version>"),
     // Because Android Java/Kotlin, we cannot get groups by their name...
     regexGroupId: Int = 1
-) {
-    val versionOnline: Future<Version>
+): VersionProvider {
+    private val versionOnline: Future<Version>
 
     init {
         val client = getOrSetClient(context)
@@ -80,5 +80,9 @@ class VersionOnline
 
             return client!!
         }
+    }
+
+    override fun getVersion(): Version {
+        return versionOnline.get()
     }
 }
