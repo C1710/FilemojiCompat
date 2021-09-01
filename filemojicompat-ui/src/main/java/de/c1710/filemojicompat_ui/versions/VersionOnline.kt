@@ -43,7 +43,10 @@ class VersionOnline
             val response = call.execute()
 
             Version.fromStringOrNull(
-                if (!response.isSuccessful) {
+                if (response.isSuccessful) {
+                    val groups = regex.find(response.body?.string() ?: "")?.groups
+                    groups?.get(regexGroupId)?.value
+                } else {
                     Log.e(
                         "FilemojiCompat",
                         "getVersionOnline: Could not get version from %s: %s".format(
@@ -52,9 +55,6 @@ class VersionOnline
                         )
                     )
                     null
-                } else {
-                    val groups = regex.find(response.body?.string() ?: "")?.groups
-                    groups?.get(regexGroupId)?.value
                 }
             )
         }
