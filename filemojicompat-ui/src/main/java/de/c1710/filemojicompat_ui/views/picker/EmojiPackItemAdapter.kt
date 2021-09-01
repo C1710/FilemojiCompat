@@ -163,12 +163,12 @@ class EmojiPackItemAdapter internal constructor (
         expand: Boolean
     ) {
         // TODO: Animate
-        holder.description.visibility = visible(!expand)
-        holder.expandedItem.visibility = visible(expand)
+        holder.description.isVisible = !expand
+        holder.expandedItem.isVisible = expand
     }
 
     private fun bindExpandedItem(holder: EmojiPackViewHolder, item: EmojiPack) {
-        holder.expandedItem.visibility = View.GONE
+        holder.expandedItem.isVisible = false
 
         holder.descriptionLong.text = item.descriptionLong ?: item.description
 
@@ -178,7 +178,7 @@ class EmojiPackItemAdapter internal constructor (
             item.version?.version?.joinToString(".")
         )
 
-        holder.website.visibility = visible(item.website != null)
+        holder.website.isVisible = item.website != null
         holder.website.setOnClickListener {
             if (item.website != null) {
                 // https://stackoverflow.com/a/3004542/5070653
@@ -188,7 +188,7 @@ class EmojiPackItemAdapter internal constructor (
             }
         }
 
-        holder.license.visibility = visible(item.license != null)
+        holder.license.isVisible = item.license != null
         holder.license.setOnClickListener {
             if (item.license != null) {
                 // https://stackoverflow.com/a/3004542/5070653
@@ -220,15 +220,15 @@ class EmojiPackItemAdapter internal constructor (
     // STATE TRANSITIONS
 
     private fun setAvailable(holder: EmojiPackViewHolder, item: EmojiPack) {
-        holder.itemView.visibility = View.VISIBLE
-        holder.item.visibility = View.VISIBLE
-        holder.selection.visibility = View.VISIBLE
-        holder.progress.visibility = View.GONE
-        holder.cancel.visibility = View.GONE
-        holder.download.visibility = View.GONE
-        holder.importFile.visibility = View.GONE
-        holder.delete.visibility = visible(item is DeletableEmojiPack)
-        holder.description.visibility = visible(!holder.descriptionLong.isVisible)
+        holder.itemView.isVisible = true
+        holder.item.isVisible = true
+        holder.selection.isVisible = true
+        holder.progress.isVisible = false
+        holder.cancel.isVisible = false
+        holder.download.isVisible = false
+        holder.importFile.isVisible = false
+        holder.delete.isVisible = item is DeletableEmojiPack
+        holder.description.isVisible = !holder.expandedItem.isVisible
 
         holder.selection.isEnabled = true
         holder.selection.isChecked = item == EmojiPack.selectedPack
@@ -253,9 +253,9 @@ class EmojiPackItemAdapter internal constructor (
 
     private fun setDeleting(holder: EmojiPackViewHolder, item: DeletableEmojiPack) {
         // FIXME: Looks weird for custom emoji pack
-        holder.itemView.visibility = visible(item !is CustomEmojiPack)
+        holder.itemView.isVisible = item !is CustomEmojiPack
         holder.selection.isEnabled = false
-        holder.delete.visibility = View.GONE
+        holder.delete.isVisible = false
     }
 
     private fun setDeleted(holder: EmojiPackViewHolder, item: DeletableEmojiPack, index: Int) {
@@ -280,12 +280,12 @@ class EmojiPackItemAdapter internal constructor (
     }
 
     private fun setFilePicker(holder: EmojiPackViewHolder) {
-        holder.selection.visibility = View.GONE
-        holder.progress.visibility = View.GONE
-        holder.cancel.visibility = View.GONE
-        holder.download.visibility = View.GONE
-        holder.importFile.visibility = View.VISIBLE
-        holder.delete.visibility = View.GONE
+        holder.selection.isVisible = false
+        holder.progress.isVisible = false
+        holder.cancel.isVisible = false
+        holder.download.isVisible = false
+        holder.importFile.isVisible = true
+        holder.delete.isVisible = false
 
         holder.importFile.setOnClickListener {
             pickCustomEmoji(holder)
@@ -293,13 +293,13 @@ class EmojiPackItemAdapter internal constructor (
     }
 
     private fun setDownloading(holder: EmojiPackViewHolder, item: DownloadableEmojiPack) {
-        holder.item.visibility = View.VISIBLE
-        holder.selection.visibility = View.GONE
-        holder.progress.visibility = View.VISIBLE
-        holder.cancel.visibility = View.VISIBLE
-        holder.download.visibility = View.GONE
-        holder.description.visibility = View.GONE
-        holder.importFile.visibility = View.GONE
+        holder.item.isVisible = true
+        holder.selection.isVisible = false
+        holder.progress.isVisible = true
+        holder.cancel.isVisible = true
+        holder.download.isVisible = false
+        holder.description.isVisible = false
+        holder.importFile.isVisible = false
 
         // We are now interested in the progress
         bindToDownload(holder, item)
@@ -311,13 +311,13 @@ class EmojiPackItemAdapter internal constructor (
     }
 
     private fun setDownloadable(holder: EmojiPackViewHolder, item: DownloadableEmojiPack) {
-        holder.item.visibility = View.VISIBLE
-        holder.selection.visibility = View.GONE
-        holder.progress.visibility = View.GONE
-        holder.cancel.visibility = View.GONE
-        holder.download.visibility = View.VISIBLE
-        holder.importFile.visibility = View.GONE
-        holder.delete.visibility = View.GONE
+        holder.item.isVisible = true
+        holder.selection.isVisible = false
+        holder.progress.isVisible = false
+        holder.cancel.isVisible = false
+        holder.download.isVisible = true
+        holder.importFile.isVisible = false
+        holder.delete.isVisible = false
 
         holder.download.setImageDrawable(
             ResourcesCompat.getDrawable(

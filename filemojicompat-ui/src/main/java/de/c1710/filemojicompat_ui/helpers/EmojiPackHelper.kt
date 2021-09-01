@@ -4,9 +4,11 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.emoji2.text.EmojiCompat
+import de.c1710.filemojicompat.NoEmojiCompatConfig
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.packs.SystemDefaultEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
+import java.io.IOException
 
 class EmojiPackHelper {
     companion object {
@@ -25,9 +27,16 @@ class EmojiPackHelper {
                 Log.w("FilemojiCompat", "init: No Emoji Pack list created. Using empty one")
             }
 
-            val config: EmojiCompat.Config = getCurrentConfig(context);
+            val config: EmojiCompat.Config = getCurrentConfig(context)
 
-            EmojiCompat.init(config)
+            try {
+                EmojiCompat.init(config)
+            } catch (e: IOException) {
+                Toast.makeText(context, R.string.loading_failed, Toast.LENGTH_SHORT).show()
+                Log.e("FilemojiCompat", "init: Could not load emoji pack %s".format(EmojiPreference.getSelected(context)), e)
+
+                EmojiCompat.init(NoEmojiCompatConfig(context))
+            }
         }
 
         /**
@@ -47,7 +56,8 @@ class EmojiPackHelper {
         }
 
         /**
-         * Reloads the currently set emoji configuration
+         * Reloads the currently set emoji configuration.
+         * Note: This assumes that [EmojiPackList.defaultList] has already been created!
          * @param context Can be the Application Context, etc.
          */
         fun reset(context: Context) {

@@ -27,7 +27,7 @@ class AssetEmojiPack(
 ) {
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
         // By using an empty file name, we force FileEmojiCompat to load the asset/fallback
-        return FileEmojiCompatConfig.init(context, File(""), assetPath)
+        return FileEmojiCompatConfig.init(context, File(""), assetPath, true)
             .setReplaceAll(ReplaceStrategy.ALWAYS)
     }
 

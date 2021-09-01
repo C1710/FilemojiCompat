@@ -105,8 +105,18 @@ class DownloadableEmojiPack(
     }
 
     override fun getFileName(): String {
-        return if (downloadedVersion != null && !downloadedVersion!!.isZero()) {
-            "%s-%s.ttf".format(id, downloadedVersion!!.version.joinToString("."))
+        return getFileName(true)
+    }
+
+    fun getFileName(forDownloadedVersion: Boolean = true): String {
+        val versionForFileName = if (forDownloadedVersion) {
+            downloadedVersion
+        } else {
+            version
+        }
+
+        return if (versionForFileName != null && !versionForFileName.isZero()) {
+            "%s-%s.ttf".format(id, versionForFileName.version.joinToString("."))
         } else {
             "%s.ttf".format(id)
         }

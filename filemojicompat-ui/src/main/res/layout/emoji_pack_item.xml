@@ -24,7 +24,7 @@
 
         android:clickable="false"
         android:focusable="false"
-    />
+        android:contentDescription="@string/emoji_icon_content_description" />
 
     <TextView
         android:id="@+id/emoji_pack_name"
