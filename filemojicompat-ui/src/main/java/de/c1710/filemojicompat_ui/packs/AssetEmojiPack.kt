@@ -12,6 +12,11 @@ import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.Version
 import java.io.File
 
+/**
+ * An emoji pack that is present as a ttf in the src/main/assets directory of the module.
+ * The id will be "Asset-EmojiPack-pack.ttf" (with "pack.ttf" being the assetPath, with '/' replaced by '_')
+ * For the parameters, cf. [EmojiPack]
+ */
 class AssetEmojiPack(
     private val assetPath: String = FileMetadataRepoLoader.DEFAULT_FALLBACK,
     name: String,
@@ -22,7 +27,7 @@ class AssetEmojiPack(
     license: Uri? = null,
     descriptionLong: String? = null
 ) : EmojiPack(
-    "Asset-EmojiPack-%s".format(assetPath),
+    "Asset-EmojiPack-%s".format(assetPath.replace('/', '_')),
     name, description, version, website, license, descriptionLong
 ) {
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
@@ -31,6 +36,5 @@ class AssetEmojiPack(
             .setReplaceAll(ReplaceStrategy.ALWAYS)
     }
 
-    override fun isCurrentVersion(list: EmojiPackList): Boolean = true
     override fun getIcon(context: Context): Drawable? = this.icon
 }

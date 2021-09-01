@@ -9,6 +9,10 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.structures.Version
 
+/**
+ * Represents a custom emoji pack, that has been imported through a file picker.
+ * Usually, you don't create an object of this class manually.
+ */
 class CustomEmojiPack(
     context: Context,
     hash: String
@@ -21,10 +25,10 @@ class CustomEmojiPack(
     null as Uri?,
     context.resources.getString(R.string.custom_emoji_description_long)
 ) {
-    override fun isCurrentVersion(list: EmojiPackList): Boolean = true
     override fun getIcon(context: Context): Drawable? =
         ResourcesCompat.getDrawable(context.resources, R.drawable.ic_custom_emojis, context.theme)
 
+    // Completely remove the pack from the pack list
     override fun deleteImpl(context: Context, list: EmojiPackList): Int {
         super.deleteImpl(context, list)
 

@@ -8,6 +8,9 @@ import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.Version
 
+/**
+ * An emoji pack that can be deleted (somehow)
+ */
 abstract class DeletableEmojiPack(
     id: String,
     name: String,
@@ -19,9 +22,13 @@ abstract class DeletableEmojiPack(
 ) : EmojiPack(id, name, description, version, website, license, descriptionLong) {
     private val listeners: ArrayList<EmojiPackDeletionListener> = ArrayList(3)
 
-    // Returns the index of the emoji in the list, if it is removed from the emojiList or -1 otherwise.
+    /**
+     * Returns the index of the emoji in the list, if it is removed from the list or -1 otherwise.
+     */
     protected abstract fun deleteImpl(context: Context, list: EmojiPackList): Int
+    // The pending deletion
     private var deletion: Runnable? = null
+    // ...and the handler it's been posted to
     private var deletionHandler: Handler? = null
 
     // MUST call select for a new one before
@@ -34,6 +41,9 @@ abstract class DeletableEmojiPack(
         }
     }
 
+    /**
+     * Prevents the actual deletion from happening
+     */
     fun cancelDeletion(context: Context) {
         this.deletion?.let { callback ->
             this.deletionHandler!!.removeCallbacks(callback)
@@ -43,6 +53,12 @@ abstract class DeletableEmojiPack(
         }
     }
 
+    /**
+     * Plans a deletion for some time in the future (until then, it can still be cancelled)
+     * @param timeToDelete The time in ms to wait with the deletion
+     * @param handler The Handler to run the deletion on
+     * @param list The list to (depending on the actual type of pack) remove the pack from later on
+     */
     fun scheduleDeletion(
         context: Context,
         timeToDelete: Long,

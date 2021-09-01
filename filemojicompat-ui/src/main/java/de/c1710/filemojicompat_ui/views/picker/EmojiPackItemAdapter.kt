@@ -23,11 +23,11 @@ import com.google.android.material.snackbar.Snackbar
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
-import de.c1710.filemojicompat_ui.interfaces.CustomEmojiCallback
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
-import de.c1710.filemojicompat_ui.interfaces.EmojiPackListener
-import de.c1710.filemojicompat_ui.pack_helpers.EmojiImporter
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackImportListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackSelectionListener
+import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
 import de.c1710.filemojicompat_ui.packs.CustomEmojiPack
 import de.c1710.filemojicompat_ui.packs.DeletableEmojiPack
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
@@ -39,9 +39,14 @@ import java.io.IOException
 // From SnackbarManager#LONG_DURATION_MS
 internal const val SNACKBAR_DURATION_LONG: Long = 2750
 
+/**
+ * A [RecyclerView]-adapter that handles a list of [EmojiPack]s.
+ * It can be used in any RecyclerView, layout changes can be made by overriding [R.layout.emoji_pack_item]
+ * with items with all the appropriate ids.
+ */
 class EmojiPackItemAdapter internal constructor (
     private val dataSet: EmojiPackList,
-    private val emojiImporter: EmojiImporter
+    private val emojiPackImporter: EmojiPackImporter
 ) : RecyclerView.Adapter<EmojiPackViewHolder>() {
     val mainHandler = Handler(Looper.getMainLooper())
 
@@ -94,7 +99,7 @@ class EmojiPackItemAdapter internal constructor (
             item is DeletableEmojiPack && item.isGettingDeleted() -> setDeleting(holder, item)
             item is DownloadableEmojiPack -> {
                 when {
-                    item.isDownloaded() && item.isCurrentVersion(dataSet) -> setAvailable(
+                    item.isDownloaded() && item.isCurrentVersion() -> setAvailable(
                         holder,
                         item
                     )
@@ -109,18 +114,18 @@ class EmojiPackItemAdapter internal constructor (
 
     private fun registerPackListener(holder: EmojiPackViewHolder, pack: EmojiPack) {
 
-        val listener = object : EmojiPackListener {
+        val listener = object : EmojiPackSelectionListener {
             override fun onSelected(context: Context, pack: EmojiPack) {
                 holder.selection.isChecked = true
             }
 
-            override fun onUnSelected(context: Context, pack: EmojiPack) {
+            override fun onDeSelected(context: Context, pack: EmojiPack) {
                 holder.selection.isChecked = false
             }
         }
 
-        holder.packListener = listener
-        pack.addListener(listener)
+        holder.packSelectionListener = listener
+        pack.addSelectionListener(listener)
 
         if (pack is DeletableEmojiPack) {
             val deletionListener = object : EmojiPackDeletionListener {
@@ -200,8 +205,8 @@ class EmojiPackItemAdapter internal constructor (
 
     override fun onViewRecycled(holder: EmojiPackViewHolder) {
         unbindDownload(holder)
-        holder.packListener?.let { holder.pack?.removeListener(it) }
-        holder.packListener = null
+        holder.packSelectionListener?.let { holder.pack?.removeSelectionListener(it) }
+        holder.packSelectionListener = null
         holder.packDeletionListener?.let {
             if (holder.pack is DeletableEmojiPack) {
                 (holder.pack as DeletableEmojiPack).removeDeletionListener(it)
@@ -303,6 +308,7 @@ class EmojiPackItemAdapter internal constructor (
         holder.download.isVisible = false
         holder.description.isVisible = false
         holder.importFile.isVisible = false
+        // If an outdated version is available, it should be selectable through the selectCurrent button
         holder.selectCurrent.isVisible = item.isDownloaded()
 
         // We are now interested in the progress
@@ -310,7 +316,6 @@ class EmojiPackItemAdapter internal constructor (
 
         holder.cancel.setOnClickListener {
             item.cancelDownload()
-            setDownloadable(holder, item)
         }
 
         holder.selectCurrent.setOnClickListener {
@@ -341,7 +346,7 @@ class EmojiPackItemAdapter internal constructor (
         )
 
         holder.download.setOnClickListener {
-            item.download(dataSet)
+            item.download(dataSet.emojiStorage)
             setDownloading(holder, item)
         }
 
@@ -380,6 +385,16 @@ class EmojiPackItemAdapter internal constructor (
             override fun onFailure(e: IOException) {
                 Log.e("FilemojiCompat", "Download of Emoji Pack failed", e)
                 unbindDownload(holder)
+                mainHandler.post {
+                    setDownloadable(holder, item)
+                }
+            }
+
+            override fun onCancelled() {
+                unbindDownload(holder)
+                mainHandler.post {
+                    setDownloadable(holder, item)
+                }
             }
 
             override fun onDone() {
@@ -418,8 +433,8 @@ class EmojiPackItemAdapter internal constructor (
 
     private fun pickCustomEmoji(holder: EmojiPackViewHolder) {
         // Open the file picker, etc.
-        emojiImporter.pickCustomEmoji(
-            object : CustomEmojiCallback {
+        emojiPackImporter.pickCustomEmoji(
+            object : EmojiPackImportListener {
                 override fun onLoaded(customEmoji: String) {
                     mainHandler.post {
                         // Okay, we have a new emoji.
@@ -479,10 +494,16 @@ class EmojiPackItemAdapter internal constructor (
     override fun getItemCount(): Int = dataSet.size
 
     companion object {
+        /**
+         * Creates an [EmojiPackItemAdapter] for the [EmojiPackList.defaultList] and the [androidx.activity.result.ActivityResultRegistry]
+         * of the given Activity (which is, most likely an [androidx.activity.ComponentActivity]).
+         *
+         * It can than be used as the [RecyclerView.Adapter] for a [RecyclerView] to implement an Emoji Picker.
+         */
         @JvmStatic
         fun <A> get(activity: A): EmojiPackItemAdapter
                 where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
-            val customEmojiHandler = EmojiImporter(
+            val customEmojiHandler = EmojiPackImporter(
                 activity.activityResultRegistry,
                 EmojiPackList.defaultList!!,
                 activity

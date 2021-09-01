@@ -22,6 +22,9 @@ object EmojiPreference {
             .getSharedPreferences(sharedPreferenceName!!, Context.MODE_PRIVATE)
     }
 
+    /**
+     * Returns the id/hash of the currently selected emoji pack
+     */
     fun getSelected(context: Context): String {
         return try {
             getSharedPreferences(context)
@@ -32,7 +35,9 @@ object EmojiPreference {
         }
     }
 
-
+    /**
+     * Stores the id/hash of the currently/newly selected emoji pack
+     */
     fun setSelected(context: Context, value: String) {
         Log.d("FilemojiCompat", "Switching selected emoji pack to: %s".format(value))
         val prefs = getSharedPreferences(context)
@@ -48,6 +53,11 @@ object EmojiPreference {
         EmojiPackHelper.reset(context)
     }
 
+    /**
+     * Returns the name of the default pack for this application.
+     * Note: Usually, this is [SYSTEM_DEFAULT], but it may be overridden, if the application e.g.
+     * comes with an Asset-based default pack.
+     */
     fun getDefault(context: Context): String {
         return try {
             getSharedPreferences(context)
@@ -62,6 +72,12 @@ object EmojiPreference {
         }
     }
 
+    /**
+     * Sets the id/hash of the default emoji pack for this application.
+     * Note: You should <i>never</i> use a [de.c1710.filemojicompat_ui.packs.FileBasedEmojiPack] here, because it may be deleted by
+     * the user. If you want to update their choice, use [setSelected] instead.
+     * Usually you would use a [de.c1710.filemojicompat_ui.packs.AssetEmojiPack] here.
+     */
     fun setDefault(context: Context, value: String) {
         val prefs = getSharedPreferences(context)
 
@@ -72,6 +88,9 @@ object EmojiPreference {
     }
 
 
+    /**
+     * The preference name/key for the custom names preference
+     */
     private var customNamesPreferenceName: String? = null
 
     private fun getCustomNamesPreferences(context: Context): SharedPreferences {
@@ -84,11 +103,20 @@ object EmojiPreference {
             .getSharedPreferences(customNamesPreferenceName!!, Context.MODE_PRIVATE)
     }
 
+    /**
+     * Returns the name assigned for a certain custom/imported emoji pack.
+     * Note: You should only use this for display, internally, you should use the [de.c1710.filemojicompat_ui.structures.EmojiPack.id]/hash of the pack.
+     * @param hash The file hash of the pack
+     * @return A user-assigned name of the pack (or null if it doesn't exist)
+     */
     fun getNameForCustom(context: Context, hash: String): String? {
         return getCustomNamesPreferences(context)
             .getString(hash, null)
     }
 
+    /**
+     * Sets the user-visible name for a custom emoji pack.
+     */
     fun setNameForCustom(context: Context, name: String, hash: String) {
         val prefs = getCustomNamesPreferences(context)
 
@@ -104,6 +132,9 @@ object EmojiPreference {
         }
     }
 
+    /**
+     * Returns whether the emoji pack has been changed (through [EmojiPreference]) since the application has been launched.
+     */
     fun hasEmojiPackChanged(context: Context): Boolean {
         return initialSelection != null && getSelected(context) != initialSelection
     }

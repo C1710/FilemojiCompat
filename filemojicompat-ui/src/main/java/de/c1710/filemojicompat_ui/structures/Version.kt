@@ -2,7 +2,10 @@ package de.c1710.filemojicompat_ui.structures
 
 import java.lang.Integer.max
 
-open class Version(var version: IntArray) : Comparable<Version> {
+/**
+ * A simple structure for (comparable) versions
+ */
+class Version(var version: IntArray) : Comparable<Version> {
 
     override fun compareTo(other: Version): Int {
         // We need to pad the arrays to the longest size
@@ -33,6 +36,7 @@ open class Version(var version: IntArray) : Comparable<Version> {
     }
 
     companion object {
+        @JvmStatic
         fun fromString(string: String?): Version {
             return Version((string ?: "").split('.').stream()
                 .mapToInt { subVersion: String -> subVersion.toIntOrNull() ?: 0 }

@@ -13,6 +13,13 @@ import java.util.concurrent.Future
 
 private const val VERSION_CACHE = "de.c1710.filemojicompat.version_cache"
 
+/**
+ * A [Version] that can be retrieved from the internet (needs internet permissions of course).
+ * @param source The URL to get the information from.
+ *               The document there should be as small as possible, because we don't want to spend much time loading the version information.
+ * @param regex A regular expression to find the version in the document. Default is "<version>VERSIONCODE</version>"
+ * @param regexGroupId The ID/number of the group of the regex that contains the actual version string
+ */
 class VersionOnline
 @JvmOverloads constructor(
     context: Context,

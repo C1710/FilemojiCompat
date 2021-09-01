@@ -7,10 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
-import de.c1710.filemojicompat_ui.interfaces.EmojiPackListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackSelectionListener
 import de.c1710.filemojicompat_ui.structures.DownloadStatus
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 
+/**
+ * A [RecyclerView.ViewHolder] for an item in the Emoji Picker. If you want to create a custom layout,
+ * all views here need to be included
+ */
 class EmojiPackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val item: ConstraintLayout = view.findViewById(R.id.emoji_pack_item)
     val icon: ImageView = view.findViewById(R.id.emoji_pack_icon)
@@ -30,8 +34,10 @@ class EmojiPackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val license: Button = view.findViewById(R.id.emoji_pack_license)
     val delete: Button = view.findViewById(R.id.emoji_pack_delete)
 
+
+    
     internal var pack: EmojiPack? = null
-    internal var packListener: EmojiPackListener? = null
+    internal var packSelectionListener: EmojiPackSelectionListener? = null
     internal var packDeletionListener: EmojiPackDeletionListener? = null
 
     internal var downloadListener: EmojiPackDownloadListener? = null

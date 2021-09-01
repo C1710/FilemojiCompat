@@ -1,7 +1,6 @@
 package de.c1710.filemojicompat_ui.pack_helpers
 
 import android.util.Base64
-import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import okhttp3.*
@@ -12,14 +11,17 @@ import java.io.IOException
 // Adapted from https://github.com/square/okhttp/blob/master/samples/guide/src/main/java/okhttp3/recipes/Progress.java;
 // rewritten in Kotlin with minor changes and additions to work in this context
 
+/**
+ * Handles the download of a [DownloadableEmojiPack]
+ */
 internal class EmojiPackDownloader(
     pack: DownloadableEmojiPack,
-    val list: EmojiPackList,
+    val emojiStorage: File,
     private val isBase64: Boolean = "googlesource.com" in pack.source.toString(),
 ) {
     private val url = pack.source
     private val fileName = pack.getFileName(false)
-    private val downloadLocation = File(list.emojiStorage, fileName)
+    private val downloadLocation = File(emojiStorage, fileName)
 
     fun download(downloadListener: EmojiPackDownloadListener): Call {
         val client = OkHttpClient.Builder()

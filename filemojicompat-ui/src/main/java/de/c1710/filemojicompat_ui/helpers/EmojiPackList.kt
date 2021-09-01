@@ -128,6 +128,7 @@ class EmojiPackList(
      * Creates a Custom/imported emoji pack based on the given hash, adds it to the list and returns
      * it.
      * @param hash The hash for the file containing the pack
+     * @return The pack that has been created and added
      */
     fun addCustomPack(context: Context, hash: String): EmojiPack {
         val newEmojiPack = CustomEmojiPack(context, hash)
@@ -144,6 +145,9 @@ class EmojiPackList(
     }
 
     companion object {
+        /**
+         * The default/"Singleton" emoji pack list. Can only be set once
+         */
         @JvmStatic
         var defaultList: EmojiPackList? = null
             set(value) {

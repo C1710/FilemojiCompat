@@ -12,6 +12,9 @@ import de.c1710.filemojicompat_ui.structures.Version
 
 const val EXTERNAL_FILE = "emoji_load_external_file"
 
+/**
+ * A dummy emoji pack that is used as a placeholder for the file picker
+ */
 internal class FilePickerDummyEmojiPack(
     context: Context
 ) : EmojiPack(
@@ -44,7 +47,6 @@ internal class FilePickerDummyEmojiPack(
         return SystemDefaultEmojiPack.getSystemDefaultPack(context).load(context, list)
     }
 
-    override fun isCurrentVersion(list: EmojiPackList): Boolean = true
     override fun getIcon(context: Context): Drawable? =
         ResourcesCompat.getDrawable(context.resources, R.drawable.ic_file, context.theme)
 }

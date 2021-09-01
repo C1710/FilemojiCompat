@@ -15,16 +15,34 @@ import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.structures.Version
 
 // TODO: This might pose a security issue due to missing certificate/signature checks...
+/**
+ * An emoji pack that is based on the [FontRequestEmojiCompatConfig].
+ * It can either be created manually with a [FontRequest], with a [ProviderInfo] or automatically retrieved through [collectFontProviders].
+ * @param request The font request to use as a source
+ * @param id A unique name for the pack. It will be used internally at different places
+ *           (e.g. when setting the preference or determining the file name). It should never change
+ *           or get translated, etc.
+ * @param name The user-facing name of the pack. May be translated or changed
+ * @param description The (short) user-facing description that is visible in the normal emoji picker
+ * @param icon An icon for the pack, e.g. an emoji from it or the logo
+ * @param version The current version of the pack. It needs to be changed to a larger value, when the
+ *                font should be updated. May be retrieved from the web, see [de.c1710.filemojicompat_ui.structures.VersionOnline.versionOnline]
+ * @param website The URL of the website/repository for the emoji pack
+ * @param license The URL of the license for the emoji pack
+ *                (This might be auto-downloaded in the future, so it should point to a rather small/plaintext file, if possible)
+ * @param descriptionLong A longer description that is shown when the user expands the item for the emoji pack.
+ *                        It may contain additional information like a copyright notice, etc.
+ */
 class FontRequestEmojiPack(
     var request: FontRequest,
     id: String,
     name: String,
-    description: String = "TODO",
+    description: String,
     private val icon: Drawable?,
     version: Version? = null,
     website: Uri? = null,
     license: Uri? = null,
-    descriptionLong: String = "TODO looooooong"
+    descriptionLong: String
 ) : EmojiPack(
     id,
     name,
@@ -35,17 +53,20 @@ class FontRequestEmojiPack(
     descriptionLong
 ) {
 
+    /**
+     * Note: This might not work due to missing signatures/certificates
+     */
     constructor(
         provider: ProviderInfo,
         packageManager: PackageManager,
         id: String = provider.packageName.replace('.', '_').replace('-', '_') + "_" + provider.name,
         name: String = provider.name,
-        description: String = "TODO",
+        description: String,
         icon: Drawable? = provider.loadIcon(packageManager),
         version: Version? = null,
         website: Uri? = null,
         license: Uri? = null,
-        descriptionLong: String = "TODO looooooong"
+        descriptionLong: String
     ): this(
         FontRequest(provider.authority, provider.packageName, DEFAULT_EMOJI_QUERY, ArrayList()),
         id, name, description, icon, version, website, license, descriptionLong
@@ -56,7 +77,6 @@ class FontRequestEmojiPack(
         return FontRequestEmojiCompatConfig(context, request).setReplaceAll(true)
     }
 
-    override fun isCurrentVersion(list: EmojiPackList): Boolean = true
     override fun getIcon(context: Context): Drawable? = icon
 }
 
@@ -64,7 +84,12 @@ class FontRequestEmojiPack(
 private const val INTENT_LOAD_EMOJI_FONT = "androidx.content.action.LOAD_EMOJI_FONT"
 private const val DEFAULT_EMOJI_QUERY = "emojicompat-emoji-font"
 
-fun collectFontProviders(context: Context): List<FontRequestEmojiPack> {
+// FIXME: This probably won't work
+/**
+ * Collects all possible font providers to create [FontRequestEmojiPack]s.
+ * However, right now there may be issues with signatures/certificates.
+ */
+private fun collectFontProviders(context: Context): List<FontRequestEmojiPack> {
     val packageManager = context.packageManager
     val intent = Intent(INTENT_LOAD_EMOJI_FONT)
 
@@ -81,7 +106,9 @@ fun collectFontProviders(context: Context): List<FontRequestEmojiPack> {
         .map {
             FontRequestEmojiPack(
                 it,
-                packageManager
+                packageManager,
+                descriptionLong = TODO(),
+                description = TODO()
             )
         }
 

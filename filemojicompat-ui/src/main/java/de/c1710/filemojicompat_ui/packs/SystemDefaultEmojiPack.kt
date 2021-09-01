@@ -14,6 +14,11 @@ import de.c1710.filemojicompat_ui.structures.Version
 
 const val SYSTEM_DEFAULT = "emoji_system_default"
 
+/**
+ * Represents a system-default emoji pack.
+ * This is usually [DefaultEmojiCompatConfig] or a dummy ([NoEmojiCompatConfig]), if something went wrong.
+ * This should be used as a Singleton.
+ */
 class SystemDefaultEmojiPack private constructor(
     context: Context
 ) : EmojiPack(
@@ -27,6 +32,10 @@ class SystemDefaultEmojiPack private constructor(
     companion object {
         private var systemDefaultEmojiPack: SystemDefaultEmojiPack? = null
 
+        /**
+         * Returns the Singleton for the system-default emoji pack
+         */
+        @JvmStatic
         fun getSystemDefaultPack(context: Context): SystemDefaultEmojiPack {
             if (systemDefaultEmojiPack == null) {
                 systemDefaultEmojiPack = SystemDefaultEmojiPack(context)
@@ -40,7 +49,6 @@ class SystemDefaultEmojiPack private constructor(
         return DefaultEmojiCompatConfig.create(context) ?: NoEmojiCompatConfig(context)
     }
 
-    override fun isCurrentVersion(list: EmojiPackList): Boolean = true
     override fun getIcon(context: Context): Drawable? {
         return ResourcesCompat.getDrawable(
             context.resources,

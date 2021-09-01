@@ -12,6 +12,9 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.structures.Version
 import java.io.File
 
+/**
+ * An emoji pack that is stored in some file
+ */
 abstract class FileBasedEmojiPack(
     id: String,
     name: String,
@@ -23,6 +26,10 @@ abstract class FileBasedEmojiPack(
 ) : DeletableEmojiPack(
     id, name, description, version, website, license, descriptionLong
 ) {
+    /**
+     * Returns the bare file name for a pack.
+     * To actually get the (maybe not even existing) file, you need to prefix it with a directory
+     */
     open fun getFileName(): String {
         return "%s.ttf".format(id)
     }

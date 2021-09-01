@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
-import de.c1710.filemojicompat_ui.interfaces.CustomEmojiCallback
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackImportListener
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -21,31 +21,41 @@ import kotlin.concurrent.thread
 const val PICK_EMOJI = "de.c1710.filemojicompat_PICK_CUSTOM_EMOJI"
 
 // https://developer.android.com/training/basics/intents/result
-internal class EmojiImporter(
+/**
+ * Manages the picking and import of a custom emoji pack.
+ * Should always be created when the Activity is created in order to be able to continue the import
+ * process, even if the Activity has been destroyed in the meantime (cf. https://developer.android.com/training/basics/intents/result#separate )
+ * @param registry The [ActivityResultRegistry] to bind to to receive the result of the file picker
+ * @param list The list to later add the emoji pack to
+ */
+internal class EmojiPackImporter(
     private val registry: ActivityResultRegistry,
     private val list: EmojiPackList,
     private val context: Context
 ) : DefaultLifecycleObserver {
     private lateinit var getContent: ActivityResultLauncher<Array<String>>
-    private var callback: CustomEmojiCallback? = null
+    private var importListener: EmojiPackImportListener? = null
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
 
         getContent = registry.register(PICK_EMOJI, owner, ActivityResultContracts.OpenDocument()) {
             if (it != null) {
-                receiveCustomEmoji(it, callback)
+                receiveCustomEmoji(it, importListener)
             }
         }
     }
 
-    fun pickCustomEmoji(callback: CustomEmojiCallback?) {
-        this.callback = callback
+    /**
+     * Opens the file picker to pick/import a custom emoji pack
+     */
+    fun pickCustomEmoji(importListener: EmojiPackImportListener?) {
+        this.importListener = importListener
         getContent.launch(arrayOf("font/ttf", "font/otf"))
     }
 
     @Throws(FileNotFoundException::class)
-    private fun receiveCustomEmoji(source: Uri, callback: CustomEmojiCallback?) {
+    private fun receiveCustomEmoji(source: Uri, importListener: EmojiPackImportListener?) {
         if (source.scheme in arrayOf(
                 ContentResolver.SCHEME_FILE,
                 ContentResolver.SCHEME_ANDROID_RESOURCE,
@@ -53,19 +63,19 @@ internal class EmojiImporter(
             )
         ) {
             // As loading a custom emoji pack is not something that is done over and over,
-            // creating a new Thread for it is not a big problem
+            // creating a single, new Thread for it is not a big problem
             thread {
                 Log.d("FilemojiCompat", "storeCustomEmoji: Loading emoji pack from file")
                 val stream: InputStream? = context.contentResolver.openInputStream(source)
                 if (stream != null) {
                     val hash = storeAndHashPack(stream)
-                    callback?.onLoaded(hash)
+                    importListener?.onLoaded(hash)
                 } else {
                     Log.e(
                         "FilemojiCompat",
                         "storeCustomEmoji: Empty stream for %s".format(source.toString())
                     )
-                    callback?.onFailed(FileNotFoundException(source.toString()))
+                    importListener?.onFailed(FileNotFoundException(source.toString()))
                 }
             }
         } else {
@@ -88,7 +98,7 @@ internal class EmojiImporter(
         // was good in the past
         val buffer = ByteArray(0x8000)
 
-        // We don't actually need security here, but runtime performance shouldn't be impacted
+        // We don't need security here, but runtime performance shouldn't be impacted by using a strong hashing algorithm
         val digest = MessageDigest.getInstance("SHA-256")
 
         var bytesRead = stream.read(buffer)
