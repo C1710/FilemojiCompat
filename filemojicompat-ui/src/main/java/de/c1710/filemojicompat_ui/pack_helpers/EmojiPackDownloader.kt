@@ -1,5 +1,6 @@
 package de.c1710.filemojicompat_ui.pack_helpers
 
+import android.util.Base64
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
@@ -11,12 +12,14 @@ import java.io.IOException
 // Adapted from https://github.com/square/okhttp/blob/master/samples/guide/src/main/java/okhttp3/recipes/Progress.java;
 // rewritten in Kotlin with minor changes and additions to work in this context
 
+// TODO: What happens if the user exists during the download?
 internal class EmojiPackDownloader(
     pack: DownloadableEmojiPack,
-    val list: EmojiPackList
+    val list: EmojiPackList,
+    private val isBase64: Boolean = "googlesource.com" in pack.source.toString(),
 ) {
     private val url = pack.source
-    private val fileName = pack.getFileName()
+    private val fileName = pack.getFileName(false)
     private val downloadLocation = File(list.emojiStorage, fileName)
 
     fun download(downloadListener: EmojiPackDownloadListener): Call {
@@ -37,13 +40,14 @@ internal class EmojiPackDownloader(
             .build()
 
         val call = client.newCall(request)
-        call.enqueue(DownloadedCallback(downloadListener, downloadLocation))
+        call.enqueue(DownloadedCallback(downloadListener, downloadLocation, isBase64))
         return call
     }
 
     private class DownloadedCallback(
         val downloadListener: EmojiPackDownloadListener,
-        val location: File
+        val location: File,
+        val isBase64: Boolean
     ) : Callback {
         override fun onFailure(call: Call, e: IOException) {
             downloadListener.onFailure(e)
@@ -53,7 +57,15 @@ internal class EmojiPackDownloader(
             assert(response.isSuccessful)
             // https://stackoverflow.com/a/29012988/5070653
             val sink = location.sink(false).buffer()
-            response.body?.source()?.let { sink.writeAll(it) }
+            if (isBase64) {
+                response.body?.source()?.let {
+                    val data = it.readByteArray()
+                    val decoded = Base64.decode(data, Base64.DEFAULT)
+                    sink.write(decoded)
+                }
+            } else {
+                response.body?.source()?.let { sink.writeAll(it) }
+            }
             sink.close()
             downloadListener.onDone()
         }
