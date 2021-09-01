@@ -23,6 +23,7 @@ public class FileMetadataRepoLoader implements EmojiCompat.MetadataRepoLoader {
     private final File fontFile;
     private final String fallbackFontName;
     private final MutableBoolean fallbackEnabled;
+    private final boolean dontWarnOnEmptyFileName;
 
 
     /**
@@ -36,12 +37,14 @@ public class FileMetadataRepoLoader implements EmojiCompat.MetadataRepoLoader {
             @NonNull Context context,
             @Nullable File fontFile,
             @Nullable String fallbackFontName,
-            @Nullable MutableBoolean fallbackEnabled
-            ) {
+            @Nullable MutableBoolean fallbackEnabled,
+            boolean dontWarnOnEmptyFileName
+    ) {
         this.context = context;
         this.fontFile = fontFile != null ? fontFile : new File(context.getExternalFilesDir(null), DEFAULT_FILE);
         this.fallbackFontName = fallbackFontName;
         this.fallbackEnabled = fallbackEnabled;
+        this.dontWarnOnEmptyFileName = dontWarnOnEmptyFileName;
     }
 
     @Override
@@ -71,7 +74,10 @@ public class FileMetadataRepoLoader implements EmojiCompat.MetadataRepoLoader {
             FileNotFoundException notFound = new FileNotFoundException(
                     fontFile != null ? fontFile.getPath() : "null"
             );
-            Log.w("FilemojiCompat", "Could not load font file", notFound);
+            // Just don't warn on an empty file if it shouldn't
+            if (fontFile == null || !fontFile.toString().equals("") || !dontWarnOnEmptyFileName) {
+                Log.w("FilemojiCompat", "Could not load font file", notFound);
+            }
             loadFallback(loaderCallback);
         }
     }

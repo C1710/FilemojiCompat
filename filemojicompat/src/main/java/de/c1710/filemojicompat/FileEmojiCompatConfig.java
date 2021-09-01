@@ -53,8 +53,9 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
                                  // NEW
                                  @Nullable File fontFile,
                                  @Nullable String fallbackFontName,
-                                 @Nullable MutableBoolean fallbackEnabled) {
-        super(new FileMetadataRepoLoader(context, fontFile, fallbackFontName, fallbackEnabled));
+                                 @Nullable MutableBoolean fallbackEnabled,
+                                  boolean dontWarnOnEmptyFileName) {
+        super(new FileMetadataRepoLoader(context, fontFile, fallbackFontName, fallbackEnabled, dontWarnOnEmptyFileName));
         this.context = context;
         this.fontFile = fontFile;
         this.fallbackFontName = fallbackFontName;
@@ -73,12 +74,33 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
             @Nullable File fontFile,
             @Nullable String fallbackFontName
         ) {
+        return init(context, fontFile, fallbackFontName, false);
+    }
+
+
+    /**
+     * Create a new configuration for this EmojiCompat based on a file
+     *
+     * @param context      Context instance
+     * @param fontFile     The file containing the EmojiCompat font
+     * @param fallbackFontName The asset path of the fallback font
+     * @param dontWarnOnEmptyFileName If set to true, don't log a warning (only info)
+     *                                if the empty file was given as fontFile.
+     *                                This is used in FilemojiCompat-UI when an asset is loaded
+     */
+    public static FileEmojiCompatConfig init (
+            @NonNull Context context,
+            @Nullable File fontFile,
+            @Nullable String fallbackFontName,
+            boolean dontWarnOnEmptyFileName
+    ) {
         MutableBoolean fallbackEnabled = new MutableBoolean(false);
         FileEmojiCompatConfig config = new FileEmojiCompatConfig(
                 context,
                 fontFile,
                 fallbackFontName,
-                fallbackEnabled
+                fallbackEnabled,
+                dontWarnOnEmptyFileName
         );
         // We need to adjust the replacement status
         ((EmojiCompat.Config) config).setReplaceAll(!fallbackEnabled.get());
@@ -209,7 +231,8 @@ public class FileEmojiCompatConfig extends EmojiCompat.Config {
                     this.context,
                     this.fontFile,
                     this.fallbackFontName,
-                    this.fallbackEnabled
+                    this.fallbackEnabled,
+                    false
             );
 
             loader.loadSync(dummyCallback);
