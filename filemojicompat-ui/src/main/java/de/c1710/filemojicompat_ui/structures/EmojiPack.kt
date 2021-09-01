@@ -3,6 +3,7 @@ package de.c1710.filemojicompat_ui.structures
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import androidx.emoji2.text.EmojiCompat
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
@@ -20,14 +21,18 @@ abstract class EmojiPack(
     private val listeners: ArrayList<EmojiPackListener> = ArrayList(3)
 
     fun select(context: Context, previousSelection: EmojiPack? = selectedPack) {
-        previousSelection?.listeners?.forEach {
-            it.onUnSelected(context, previousSelection)
-        }
+        if (previousSelection != this) {
+            previousSelection?.listeners?.forEach {
+                it.onUnSelected(context, previousSelection)
+            }
 
-        EmojiPreference.setSelected(context, this.id)
-        selectedPack = this
-        listeners.forEach {
-            it.onSelected(context, this)
+            EmojiPreference.setSelected(context, this.id)
+            selectedPack = this
+            listeners.forEach {
+                it.onSelected(context, this)
+            }
+        } else {
+            Log.d("FilemojiCompat", "Pack %s is already selected".format(id))
         }
     }
 

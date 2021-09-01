@@ -18,4 +18,5 @@
     <string name="pack_deleted">%1$s deleted</string>
     <string name="undo">Undo</string>
     <string name="emoji_icon_content_description">Emoj pack icon</string>
+    <string name="select_pack">Select emoji pack</string>
 </resources>

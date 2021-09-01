@@ -25,6 +25,7 @@ class EmojiPackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val expandedItem: ConstraintLayout = view.findViewById(R.id.emoji_pack_expanded_item)
     val descriptionLong: TextView = view.findViewById(R.id.emoji_pack_description_long)
     val version: TextView = view.findViewById(R.id.emoji_pack_version)
+    val selectCurrent: Button = view.findViewById(R.id.emoji_pack_select_current)
     val website: Button = view.findViewById(R.id.emoji_pack_website)
     val license: Button = view.findViewById(R.id.emoji_pack_license)
     val delete: Button = view.findViewById(R.id.emoji_pack_delete)

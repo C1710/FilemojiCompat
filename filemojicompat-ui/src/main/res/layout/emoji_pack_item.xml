@@ -227,9 +227,33 @@
             android:textColor="?android:attr/textColorSecondary"
         />
 
+        <!-- This button is used as an alternative to the selection button,
+              when it's hidden because an update is pending/running -->
+        <Button
+            android:id="@+id/emoji_pack_select_current"
+            app:layout_constraintTop_toBottomOf="@id/emoji_pack_version"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:layout_marginTop="4dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:minWidth="88dp"
+
+            android:text="@string/select_pack"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?colorAccent"
+            android:textAllCaps="true"
+            android:textAlignment="textStart"
+
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:foreground="?android:selectableItemBackground"
+        />
+
         <Button
             android:id="@+id/emoji_pack_website"
-            app:layout_constraintTop_toBottomOf="@id/emoji_pack_version"
+            app:layout_constraintTop_toBottomOf="@id/emoji_pack_select_current"
             app:layout_constraintStart_toStartOf="parent"
 
             android:layout_marginTop="4dp"

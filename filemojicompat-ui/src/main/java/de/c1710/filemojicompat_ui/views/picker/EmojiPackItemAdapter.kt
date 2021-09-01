@@ -172,8 +172,7 @@ class EmojiPackItemAdapter internal constructor (
 
         holder.descriptionLong.text = item.descriptionLong ?: item.description
 
-        holder.version.visibility =
-            visible(item.version != null && !(item.version?.isZero() ?: true))
+        holder.version.isVisible = item.version != null && !(item.version?.isZero() ?: true)
         holder.version.text = holder.version.context.getString(R.string.version).format(
             item.version?.version?.joinToString(".")
         )
@@ -229,6 +228,8 @@ class EmojiPackItemAdapter internal constructor (
         holder.importFile.isVisible = false
         holder.delete.isVisible = item is DeletableEmojiPack
         holder.description.isVisible = !holder.expandedItem.isVisible
+        // This button is only shown if the normal selection button is not visible
+        holder.selectCurrent.isVisible = false
 
         holder.selection.isEnabled = true
         holder.selection.isChecked = item == EmojiPack.selectedPack
@@ -256,6 +257,7 @@ class EmojiPackItemAdapter internal constructor (
         holder.itemView.isVisible = item !is CustomEmojiPack
         holder.selection.isEnabled = false
         holder.delete.isVisible = false
+        holder.selectCurrent.isVisible = false
     }
 
     private fun setDeleted(holder: EmojiPackViewHolder, item: DeletableEmojiPack, index: Int) {
@@ -286,6 +288,7 @@ class EmojiPackItemAdapter internal constructor (
         holder.download.isVisible = false
         holder.importFile.isVisible = true
         holder.delete.isVisible = false
+        holder.selectCurrent.isVisible = false
 
         holder.importFile.setOnClickListener {
             pickCustomEmoji(holder)
@@ -300,6 +303,7 @@ class EmojiPackItemAdapter internal constructor (
         holder.download.isVisible = false
         holder.description.isVisible = false
         holder.importFile.isVisible = false
+        holder.selectCurrent.isVisible = item.isDownloaded()
 
         // We are now interested in the progress
         bindToDownload(holder, item)
@@ -307,6 +311,10 @@ class EmojiPackItemAdapter internal constructor (
         holder.cancel.setOnClickListener {
             item.cancelDownload()
             setDownloadable(holder, item)
+        }
+
+        holder.selectCurrent.setOnClickListener {
+            item.select(it.context)
         }
     }
 
@@ -318,6 +326,7 @@ class EmojiPackItemAdapter internal constructor (
         holder.download.isVisible = true
         holder.importFile.isVisible = false
         holder.delete.isVisible = false
+        holder.selectCurrent.isVisible = item.isDownloaded()
 
         holder.download.setImageDrawable(
             ResourcesCompat.getDrawable(
@@ -334,6 +343,10 @@ class EmojiPackItemAdapter internal constructor (
         holder.download.setOnClickListener {
             item.download(dataSet)
             setDownloading(holder, item)
+        }
+
+        holder.selectCurrent.setOnClickListener {
+            item.select(it.context)
         }
     }
 
@@ -481,13 +494,5 @@ class EmojiPackItemAdapter internal constructor (
                 customEmojiHandler
             )
         }
-    }
-}
-
-private fun visible(isVisible: Boolean): Int {
-    return if (isVisible) {
-        View.VISIBLE
-    } else {
-        View.GONE
     }
 }
