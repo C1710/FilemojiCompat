@@ -471,8 +471,7 @@ class EmojiPackItemAdapter internal constructor (
                 !inputField.text.isNullOrBlank()
         } else {
             // Whoops, looks like the pack was already present :S
-            // FIXME: How to find the correct ViewHolder to select the pack?!
-            // existingPack.select(context)
+            existingPack.select(context)
             Toast.makeText(context, "Pack already imported!", Toast.LENGTH_LONG).show()
         }
     }

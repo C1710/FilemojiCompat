@@ -60,8 +60,6 @@ class FontRequestEmojiPack(
     override fun getIcon(context: Context): Drawable? = icon
 }
 
-// TODO: Implement
-
 // Copied from the private fields in DefaultEmojiCompatConfigFactory
 private const val INTENT_LOAD_EMOJI_FONT = "androidx.content.action.LOAD_EMOJI_FONT"
 private const val DEFAULT_EMOJI_QUERY = "emojicompat-emoji-font"

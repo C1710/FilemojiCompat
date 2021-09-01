@@ -12,7 +12,6 @@ import java.io.IOException
 // Adapted from https://github.com/square/okhttp/blob/master/samples/guide/src/main/java/okhttp3/recipes/Progress.java;
 // rewritten in Kotlin with minor changes and additions to work in this context
 
-// TODO: What happens if the user exists during the download?
 internal class EmojiPackDownloader(
     pack: DownloadableEmojiPack,
     val list: EmojiPackList,

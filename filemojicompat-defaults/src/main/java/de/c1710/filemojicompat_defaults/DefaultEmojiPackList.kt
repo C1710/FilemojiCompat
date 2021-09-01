@@ -24,7 +24,6 @@ class DefaultEmojiPackList {
                 context.resources.getString(R.string.blobmoji_description_long)
             )
 
-            // TODO: Maybe FontRequestEmojiPack?
             val noto = DownloadableEmojiPack (
                 "noto",
                 "Noto Emoji",
