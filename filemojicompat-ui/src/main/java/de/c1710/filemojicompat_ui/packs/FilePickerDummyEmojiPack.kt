@@ -33,10 +33,6 @@ internal class FilePickerDummyEmojiPack(
             filePickerDummyEmojiPack = FilePickerDummyEmojiPack(context)
             return filePickerDummyEmojiPack!!
         }
-
-        fun getFilePickerPack(): FilePickerDummyEmojiPack {
-            return filePickerDummyEmojiPack!!
-        }
     }
 
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {

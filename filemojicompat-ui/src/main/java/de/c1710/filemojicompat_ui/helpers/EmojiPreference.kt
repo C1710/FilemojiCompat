@@ -10,7 +10,7 @@ const val EMOJI_PREFERENCE = "de.c1710.filemojicompat.EMOJI_PREFERENCE"
 const val DEFAULT_PREFERENCE = "de.c1710.filemojicompat.DEFAULT_EMOJI_PACK"
 
 object EmojiPreference {
-    var initialSelection: String? = null
+    private var initialSelection: String? = null
     private var sharedPreferenceName: String? = null
 
     private fun getSharedPreferences(context: Context): SharedPreferences {

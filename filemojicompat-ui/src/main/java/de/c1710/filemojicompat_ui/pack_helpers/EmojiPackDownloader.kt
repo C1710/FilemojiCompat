@@ -16,7 +16,7 @@ import java.io.IOException
  */
 internal class EmojiPackDownloader(
     pack: DownloadableEmojiPack,
-    val emojiStorage: File,
+    emojiStorage: File,
     private val isBase64: Boolean = "googlesource.com" in pack.source.toString(),
 ) {
     private val url = pack.source

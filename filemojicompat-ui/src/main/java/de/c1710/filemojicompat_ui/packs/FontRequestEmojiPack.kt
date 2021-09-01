@@ -34,7 +34,7 @@ import de.c1710.filemojicompat_ui.versions.Version
  *                        It may contain additional information like a copyright notice, etc.
  */
 class FontRequestEmojiPack(
-    var request: FontRequest,
+    private var request: FontRequest,
     id: String,
     name: String,
     description: String,
@@ -102,7 +102,7 @@ private fun collectFontProviders(context: Context): List<FontRequestEmojiPack> {
         // TODO: The only issue is - I don't know another provider!
         .filter { it.applicationInfo.flags.and(ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM }
 
-    val packs = providers
+    return providers
         .map {
             FontRequestEmojiPack(
                 it,
@@ -111,6 +111,4 @@ private fun collectFontProviders(context: Context): List<FontRequestEmojiPack> {
                 description = TODO()
             )
         }
-
-    return packs
 }
