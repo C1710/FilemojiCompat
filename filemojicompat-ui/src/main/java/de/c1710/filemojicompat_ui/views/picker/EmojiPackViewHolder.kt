@@ -26,6 +26,7 @@ class EmojiPackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val progress: ProgressBar = view.findViewById(R.id.emoji_pack_progress)
     val importFile: ImageView = view.findViewById(R.id.emoji_pack_import)
 
+    // Expanded view
     val expandedItem: ConstraintLayout = view.findViewById(R.id.emoji_pack_expanded_item)
     val descriptionLong: TextView = view.findViewById(R.id.emoji_pack_description_long)
     val version: TextView = view.findViewById(R.id.emoji_pack_version)
@@ -35,7 +36,7 @@ class EmojiPackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val delete: Button = view.findViewById(R.id.emoji_pack_delete)
 
 
-    
+
     internal var pack: EmojiPack? = null
     internal var packSelectionListener: EmojiPackSelectionListener? = null
     internal var packDeletionListener: EmojiPackDeletionListener? = null
