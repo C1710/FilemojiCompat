@@ -46,7 +46,8 @@ internal const val SNACKBAR_DURATION_LONG: Long = 2750
  */
 class EmojiPackItemAdapter internal constructor (
     private val dataSet: EmojiPackList,
-    private val emojiPackImporter: EmojiPackImporter
+    private val emojiPackImporter: EmojiPackImporter,
+    private val callChangeListener: (String) -> Boolean = {_ -> true}
 ) : RecyclerView.Adapter<EmojiPackViewHolder>() {
     val mainHandler = Handler(Looper.getMainLooper())
 
@@ -242,7 +243,7 @@ class EmojiPackItemAdapter internal constructor (
         holder.selection.setOnClickListener {
             // Well, it selects itself even with this custom onClickListener, so let's undo that
             holder.selection.isChecked = false
-            item.select(holder.itemView.context)
+            item.select(holder.itemView.context, selectionAllowed = callChangeListener)
         }
 
         holder.delete.setOnClickListener {
@@ -251,7 +252,8 @@ class EmojiPackItemAdapter internal constructor (
                     holder.itemView.context,
                     SNACKBAR_DURATION_LONG,
                     mainHandler,
-                    dataSet
+                    dataSet,
+                    callChangeListener
                 )
             }
         }
@@ -319,7 +321,7 @@ class EmojiPackItemAdapter internal constructor (
         }
 
         holder.selectCurrent.setOnClickListener {
-            item.select(it.context)
+            item.select(it.context, selectionAllowed = callChangeListener)
         }
     }
 
@@ -351,7 +353,7 @@ class EmojiPackItemAdapter internal constructor (
         }
 
         holder.selectCurrent.setOnClickListener {
-            item.select(it.context)
+            item.select(it.context, selectionAllowed = callChangeListener)
         }
     }
 
@@ -399,7 +401,7 @@ class EmojiPackItemAdapter internal constructor (
 
             override fun onDone() {
                 mainHandler.post {
-                    item.select(holder.item.context)
+                    item.select(holder.item.context, selectionAllowed = callChangeListener)
                     setAvailable(holder, item)
                 }
                 unbindDownload(holder)
@@ -467,7 +469,7 @@ class EmojiPackItemAdapter internal constructor (
                     val newEmojiPack = dataSet.addCustomPack(context, hash)
                     // The new pack is now at the second to last position
                     notifyItemInserted(dataSet.size - 2)
-                    newEmojiPack.select(context)
+                    newEmojiPack.select(context, selectionAllowed = callChangeListener)
                 }
                 .setOnCancelListener {
                     // If we don't want to save it, delete it...
@@ -486,7 +488,7 @@ class EmojiPackItemAdapter internal constructor (
                 !inputField.text.isNullOrBlank()
         } else {
             // Whoops, looks like the pack was already present :S
-            existingPack.select(context)
+            existingPack.select(context, selectionAllowed = callChangeListener)
             Toast.makeText(context, "Pack already imported!", Toast.LENGTH_LONG).show()
         }
     }
@@ -501,7 +503,7 @@ class EmojiPackItemAdapter internal constructor (
          * It can than be used as the [RecyclerView.Adapter] for a [RecyclerView] to implement an Emoji Picker.
          */
         @JvmStatic
-        fun <A> get(activity: A): EmojiPackItemAdapter
+        fun <A> get(activity: A, callChangeListener: (String) -> Boolean = {_ -> true}): EmojiPackItemAdapter
                 where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
             val customEmojiHandler = EmojiPackImporter(
                 activity.activityResultRegistry,
@@ -511,7 +513,8 @@ class EmojiPackItemAdapter internal constructor (
             activity.lifecycle.addObserver(customEmojiHandler)
             return EmojiPackItemAdapter(
                 EmojiPackList.defaultList!!,
-                customEmojiHandler
+                customEmojiHandler,
+                callChangeListener
             )
         }
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="download_verb">Download</string>
-    <string name="system_default">System Default</string>
-    <string name="system_default_description">The default emoji set of your device</string>
+    <string name="system_default_pack">System Default</string>
+    <string name="system_default_pack_description">The default emoji set of your device</string>
     <string name="import_pack">Import emoji pack</string>
     <string name="import_pack_description">Use a different emoji pack</string>
     <string name="import_pack_description_long">You can provide any emoji font that supports the <i>EmojiCompat</i> library.</string>

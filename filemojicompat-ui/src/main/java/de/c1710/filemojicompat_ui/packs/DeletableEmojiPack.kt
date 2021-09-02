@@ -63,19 +63,22 @@ abstract class DeletableEmojiPack(
         context: Context,
         timeToDelete: Long,
         handler: Handler,
-        list: EmojiPackList
+        list: EmojiPackList,
+        selectDefaultAllowed: (String) -> Boolean = { _ -> true }
     ) {
-        list.getDefaultPack(context).select(context, this)
+        if(selectDefaultAllowed(SYSTEM_DEFAULT)) {
+            list.getDefaultPack(context).select(context, this)
 
-        listeners.forEach {
-            it.onDeletionScheduled(context, this, timeToDelete)
-        }
+            listeners.forEach {
+                it.onDeletionScheduled(context, this, timeToDelete)
+            }
 
-        val deletion = Runnable { delete(context, list) }
-        handler.postDelayed(deletion, timeToDelete)
+            val deletion = Runnable { delete(context, list) }
+            handler.postDelayed(deletion, timeToDelete)
 
-        this.deletion = deletion
-        this.deletionHandler = handler
+            this.deletion = deletion
+            this.deletionHandler = handler
+        } // else: The deletion/selection of the default pack was not allowed
     }
 
     fun isGettingDeleted(): Boolean = this.deletion != null

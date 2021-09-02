@@ -46,16 +46,20 @@ abstract class EmojiPack(
      * Selects an emoji pack (i.e. stores the preference and resets [EmojiCompat]) and deselects the
      * currently selected emoji pack
      */
-    fun select(context: Context, previousSelection: EmojiPack? = selectedPack) {
+    fun select(context: Context,
+               previousSelection: EmojiPack? = selectedPack,
+               selectionAllowed: (String) -> Boolean = { _ -> true}) {
         if (previousSelection != this) {
-            previousSelection?.selectionListeners?.forEach {
-                it.onDeSelected(context, previousSelection)
-            }
+            if(selectionAllowed(this.id)) {
+                previousSelection?.selectionListeners?.forEach {
+                    it.onDeSelected(context, previousSelection)
+                }
 
-            EmojiPreference.setSelected(context, this.id)
-            selectedPack = this
-            selectionListeners.forEach {
-                it.onSelected(context, this)
+                EmojiPreference.setSelected(context, this.id)
+                selectedPack = this
+                selectionListeners.forEach {
+                    it.onSelected(context, this)
+                }
             }
         } else {
             Log.d("FilemojiCompat", "Pack %s is already selected".format(id))

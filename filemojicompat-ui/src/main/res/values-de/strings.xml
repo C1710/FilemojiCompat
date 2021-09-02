@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="download_verb">Herunterladen</string>
-    <string name="system_default">System Standard</string>
-    <string name="system_default_description">Die Standard-Emojis deines Gerätes</string>
+    <string name="system_default_pack">System Standard</string>
+    <string name="system_default_pack_description">Die Standard-Emojis deines Gerätes</string>
     <string name="import_pack">Emoji-Paket importieren</string>
     <string name="import_pack_description">Nutze ein anderes Emoji-Paket</string>
     <string name="import_pack_description_long">Du kannst alle Emoji-Schriftarten importieren, die mit <i>EmojiCompat</i> kompatibel sind.</string>

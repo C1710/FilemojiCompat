@@ -23,8 +23,8 @@ class SystemDefaultEmojiPack private constructor(
     context: Context
 ) : EmojiPack(
     SYSTEM_DEFAULT,
-    context.resources.getString(R.string.system_default),
-    context.resources.getString(R.string.system_default_description),
+    context.resources.getString(R.string.system_default_pack),
+    context.resources.getString(R.string.system_default_pack_description),
     Version(IntArray(0))
 ) {
 

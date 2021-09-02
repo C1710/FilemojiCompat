@@ -12,17 +12,21 @@ import java.io.IOException
 
 class EmojiPackHelper {
     companion object {
+
         /**
-         * Initializes the helper with the [EmojiPackList.defaultList]. If it is not set, it will
-         * be created (empty).
+         * Initializes the helper. The [EmojiPackList.defaultList] will be created including the
+         * packs given as a parameter (plus system default and any imported packs).
+         * If the list is empty and the [EmojiPackList.defaultList] already exists, it will not be overridden.
          *
          * One of these [init]-functions should be called to set up [EmojiCompat] with this pack management.
          *
          * @param context Can be the Application Context, etc.
+         * @param emojiPacks A list of the emoji packs you want to add hardcoded.
          */
         @JvmStatic
-        fun init(context: Context) {
-            if (EmojiPackList.defaultList == null) {
+        @JvmOverloads
+        fun init(context: Context, emojiPacks: ArrayList<EmojiPack> = ArrayList()) {
+            if (EmojiPackList.defaultList == null || emojiPacks.isNotEmpty()) {
                 EmojiPackList.defaultList = EmojiPackList(context, emojiPacks = ArrayList())
                 Log.w("FilemojiCompat", "init: No Emoji Pack list created. Using empty one")
             }
@@ -37,22 +41,6 @@ class EmojiPackHelper {
 
                 EmojiCompat.init(NoEmojiCompatConfig(context))
             }
-        }
-
-        /**
-         * Initializes the helper. The [EmojiPackList.defaultList] will be created including the
-         * packs given as a parameter (plus system default and any imported packs).
-         *
-         * One of these [init]-functions should be called to set up [EmojiCompat] with this pack management.
-         *
-         * @param context Can be the Application Context, etc.
-         * @param emojiPacks A list of the emoji packs you want to add hardcoded.
-         */
-        @JvmStatic
-        fun init(context: Context, emojiPacks: ArrayList<EmojiPack>) {
-            EmojiPackList.defaultList = EmojiPackList(context, emojiPacks = emojiPacks)
-
-            init(context)
         }
 
         /**
