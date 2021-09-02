@@ -10,6 +10,10 @@ const val SHARED_PREFERENCES = "de.c1710.filemojicompat"
 const val EMOJI_PREFERENCE = "de.c1710.filemojicompat.EMOJI_PREFERENCE"
 const val DEFAULT_PREFERENCE = "de.c1710.filemojicompat.DEFAULT_EMOJI_PACK"
 
+/**
+ * An easy-to-use helper for dealing with storing and retrieving emoji pack preferences.
+ * @see EmojiPreferenceInterface
+ */
 object EmojiPreference: EmojiPreferenceInterface {
     var sharedPreferenceName: String? = null
 
