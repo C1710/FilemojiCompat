@@ -1,19 +1,23 @@
 package de.c1710.filemojicompat_ui.views.picker
 
 import android.content.Context
-import android.view.LayoutInflater
 import androidx.activity.result.ActivityResultRegistryOwner
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
-import androidx.preference.Preference
+import androidx.preference.DialogPreference
 import androidx.preference.Preference.SummaryProvider
+import androidx.preference.PreferenceViewHolder
 import androidx.recyclerview.widget.RecyclerView
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 
-class EmojiPickerPreference<A>(private val activity: A): Preference(activity)
+/**
+ * A preference dialog that can be easily integrated with the [androidx.preference] library.
+ * @param activity In order to correctly handle emoji pack imports, it needs a surrounding Activity.
+ *                 @see [androidx.preference.PreferenceFragmentCompat.requireActivity]
+ */
+class EmojiPickerPreference<A>(private val activity: A): DialogPreference(activity)
         where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
 
     init {
@@ -22,20 +26,14 @@ class EmojiPickerPreference<A>(private val activity: A): Preference(activity)
             EmojiPackList.defaultList!![EmojiPreference.getSelected(context)]?.name ?: ""
         }
         key = EMOJI_PREFERENCE
+
+        dialogLayoutResource = R.layout.emoji_picker
     }
 
-    override fun onClick() {
-        super.onClick()
+    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+        super.onBindViewHolder(holder)
 
-        val layout = LayoutInflater.from(context).inflate(R.layout.emoji_picker, null)
-
-        val recyclerView: RecyclerView = layout.findViewById(R.id.emoji_picker)
-
-        recyclerView.adapter = EmojiPackItemAdapter.get(activity, this::callChangeListener)
-
-        AlertDialog.Builder(context)
-            .setView(layout)
-            .setPositiveButton(android.R.string.ok) { _, _ -> }
-            .show()
+        val picker: RecyclerView? = holder?.findViewById(R.id.emoji_picker) as RecyclerView?
+        picker?.adapter = EmojiPackItemAdapter.get(activity, this::callChangeListener)
     }
 }
