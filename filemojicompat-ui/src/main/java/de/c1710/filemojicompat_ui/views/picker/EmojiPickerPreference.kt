@@ -1,6 +1,7 @@
 package de.c1710.filemojicompat_ui.views.picker
 
 import android.content.Context
+import android.util.AttributeSet
 import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.DialogPreference
@@ -17,7 +18,7 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPreference
  * @param activity In order to correctly handle emoji pack imports, it needs a surrounding Activity.
  *                 @see [androidx.preference.PreferenceFragmentCompat.requireActivity]
  */
-class EmojiPickerPreference<A>(private val activity: A): DialogPreference(activity)
+class EmojiPickerPreference<A>(private val activity: A, attributeSet: AttributeSet? = null): DialogPreference(activity, attributeSet)
         where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
 
     init {
