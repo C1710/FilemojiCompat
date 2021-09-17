@@ -28,7 +28,7 @@ const val PICK_EMOJI = "de.c1710.filemojicompat_PICK_CUSTOM_EMOJI"
  * @param registry The [ActivityResultRegistry] to bind to to receive the result of the file picker
  * @param list The list to later add the emoji pack to
  */
-internal class EmojiPackImporter(
+class EmojiPackImporter(
     private val registry: ActivityResultRegistry,
     private val list: EmojiPackList,
     private val context: Context
@@ -41,7 +41,7 @@ internal class EmojiPackImporter(
 
         getContent = registry.register(PICK_EMOJI, owner, ActivityResultContracts.OpenDocument()) {
             if (it != null) {
-                receiveCustomEmoji(it, importListener)
+                receiveCustomEmoji(it, importListener, context)
             }
         }
     }
@@ -49,13 +49,13 @@ internal class EmojiPackImporter(
     /**
      * Opens the file picker to pick/import a custom emoji pack
      */
-    fun pickCustomEmoji(importListener: EmojiPackImportListener?) {
+    internal fun pickCustomEmoji(importListener: EmojiPackImportListener?) {
         this.importListener = importListener
         getContent.launch(arrayOf("font/ttf", "font/otf"))
     }
 
     @Throws(FileNotFoundException::class)
-    private fun receiveCustomEmoji(source: Uri, importListener: EmojiPackImportListener?) {
+    private fun receiveCustomEmoji(source: Uri, importListener: EmojiPackImportListener?, context: Context) {
         if (source.scheme in arrayOf(
                 ContentResolver.SCHEME_FILE,
                 ContentResolver.SCHEME_ANDROID_RESOURCE,
