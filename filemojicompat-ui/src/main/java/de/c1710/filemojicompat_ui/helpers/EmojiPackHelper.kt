@@ -25,7 +25,7 @@ object EmojiPackHelper {
     @JvmOverloads
     fun init(context: Context, emojiPacks: ArrayList<EmojiPack> = ArrayList()) {
         if (EmojiPackList.defaultList == null || emojiPacks.isNotEmpty()) {
-            EmojiPackList.defaultList = EmojiPackList(context, emojiPacks = ArrayList())
+            EmojiPackList.defaultList = EmojiPackList(context, emojiPacks = emojiPacks)
             Log.w("FilemojiCompat", "init: No Emoji Pack list created. Using empty one")
         }
 

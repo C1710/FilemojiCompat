@@ -66,8 +66,10 @@ abstract class DeletableEmojiPack(
         list: EmojiPackList,
         selectDefaultAllowed: (String) -> Boolean = { _ -> true }
     ) {
-        if(selectDefaultAllowed(SYSTEM_DEFAULT)) {
-            list.getDefaultPack(context).select(context, this)
+        if(selectDefaultAllowed(SYSTEM_DEFAULT) || selectedPack != this) {
+            if (selectedPack == this) {
+                list.getDefaultPack(context).select(context, this)
+            }
 
             listeners.forEach {
                 it.onDeletionScheduled(context, this, timeToDelete)
