@@ -150,7 +150,9 @@ class DownloadableEmojiPack(
             }
 
             override fun onDone() {
+                val oldFile = File(emojiStorage, getFileName())
                 downloadedVersion = getVersion()
+                oldFile.delete()
             }
 
         })
