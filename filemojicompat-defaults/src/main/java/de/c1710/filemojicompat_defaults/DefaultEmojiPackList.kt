@@ -15,10 +15,10 @@ class DefaultEmojiPackList {
             val blobmoji = DownloadableEmojiPack (
             "blobmoji",
             "Blobmoji",
-                URI("https://github.com/C1710/blobmoji/raw/emoji14/fonts/BlobmojiCompat.ttf"),
+                URI("https://github.com/C1710/blobmoji/raw/main/fonts/BlobmojiCompat.ttf"),
                 context.resources.getString(R.string.blobmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_blobmoji, context.theme),
-                Version(intArrayOf(14, 0)),
+                Version(intArrayOf(14, 0, 1)),
                 Uri.parse("https://github.com/C1710/blobmoji"),
                 Uri.parse("https://raw.githubusercontent.com/C1710/blobmoji/emoji14/LICENSE"),
                 context.resources.getString(R.string.blobmoji_description_long)
@@ -30,7 +30,7 @@ class DefaultEmojiPackList {
                 URI("https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/emoji-compat/font/NotoColorEmojiCompat.ttf?format=TEXT"),
                 context.resources.getString(R.string.noto_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_noto, context.theme),
-                Version(intArrayOf(13, 1)),
+                Version(intArrayOf(14, 0)),
                 Uri.parse("https://github.com/googlefonts/noto-emoji"),
                 Uri.parse("https://github.com/googlefonts/noto-emoji/blob/main/LICENSE"),
                 context.resources.getString(R.string.noto_description_long)
@@ -42,7 +42,7 @@ class DefaultEmojiPackList {
                 URI("https://github.com/C1710/twemoji/raw/master/fonts/TwemojiCompat.ttf"),
                 context.resources.getString(R.string.twemoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_twemoji, context.theme),
-                Version(intArrayOf(13, 1)),
+                Version(intArrayOf(14, 0)),
                 Uri.parse("https://twemoji.twitter.com/"),
                 Uri.parse("https://raw.githubusercontent.com/twitter/twemoji/master/LICENSE-GRAPHICS"),
                 context.resources.getString(R.string.twemoji_description_long)
