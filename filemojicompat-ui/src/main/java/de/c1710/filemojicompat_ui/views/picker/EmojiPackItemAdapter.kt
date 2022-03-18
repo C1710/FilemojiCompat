@@ -505,15 +505,15 @@ class EmojiPackItemAdapter (
         @JvmStatic
         fun <A> get(activity: A, callChangeListener: (String) -> Boolean = {_ -> true}): EmojiPackItemAdapter
                 where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
-            val customEmojiHandler = EmojiPackImporter(
+            val emojiPackImporter = EmojiPackImporter(
                 activity.activityResultRegistry,
                 EmojiPackList.defaultList!!,
                 activity
             )
-            activity.lifecycle.addObserver(customEmojiHandler)
+            activity.lifecycle.addObserver(emojiPackImporter)
             return EmojiPackItemAdapter(
                 EmojiPackList.defaultList!!,
-                customEmojiHandler,
+                emojiPackImporter,
                 callChangeListener
             )
         }

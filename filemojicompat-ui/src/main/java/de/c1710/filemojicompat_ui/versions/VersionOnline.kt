@@ -3,10 +3,11 @@ package de.c1710.filemojicompat_ui.versions
 import android.content.Context
 import android.util.Log
 import okhttp3.Cache
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
-import java.net.URL
+import java.net.URI
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
@@ -23,7 +24,7 @@ private const val VERSION_CACHE = "de.c1710.filemojicompat.version_cache"
 class VersionOnline
 @JvmOverloads constructor(
     context: Context,
-    private val source: URL,
+    private val source: URI,
     regex: Regex = Regex("<version>\\s*(\\d+(\\.\\d+)*)\\s*</version>"),
     // Because Android Java/Kotlin, we cannot get groups by their name...
     regexGroupId: Int = 1
@@ -35,7 +36,7 @@ class VersionOnline
 
         versionOnline = executor.submit<Version?> {
             val request = Request.Builder()
-                .url(source)
+                .url(source.toHttpUrlOrNull()!!)
                 .build()
 
             val call = client.newCall(request)

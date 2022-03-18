@@ -13,7 +13,7 @@ import de.c1710.filemojicompat_ui.versions.VersionProvider
 import okhttp3.Call
 import java.io.File
 import java.io.IOException
-import java.net.URL
+import java.net.URI
 
 /**
  * An emoji pack that can be downloaded through the UI.
@@ -38,7 +38,7 @@ import java.net.URL
 class DownloadableEmojiPack(
     id: String,
     name: String,
-    internal val source: URL,
+    internal val source: URI,
     description: String,
     private val icon: Drawable?,
     version: VersionProvider?,
@@ -68,7 +68,7 @@ class DownloadableEmojiPack(
     constructor(
         id: String,
         name: String,
-        source: URL,
+        source: URI,
         description: String,
         icon: Drawable?,
         version: IntArray?,
@@ -117,7 +117,7 @@ class DownloadableEmojiPack(
     ) : this(
         id,
         name,
-        URL(source),
+        URI(source),
         description,
         icon,
         version?.let { Version(it) },

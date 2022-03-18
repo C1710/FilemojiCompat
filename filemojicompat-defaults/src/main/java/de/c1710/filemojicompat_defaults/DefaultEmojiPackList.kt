@@ -6,7 +6,7 @@ import androidx.core.content.res.ResourcesCompat
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.versions.Version
-import java.net.URL
+import java.net.URI
 
 class DefaultEmojiPackList {
     companion object {
@@ -15,7 +15,7 @@ class DefaultEmojiPackList {
             val blobmoji = DownloadableEmojiPack (
             "blobmoji",
             "Blobmoji",
-                URL("https://github.com/C1710/blobmoji/raw/emoji14/fonts/BlobmojiCompat.ttf"),
+                URI("https://github.com/C1710/blobmoji/raw/emoji14/fonts/BlobmojiCompat.ttf"),
                 context.resources.getString(R.string.blobmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_blobmoji, context.theme),
                 Version(intArrayOf(14, 0)),
@@ -27,7 +27,7 @@ class DefaultEmojiPackList {
             val noto = DownloadableEmojiPack (
                 "noto",
                 "Noto Emoji",
-                URL("https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/emoji-compat/font/NotoColorEmojiCompat.ttf?format=TEXT"),
+                URI("https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/emoji-compat/font/NotoColorEmojiCompat.ttf?format=TEXT"),
                 context.resources.getString(R.string.noto_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_noto, context.theme),
                 Version(intArrayOf(13, 1)),
@@ -39,7 +39,7 @@ class DefaultEmojiPackList {
             val twemoji = DownloadableEmojiPack (
                 "twemoji",
                 "Twemoji",
-                URL("https://github.com/C1710/twemoji/raw/master/fonts/TwemojiCompat.ttf"),
+                URI("https://github.com/C1710/twemoji/raw/master/fonts/TwemojiCompat.ttf"),
                 context.resources.getString(R.string.twemoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_twemoji, context.theme),
                 Version(intArrayOf(13, 1)),
@@ -51,7 +51,7 @@ class DefaultEmojiPackList {
             val openmoji = DownloadableEmojiPack (
                 "openmoji",
                 "OpenMoji",
-                URL("https://github.com/C1710/openmoji/raw/master/fonts/OpenMojiCompat.ttf"),
+                URI("https://github.com/C1710/openmoji/raw/master/fonts/OpenMojiCompat.ttf"),
                 context.resources.getString(R.string.openmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_openmoji, context.theme),
                 Version(intArrayOf(13, 1)),
