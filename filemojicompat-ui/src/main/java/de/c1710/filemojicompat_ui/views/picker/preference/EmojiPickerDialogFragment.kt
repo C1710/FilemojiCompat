@@ -30,6 +30,9 @@ class EmojiPickerDialogFragment private constructor (
 
     override fun onDialogClosed(positiveResult: Boolean) {
         // FIXME: Currently, we immediately save the results
+        if (positiveResult && preference is EmojiPickerPreference) {
+            (preference as EmojiPickerPreference).refresh()
+        }
     }
 
     companion object {

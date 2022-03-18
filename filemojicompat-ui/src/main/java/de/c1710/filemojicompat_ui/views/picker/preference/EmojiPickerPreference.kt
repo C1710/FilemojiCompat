@@ -47,6 +47,10 @@ class EmojiPickerPreference(
         return a.getString(index) ?: EmojiPreference.getDefault(context)
     }
 
+    fun refresh() {
+        notifyChanged()
+    }
+
     companion object {
         @JvmStatic
         fun <A> get(activity: A, attributeSet: AttributeSet? = null): EmojiPickerPreference
