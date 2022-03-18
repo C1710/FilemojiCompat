@@ -7,5 +7,5 @@
     <string name="twemoji_description">The emoji pack from Twitter</string>
     <string name="twemoji_description_long">Twemoji is an emoji pack that can be found on many platforms throughout the internet, including, of course, Twitter.\n<i>CC BY 4.0, Copyright 2020 Twitter, Inc and other contributors\nAdapted for usage with EmojiCompat</i></string>
     <string name="openmoji_description">An open-source emoji pack</string>
-    <string name="openmoji_description_long">A rather recent emoji pack featuring a minimalistic style.<i>All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0\nAdapted for usage with EmojiCompat</i></string>
+    <string name="openmoji_description_long">A rather recent emoji pack featuring a minimalistic style.\n<i>All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0\nAdapted for usage with EmojiCompat</i></string>
 </resources>
