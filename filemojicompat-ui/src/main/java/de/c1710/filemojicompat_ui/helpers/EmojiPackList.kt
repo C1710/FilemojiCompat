@@ -10,6 +10,7 @@ import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.versions.Version
 import java.io.File
 import java.util.*
+import java.util.stream.Collectors
 
 class EmojiPackList(
     context: Context,
@@ -123,6 +124,12 @@ class EmojiPackList(
 
     fun indexOf(pack: EmojiPack): Int {
         return this.emojiPacks.indexOf(pack)
+    }
+
+    fun packIds(): List<String> {
+        return emojiPacks.stream()
+            .map { pack -> pack.id }
+            .collect(Collectors.toList())
     }
 
     /**

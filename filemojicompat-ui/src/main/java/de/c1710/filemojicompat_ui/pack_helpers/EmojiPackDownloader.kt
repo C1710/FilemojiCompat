@@ -4,7 +4,6 @@ import android.util.Base64
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import okhttp3.*
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okio.*
 import java.io.File
 import java.io.IOException
@@ -38,7 +37,7 @@ internal class EmojiPackDownloader(
             .build()
 
         val request = Request.Builder()
-            .url(url.toHttpUrlOrNull()!!)
+            .url(url.toString())
             .build()
 
         val call = client.newCall(request)
