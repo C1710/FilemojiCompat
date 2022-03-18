@@ -16,7 +16,7 @@ class EmojiPackList(
     context: Context,
     storageDirectory: String = "emoji",
     private var emojiPacks: ArrayList<EmojiPack>
-) {
+): Iterable<EmojiPack> {
     internal val size: Int
         get() {
             return emojiPacks.size
@@ -150,6 +150,10 @@ class EmojiPackList(
 
     fun removePack(pack: EmojiPack) {
         emojiPacks.remove(pack)
+    }
+
+    override fun iterator(): Iterator<EmojiPack> {
+        return emojiPacks.iterator()
     }
 
     companion object {

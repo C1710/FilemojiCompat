@@ -220,6 +220,16 @@ class EmojiPackItemAdapter (
         super.onViewRecycled(holder)
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        // Stop all downloads
+        for (pack in dataSet) {
+            if (pack is DownloadableEmojiPack) {
+                pack.cancelDownload()
+            }
+        }
+        super.onDetachedFromRecyclerView(recyclerView)
+    }
+
     // STATE TRANSITIONS
 
     private fun setAvailable(holder: EmojiPackViewHolder, item: EmojiPack) {
@@ -239,9 +249,15 @@ class EmojiPackItemAdapter (
         holder.selection.isChecked = item == EmojiPack.selectedPack
 
         holder.selection.setOnClickListener {
-            // Well, it selects itself even with this custom onClickListener, so let's undo that
-            holder.selection.isChecked = false
-            item.select(holder.itemView.context, selectionAllowed = callChangeListener, preference = preference)
+            if (EmojiPack.selectedPack != item) {
+                // Well, it selects itself even with this custom onClickListener, so let's undo that
+                holder.selection.isChecked = false
+                item.select(
+                    holder.itemView.context,
+                    selectionAllowed = callChangeListener,
+                    preference = preference
+                )
+            }
         }
 
         holder.delete.setOnClickListener {
@@ -310,7 +326,9 @@ class EmojiPackItemAdapter (
         holder.importFile.isVisible = false
         // If an outdated version is available, it should be selectable through the selectCurrent button
         holder.selectCurrent.isVisible = item.isDownloaded()
-        holder.progress.isIndeterminate = false
+        holder.progress.isIndeterminate = item.getDownloadStatus()?.let {
+            displayedProgress(it.bytesRead, it.size, holder.progress.max) == holder.progress.max
+        } ?: false
 
         // We are now interested in the progress
         bindToDownload(holder, item)
@@ -414,6 +432,7 @@ class EmojiPackItemAdapter (
             }
         }
 
+        unbindDownload(holder)
         holder.downloadListener = callback
         item.getDownloadStatus()?.addListener(callback)
         holder.downloadBoundTo = item.getDownloadStatus()
@@ -424,11 +443,12 @@ class EmojiPackItemAdapter (
         // According to https://chrisharrison.net/projects/progressbars/ProgBarHarrison.pdf
         // slightly accelerating progress bars are perceived as faster.
         // Therefore either Power or Fast Power is used. We use Power:
-        var progressDouble: Double = ((bytesRead * maxProgress).toDouble() / contentLength)
+        var progressDouble: Double = (bytesRead.toDouble() / contentLength)
         progressDouble = (progressDouble + (1 - progressDouble) * 0.03) *
-                (progressDouble + (1 - progressDouble) * 0.03)
+                         (progressDouble + (1 - progressDouble) * 0.03)
+        val progress = progressDouble * maxProgress
         // TODO: Make this behavior optional?
-        return progressDouble.toInt()
+        return progress.toInt()
     }
 
     private fun unbindDownload(holder: EmojiPackViewHolder) {
