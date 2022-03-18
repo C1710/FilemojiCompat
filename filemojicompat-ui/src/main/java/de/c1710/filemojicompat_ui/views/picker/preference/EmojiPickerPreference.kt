@@ -83,7 +83,7 @@ class EmojiPickerPreference(
          * @return Whether the preference has been handled or not
          */
         @JvmStatic
-        fun onDisplayPreferenceDialog(fragment: PreferenceFragmentCompat, preference: Preference): Boolean {
+        fun onDisplayPreferenceDialog(fragment: PreferenceFragmentCompat, preference: Preference?): Boolean {
             return if (preference is EmojiPickerPreference) {
                 val callChangeListener = { value: String -> preference.callChangeListener(value) }
                 val dialog = EmojiPickerDialogFragment.newInstance(
