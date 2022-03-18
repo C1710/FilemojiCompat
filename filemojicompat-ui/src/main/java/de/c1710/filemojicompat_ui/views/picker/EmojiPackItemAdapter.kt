@@ -312,6 +312,7 @@ class EmojiPackItemAdapter (
         holder.importFile.isVisible = false
         // If an outdated version is available, it should be selectable through the selectCurrent button
         holder.selectCurrent.isVisible = item.isDownloaded()
+        holder.progress.isIndeterminate = false
 
         // We are now interested in the progress
         bindToDownload(holder, item)
@@ -334,6 +335,7 @@ class EmojiPackItemAdapter (
         holder.importFile.isVisible = false
         holder.delete.isVisible = false
         holder.selectCurrent.isVisible = item.isDownloaded()
+        holder.description.isVisible = !holder.expandedItem.isVisible
 
         holder.download.setImageDrawable(
             ResourcesCompat.getDrawable(
@@ -381,6 +383,12 @@ class EmojiPackItemAdapter (
                 mainHandler.post {
                     holder.progress.progress =
                         displayedProgress(bytesRead, contentLength, maxProgress)
+                    if (holder.progress.progress == maxProgress) {
+                        // It may be possible that the Done state takes some while, for some reason.
+                        // So, until then we set the state to indeterminate.
+                        // Ideally, the user doesn't see it
+                        holder.progress.isIndeterminate = true
+                    }
                 }
             }
 
