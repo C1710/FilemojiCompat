@@ -10,15 +10,17 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
 import de.c1710.filemojicompat_ui.views.picker.EmojiPackItemAdapter
 
+// Based on https://medium.com/@JakobUlbrich/building-a-settings-screen-for-android-part-3-ae9793fd31ec
+
 class EmojiPickerDialogFragment private constructor (
     private val importer: EmojiPackImporter,
     private val callChangeListener: (String) -> Boolean = { _ -> true }
 ) : PreferenceDialogFragmentCompat() {
 
-    override fun onBindDialogView(view: View?) {
+    override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        val picker: RecyclerView? = view?.findViewById(R.id.emoji_picker) as RecyclerView?
+        val picker: RecyclerView? = view.findViewById(R.id.emoji_picker) as RecyclerView?
         picker?.adapter = EmojiPackItemAdapter(
             EmojiPackList.defaultList!!,
             importer,

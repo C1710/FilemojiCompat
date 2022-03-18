@@ -19,4 +19,5 @@
     <string name="undo">Undo</string>
     <string name="emoji_icon_content_description">Emoj pack icon</string>
     <string name="select_pack">Select emoji pack</string>
+    <string name="emoji_style">Emoji Style</string>
 </resources>
