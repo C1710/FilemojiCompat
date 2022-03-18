@@ -8,6 +8,7 @@ import androidx.emoji2.text.EmojiCompat
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackSelectionListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPreferenceInterface
 import de.c1710.filemojicompat_ui.versions.Version
 import de.c1710.filemojicompat_ui.versions.VersionProvider
 
@@ -48,14 +49,16 @@ abstract class EmojiPack(
      */
     fun select(context: Context,
                previousSelection: EmojiPack? = selectedPack,
-               selectionAllowed: (String) -> Boolean = { _ -> true}) {
+               selectionAllowed: (String) -> Boolean = { _ -> true},
+               preference: EmojiPreferenceInterface = EmojiPreference
+    ) {
         if (previousSelection != this) {
             if(selectionAllowed(this.id)) {
                 previousSelection?.selectionListeners?.forEach {
                     it.onDeSelected(context, previousSelection)
                 }
 
-                EmojiPreference.setSelected(context, this.id)
+                preference.setSelected(context, this.id)
                 selectedPack = this
                 selectionListeners.forEach {
                     it.onSelected(context, this)

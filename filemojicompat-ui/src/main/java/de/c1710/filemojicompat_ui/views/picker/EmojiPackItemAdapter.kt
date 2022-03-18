@@ -23,10 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
-import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
-import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
-import de.c1710.filemojicompat_ui.interfaces.EmojiPackImportListener
-import de.c1710.filemojicompat_ui.interfaces.EmojiPackSelectionListener
+import de.c1710.filemojicompat_ui.interfaces.*
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
 import de.c1710.filemojicompat_ui.packs.CustomEmojiPack
 import de.c1710.filemojicompat_ui.packs.DeletableEmojiPack
@@ -47,7 +44,8 @@ internal const val SNACKBAR_DURATION_LONG: Long = 2750
 class EmojiPackItemAdapter (
     private val dataSet: EmojiPackList,
     private val emojiPackImporter: EmojiPackImporter,
-    private val callChangeListener: (String) -> Boolean = {_ -> true}
+    private val callChangeListener: (String) -> Boolean = {_ -> true},
+    private val preference: EmojiPreferenceInterface = EmojiPreference
 ) : RecyclerView.Adapter<EmojiPackViewHolder>() {
     val mainHandler = Handler(Looper.getMainLooper())
 
@@ -243,7 +241,7 @@ class EmojiPackItemAdapter (
         holder.selection.setOnClickListener {
             // Well, it selects itself even with this custom onClickListener, so let's undo that
             holder.selection.isChecked = false
-            item.select(holder.itemView.context, selectionAllowed = callChangeListener)
+            item.select(holder.itemView.context, selectionAllowed = callChangeListener, preference = preference)
         }
 
         holder.delete.setOnClickListener {
@@ -322,7 +320,7 @@ class EmojiPackItemAdapter (
         }
 
         holder.selectCurrent.setOnClickListener {
-            item.select(it.context, selectionAllowed = callChangeListener)
+            item.select(it.context, selectionAllowed = callChangeListener, preference = preference)
         }
     }
 
@@ -355,7 +353,7 @@ class EmojiPackItemAdapter (
         }
 
         holder.selectCurrent.setOnClickListener {
-            item.select(it.context, selectionAllowed = callChangeListener)
+            item.select(it.context, selectionAllowed = callChangeListener, preference = preference)
         }
     }
 
@@ -409,7 +407,7 @@ class EmojiPackItemAdapter (
 
             override fun onDone() {
                 mainHandler.post {
-                    item.select(holder.item.context, selectionAllowed = callChangeListener)
+                    item.select(holder.item.context, selectionAllowed = callChangeListener, preference = preference)
                     setAvailable(holder, item)
                 }
                 unbindDownload(holder)
@@ -477,7 +475,7 @@ class EmojiPackItemAdapter (
                     val newEmojiPack = dataSet.addCustomPack(context, hash)
                     // The new pack is now at the second to last position
                     notifyItemInserted(dataSet.size - 2)
-                    newEmojiPack.select(context, selectionAllowed = callChangeListener)
+                    newEmojiPack.select(context, selectionAllowed = callChangeListener, preference = preference)
                 }
                 .setOnCancelListener {
                     // If we don't want to save it, delete it...
@@ -496,8 +494,8 @@ class EmojiPackItemAdapter (
                 !inputField.text.isNullOrBlank()
         } else {
             // Whoops, looks like the pack was already present :S
-            existingPack.select(context, selectionAllowed = callChangeListener)
-            Toast.makeText(context, "Pack already imported!", Toast.LENGTH_LONG).show()
+            existingPack.select(context, selectionAllowed = callChangeListener, preference = preference)
+            Toast.makeText(context, R.string.pack_already_imported, Toast.LENGTH_LONG).show()
         }
     }
 

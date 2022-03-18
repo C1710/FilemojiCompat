@@ -40,7 +40,7 @@ class EmojiPickerPreference(
             R.drawable.ic_custom_emojis,
             context.theme)
 
-        dialogLayoutResource = R.layout.emoji_picker
+        dialogLayoutResource = R.layout.emoji_picker_dialog
     }
 
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any {

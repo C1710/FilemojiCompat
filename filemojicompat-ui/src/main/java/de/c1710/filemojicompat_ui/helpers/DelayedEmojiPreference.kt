@@ -3,6 +3,7 @@ package de.c1710.filemojicompat_ui.helpers
 import android.content.Context
 import de.c1710.filemojicompat_ui.helpers.DelayedEmojiPreference.commitSelection
 import de.c1710.filemojicompat_ui.interfaces.EmojiPreferenceInterface
+import de.c1710.filemojicompat_ui.structures.EmojiPack
 
 /**
  * A "proxy" for [EmojiPreference] that does not immediately store changed preferences,
@@ -35,5 +36,11 @@ object DelayedEmojiPreference: EmojiPreferenceInterface {
      */
     fun commitSelection(context: Context) {
         selected?.let { EmojiPreference.setSelected(context, it) }
+    }
+
+    fun dismissSelection(context: Context, list: EmojiPackList = EmojiPackList.defaultList!!) {
+        // Reset there as well
+        EmojiPack.selectedPack = list[EmojiPreference.getSelected(context)]
+        selected = null
     }
 }

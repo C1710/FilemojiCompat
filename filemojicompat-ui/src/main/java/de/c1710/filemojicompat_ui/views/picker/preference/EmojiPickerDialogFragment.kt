@@ -5,6 +5,7 @@ import android.view.View
 import androidx.preference.PreferenceDialogFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
 import de.c1710.filemojicompat_ui.R
+import de.c1710.filemojicompat_ui.helpers.DelayedEmojiPreference
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
@@ -24,14 +25,20 @@ class EmojiPickerDialogFragment private constructor (
         picker?.adapter = EmojiPackItemAdapter(
             EmojiPackList.defaultList!!,
             importer,
-            callChangeListener
+            callChangeListener,
+            DelayedEmojiPreference
         )
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
         // FIXME: Currently, we immediately save the results
-        if (positiveResult && preference is EmojiPickerPreference) {
-            (preference as EmojiPickerPreference).refresh()
+        if (preference is EmojiPickerPreference) {
+            if (positiveResult) {
+                DelayedEmojiPreference.commitSelection(requireContext())
+                (preference as EmojiPickerPreference).refresh()
+            } else {
+                DelayedEmojiPreference.dismissSelection(requireContext())
+            }
         }
     }
 

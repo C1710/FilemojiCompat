@@ -20,4 +20,5 @@
     <string name="emoji_icon_content_description">Emoji-Paket-Symbol</string>
     <string name="select_pack">Emoji-Paket auswählen</string>
     <string name="emoji_style">Emoji-Stil</string>
+    <string name="pack_already_imported">Das Paket wurde bereits importiert</string>
 </resources>
