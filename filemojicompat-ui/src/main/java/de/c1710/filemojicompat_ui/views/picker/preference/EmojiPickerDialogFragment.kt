@@ -13,7 +13,7 @@ import de.c1710.filemojicompat_ui.views.picker.EmojiPackItemAdapter
 
 // Based on https://medium.com/@JakobUlbrich/building-a-settings-screen-for-android-part-3-ae9793fd31ec
 
-class EmojiPickerDialogFragment private constructor (
+open class EmojiPickerDialogFragment private constructor (
     private val importer: EmojiPackImporter,
     private val callChangeListener: (String) -> Boolean = { _ -> true }
 ) : PreferenceDialogFragmentCompat() {

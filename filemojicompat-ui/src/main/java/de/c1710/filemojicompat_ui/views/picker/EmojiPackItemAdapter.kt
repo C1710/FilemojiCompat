@@ -41,7 +41,7 @@ internal const val SNACKBAR_DURATION_LONG: Long = 2750
  * It can be used in any RecyclerView, layout changes can be made by overriding [R.layout.emoji_pack_item]
  * with items with all the appropriate ids.
  */
-class EmojiPackItemAdapter (
+open class EmojiPackItemAdapter (
     private val dataSet: EmojiPackList,
     private val emojiPackImporter: EmojiPackImporter,
     private val callChangeListener: (String) -> Boolean = {_ -> true},
