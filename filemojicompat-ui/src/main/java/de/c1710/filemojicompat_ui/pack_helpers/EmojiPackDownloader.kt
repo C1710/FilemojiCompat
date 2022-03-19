@@ -59,9 +59,14 @@ internal class EmojiPackDownloader(
             // https://stackoverflow.com/a/29012988/5070653
             val sink = location.sink(false).buffer()
             if (isBase64) {
-                response.body?.bytes()?.let {
-                    val decoded = Base64.decode(it, Base64.DEFAULT)
-                    sink.write(decoded)
+                response.body?.source()?.let {
+                    val buffer = ByteArray(1024)
+                    var bytesRead = it.read(buffer)
+                    while (bytesRead > 0) {
+                        val decoded = Base64.decode(buffer, Base64.DEFAULT, 0, bytesRead)
+                        sink.write(decoded)
+                        bytesRead = it.read(buffer)
+                    }
                 }
             } else {
                 response.body?.source()?.let { sink.writeAll(it) }
