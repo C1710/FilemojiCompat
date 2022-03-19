@@ -23,7 +23,7 @@ import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
  * @param activity In order to correctly handle emoji pack imports, it needs a surrounding Activity.
  *                 @see [androidx.preference.PreferenceFragmentCompat.requireActivity]
  */
-class EmojiPickerPreference(
+open class EmojiPickerPreference(
     val importer: EmojiPackImporter,
     context: Context,
     attributeSet: AttributeSet? = null): DialogPreference(context, attributeSet) {
