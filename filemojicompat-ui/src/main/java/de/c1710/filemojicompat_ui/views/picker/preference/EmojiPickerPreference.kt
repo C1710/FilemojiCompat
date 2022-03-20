@@ -89,6 +89,7 @@ open class EmojiPickerPreference(
                 val dialog = EmojiPickerDialogFragment.newInstance(
                     preference.importer,
                     callChangeListener = callChangeListener)
+                dialog.setTargetFragment(fragment, 0)
                 dialog.show(fragment.parentFragmentManager, "androidx.preference.PreferenceFragment.DIALOG")
                 true
             } else {
