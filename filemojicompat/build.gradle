@@ -30,6 +30,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'androidx.emoji2:emoji2:1.2.0-alpha01'
+    api 'androidx.emoji2:emoji2:1.1.0'
 }
 
