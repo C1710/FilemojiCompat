@@ -30,6 +30,7 @@ import de.c1710.filemojicompat_ui.versions.VersionProvider
  *                (This might be auto-downloaded in the future, so it should point to a rather small/plaintext file, if possible)
  * @param descriptionLong A longer description that is shown when the user expands the item for the emoji pack.
  *                        It may contain additional information like a copyright notice, etc.
+ * @param tintableIcon Whether the icon should get a tint (if specified by the theme)
  */
 abstract class EmojiPack(
     var id: String,
@@ -38,7 +39,9 @@ abstract class EmojiPack(
     private val version: VersionProvider?,
     var website: Uri? = null,
     var license: Uri? = null,
-    var descriptionLong: String? = null
+    var descriptionLong: String? = null,
+    // FIXME: Could this be done within the icon Drawable?
+    var tintableIcon: Boolean = true
 ) {
 
     private val selectionListeners: ArrayList<EmojiPackSelectionListener> = ArrayList(3)

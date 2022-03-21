@@ -26,10 +26,11 @@ class AssetEmojiPack(
     version: VersionProvider? = Version(IntArray(0)),
     website: Uri? = null,
     license: Uri? = null,
-    descriptionLong: String? = null
+    descriptionLong: String? = null,
+    tintableIcon: Boolean = true
 ) : EmojiPack(
     "Asset-EmojiPack-%s".format(assetPath.replace('/', '_')),
-    name, description, version, website, license, descriptionLong
+    name, description, version, website, license, descriptionLong, tintableIcon
 ) {
     override fun load(context: Context, list: EmojiPackList): EmojiCompat.Config {
         // By using an empty file name, we force FileEmojiCompat to load the asset/fallback

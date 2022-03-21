@@ -3,6 +3,7 @@ package de.c1710.filemojicompat_ui.views.picker
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
@@ -67,6 +68,13 @@ open class EmojiPackItemAdapter (
                 holder.icon.context.theme
             )
         )
+        if (!item.tintableIcon && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.icon.imageTintList = null
+            holder.icon.backgroundTintList = null
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.icon.foregroundTintList = null
+            }
+        }
         holder.name.text = item.name
         holder.description.text = item.description
 

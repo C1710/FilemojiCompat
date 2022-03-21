@@ -44,8 +44,9 @@ class DownloadableEmojiPack(
     version: VersionProvider?,
     website: Uri? = null,
     license: Uri? = null,
-    descriptionLong: String? = null
-) : FileBasedEmojiPack(id, name, description, version, website, license, descriptionLong) {
+    descriptionLong: String? = null,
+    tintableIcon: Boolean = true
+) : FileBasedEmojiPack(id, name, description, version, website, license, descriptionLong, tintableIcon) {
     var downloadedVersion: Version? = null
 
     /**

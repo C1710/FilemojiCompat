@@ -22,9 +22,10 @@ abstract class FileBasedEmojiPack(
     version: VersionProvider?,
     website: Uri? = null,
     license: Uri? = null,
-    descriptionLong: String? = null
+    descriptionLong: String? = null,
+    tintableIcon: Boolean = true
 ) : DeletableEmojiPack(
-    id, name, description, version, website, license, descriptionLong
+    id, name, description, version, website, license, descriptionLong, tintableIcon
 ) {
     /**
      * Returns the bare file name for a pack.

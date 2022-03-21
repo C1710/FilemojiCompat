@@ -21,7 +21,8 @@ class DefaultEmojiPackList {
                 Version(intArrayOf(14, 0, 1)),
                 Uri.parse("https://github.com/C1710/blobmoji"),
                 Uri.parse("https://raw.githubusercontent.com/C1710/blobmoji/emoji14/LICENSE"),
-                context.resources.getString(R.string.blobmoji_description_long)
+                context.resources.getString(R.string.blobmoji_description_long),
+                tintableIcon = false
             )
 
             val noto = DownloadableEmojiPack (
@@ -33,7 +34,8 @@ class DefaultEmojiPackList {
                 Version(intArrayOf(14, 0)),
                 Uri.parse("https://github.com/googlefonts/noto-emoji"),
                 Uri.parse("https://github.com/googlefonts/noto-emoji/blob/main/LICENSE"),
-                context.resources.getString(R.string.noto_description_long)
+                context.resources.getString(R.string.noto_description_long),
+                tintableIcon = false
             )
 
             val twemoji = DownloadableEmojiPack (
@@ -45,7 +47,8 @@ class DefaultEmojiPackList {
                 Version(intArrayOf(14, 0)),
                 Uri.parse("https://twemoji.twitter.com/"),
                 Uri.parse("https://raw.githubusercontent.com/twitter/twemoji/master/LICENSE-GRAPHICS"),
-                context.resources.getString(R.string.twemoji_description_long)
+                context.resources.getString(R.string.twemoji_description_long),
+                tintableIcon = false
             )
 
             val openmoji = DownloadableEmojiPack (
@@ -57,7 +60,8 @@ class DefaultEmojiPackList {
                 Version(intArrayOf(13, 1)),
                 Uri.parse("https://openmoji.org/"),
                 Uri.parse("https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/LICENSE.txt"),
-                context.resources.getString(R.string.openmoji_description_long)
+                context.resources.getString(R.string.openmoji_description_long),
+                tintableIcon = false
             )
 
             // Using alphabetical order here (although Blobmoji would probably stay on top anyway :P)

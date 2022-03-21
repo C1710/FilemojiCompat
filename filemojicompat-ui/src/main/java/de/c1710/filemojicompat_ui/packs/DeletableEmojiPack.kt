@@ -19,8 +19,9 @@ abstract class DeletableEmojiPack(
     version: VersionProvider?,
     website: Uri? = null,
     license: Uri? = null,
-    descriptionLong: String? = null
-) : EmojiPack(id, name, description, version, website, license, descriptionLong) {
+    descriptionLong: String? = null,
+    tintableIcon: Boolean = true
+) : EmojiPack(id, name, description, version, website, license, descriptionLong, tintableIcon) {
     private val listeners: ArrayList<EmojiPackDeletionListener> = ArrayList(3)
 
     /**

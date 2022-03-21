@@ -42,7 +42,8 @@ class FontRequestEmojiPack(
     version: Version? = null,
     website: Uri? = null,
     license: Uri? = null,
-    descriptionLong: String
+    descriptionLong: String,
+    tintableIcon: Boolean = true
 ) : EmojiPack(
     id,
     name,
@@ -50,7 +51,8 @@ class FontRequestEmojiPack(
     version,
     website,
     license,
-    descriptionLong
+    descriptionLong,
+    tintableIcon
 ) {
 
     /**
