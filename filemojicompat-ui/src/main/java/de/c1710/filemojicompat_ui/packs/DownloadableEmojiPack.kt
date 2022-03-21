@@ -181,7 +181,6 @@ class DownloadableEmojiPack(
 
     fun cancelDownload() {
         call?.cancel()
-        downloader?.cancel()
         downloadStatus?.onCancelled()
     }
 
