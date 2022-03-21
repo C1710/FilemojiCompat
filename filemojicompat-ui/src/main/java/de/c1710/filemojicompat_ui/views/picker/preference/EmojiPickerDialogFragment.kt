@@ -31,7 +31,6 @@ open class EmojiPickerDialogFragment private constructor (
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        // FIXME: Currently, we immediately save the results
         if (preference is EmojiPickerPreference) {
             if (positiveResult) {
                 DelayedEmojiPreference.commitSelection(requireContext())

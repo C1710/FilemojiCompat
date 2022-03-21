@@ -6,6 +6,7 @@ import android.os.Handler
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPreferenceInterface
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.versions.VersionProvider
 
@@ -66,13 +67,14 @@ abstract class DeletableEmojiPack(
         timeToDelete: Long,
         handler: Handler,
         list: EmojiPackList,
-        selectDefaultAllowed: (String) -> Boolean = { _ -> true }
+        selectDefaultAllowed: (String) -> Boolean = { _ -> true },
+        preference: EmojiPreferenceInterface = EmojiPreference
     ) {
         if(selectDefaultAllowed(SYSTEM_DEFAULT) || selectedPack != this) {
             if (selectedPack == this) {
                 // Here, we need to immediately select another pack, since deleting is not something
                 // that can be dismissed once a dialog is closed.
-                list.getDefaultPack(context).select(context, this, preference = EmojiPreference)
+                list.getDefaultPack(context).select(context, this, preference = preference)
             }
 
             listeners.forEach {

@@ -22,6 +22,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import de.c1710.filemojicompat_ui.R
+import de.c1710.filemojicompat_ui.helpers.DelayedEmojiPreference
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import de.c1710.filemojicompat_ui.interfaces.*
@@ -277,6 +278,10 @@ open class EmojiPackItemAdapter (
                     dataSet,
                     callChangeListener
                 )
+                // We want the selection to change *now*
+                if (preference is DelayedEmojiPreference) {
+                    preference.commitSelection(holder.itemView.context)
+                }
             }
         }
     }
