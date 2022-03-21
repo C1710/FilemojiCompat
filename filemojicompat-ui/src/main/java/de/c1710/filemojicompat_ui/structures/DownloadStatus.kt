@@ -46,9 +46,9 @@ class DownloadStatus : EmojiPackDownloadListener {
         listeners.forEach { callback -> callback.onProgress(bytesRead, size) }
     }
 
-    override fun onFailure(e: IOException) {
+    override fun onFailure(e: IOException?) {
         this.error = e
-        listeners.forEach { callback -> callback.onFailure(error!!) }
+        listeners.forEach { callback -> callback.onFailure(error) }
     }
 
     override fun onCancelled() {

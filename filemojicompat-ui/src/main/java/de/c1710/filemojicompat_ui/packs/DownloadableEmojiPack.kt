@@ -128,6 +128,7 @@ class DownloadableEmojiPack(
     )
 
     private var call: Call? = null
+    private var downloader: EmojiPackDownloader? = null
     private var downloadStatus: DownloadStatus? = null
 
     /**
@@ -136,21 +137,28 @@ class DownloadableEmojiPack(
      */
     fun download(emojiStorage: File) {
         val status = DownloadStatus()
-        EmojiPackDownloader(this, emojiStorage)
+        downloader = EmojiPackDownloader(this, emojiStorage)
+        call = downloader!!
             .download(status)
         this.downloadStatus = status
 
         status.addListener(object : EmojiPackDownloadListener {
             override fun onProgress(bytesRead: Long, contentLength: Long) {}
 
-            override fun onFailure(e: IOException) {
+            override fun onFailure(e: IOException?) {
                 downloadStatus = null
+                call = null
+                downloader = null
             }
             override fun onCancelled() {
                 downloadStatus = null
+                call = null
+                downloader = null
             }
 
             override fun onDone() {
+                call = null
+                downloader = null
                 val oldFile = File(emojiStorage, getFileName())
                 downloadedVersion = getVersion()
                 oldFile.delete()
@@ -166,11 +174,14 @@ class DownloadableEmojiPack(
     }
 
     fun isDownloading(): Boolean {
-        return downloadStatus != null && !downloadStatus!!.done
+        return downloadStatus != null && !(downloadStatus!!.done
+                || downloadStatus!!.cancelled
+                || downloadStatus!!.error != null)
     }
 
     fun cancelDownload() {
         call?.cancel()
+        downloader?.cancel()
         downloadStatus?.onCancelled()
     }
 

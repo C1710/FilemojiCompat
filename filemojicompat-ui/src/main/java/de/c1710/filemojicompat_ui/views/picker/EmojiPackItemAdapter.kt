@@ -421,7 +421,7 @@ open class EmojiPackItemAdapter (
                 }
             }
 
-            override fun onFailure(e: IOException) {
+            override fun onFailure(e: IOException?) {
                 Log.e("FilemojiCompat", "Download of Emoji Pack failed", e)
                 unbindDownload(holder)
                 mainHandler.post {

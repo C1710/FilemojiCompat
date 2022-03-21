@@ -22,6 +22,7 @@ internal class EmojiPackDownloader(
     private val url = pack.source
     private val fileName = pack.getFileName(false)
     private val downloadLocation = File(emojiStorage, fileName)
+    private var callback: DownloadedCallback? = null
 
     fun download(downloadListener: EmojiPackDownloadListener): Call {
         val client = OkHttpClient.Builder()
@@ -41,7 +42,8 @@ internal class EmojiPackDownloader(
             .build()
 
         val call = client.newCall(request)
-        call.enqueue(DownloadedCallback(downloadListener, downloadLocation, isBase64))
+        callback = DownloadedCallback(downloadListener, downloadLocation, isBase64)
+        call.enqueue(callback!!)
         return call
     }
 
@@ -50,31 +52,66 @@ internal class EmojiPackDownloader(
         val location: File,
         val isBase64: Boolean
     ) : Callback {
+        var response: Response? = null
+
         override fun onFailure(call: Call, e: IOException) {
             downloadListener.onFailure(e)
         }
 
         override fun onResponse(call: Call, response: Response) {
-            assert(response.isSuccessful)
-            // https://stackoverflow.com/a/29012988/5070653
-            val sink = location.sink(false).buffer()
-            if (isBase64) {
-                response.body?.source()?.let {
-                    val buffer = ByteArray(1024)
-                    var bytesRead = it.read(buffer)
-                    while (bytesRead > 0) {
-                        val decoded = Base64.decode(buffer, Base64.DEFAULT, 0, bytesRead)
-                        sink.write(decoded)
-                        bytesRead = it.read(buffer)
+            response.use { response ->
+                this.response = response
+                if (response.isSuccessful) {
+                    // https://stackoverflow.com/a/29012988/5070653
+                    val sink = location.sink(false).buffer()
+                    try {
+                        response.body?.source()?.let {
+                            if (isBase64) {
+                                sink.writeAll(Base64DecodingSource(it).buffer())
+                            }
+                            sink.writeAll(it)
+                        }
+                    } catch (e: IOException) {
+                        sink.close()
+                        downloadListener.onFailure(e)
+                    } finally {
+                        sink.close()
                     }
+                    downloadListener.onDone()
+                } else {
+                    downloadListener.onFailure(IOException(response.code.toString()))
                 }
-            } else {
-                response.body?.source()?.let { sink.writeAll(it) }
             }
-            sink.close()
-            downloadListener.onDone()
         }
 
+        fun cancel() {
+            response?.close()
+        }
+    }
+
+    fun cancel() {
+        callback?.cancel()
+    }
+
+    private class Base64DecodingSource(val source: BufferedSource): Source {
+        val buffer = Buffer()
+
+        override fun close() {
+            source.close()
+        }
+
+        override fun read(sink: Buffer, byteCount: Long): Long {
+            // We always need to read multiples of 4 bytes
+            val bytesRead = source.read(buffer, byteCount)
+            val bytesProcessed = (buffer.size - buffer.size % 4).toInt()
+            val decoded = Base64.decode(buffer.readByteArray(bytesProcessed.toLong()), 0, bytesProcessed, Base64.DEFAULT)
+            sink.write(decoded)
+            return bytesRead
+        }
+
+        override fun timeout(): Timeout {
+            return source.timeout()
+        }
     }
 
     private class ProgressResponseBody(

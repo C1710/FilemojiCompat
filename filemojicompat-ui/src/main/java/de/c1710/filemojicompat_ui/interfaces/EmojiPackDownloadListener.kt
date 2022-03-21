@@ -16,7 +16,7 @@ interface EmojiPackDownloadListener {
     /**
      * Called when the download went wrong.
      */
-    fun onFailure(e: IOException)
+    fun onFailure(e: IOException?)
 
     /**
      * Called when the download has been cancelled
