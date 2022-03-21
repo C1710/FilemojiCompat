@@ -362,7 +362,7 @@ open class EmojiPackItemAdapter (
         holder.cancel.isVisible = false
         holder.download.isVisible = true
         holder.importFile.isVisible = false
-        holder.delete.isVisible = false
+        holder.delete.isVisible = item.isDownloaded()
         holder.selectCurrent.isVisible = item.isDownloaded()
         holder.description.isVisible = !holder.expandedItem.isVisible
 
@@ -385,6 +385,20 @@ open class EmojiPackItemAdapter (
 
         holder.selectCurrent.setOnClickListener {
             item.select(it.context, selectionAllowed = callChangeListener, preference = preference)
+        }
+
+        holder.delete.setOnClickListener {
+            item.scheduleDeletion(
+                holder.itemView.context,
+                SNACKBAR_DURATION_LONG,
+                mainHandler,
+                dataSet,
+                callChangeListener
+            )
+            // We want the selection to change *now*
+            if (preference is DelayedEmojiPreference) {
+                preference.commitSelection(holder.itemView.context)
+            }
         }
     }
 
