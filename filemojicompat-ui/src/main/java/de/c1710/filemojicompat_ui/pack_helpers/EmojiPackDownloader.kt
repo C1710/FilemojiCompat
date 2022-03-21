@@ -52,20 +52,17 @@ internal class EmojiPackDownloader(
         val location: File,
         val isBase64: Boolean
     ) : Callback {
-        var response: Response? = null
-
         override fun onFailure(call: Call, e: IOException) {
             downloadListener.onFailure(e)
         }
 
         override fun onResponse(call: Call, response: Response) {
-            response.use { response ->
-                this.response = response
-                if (response.isSuccessful) {
+            response.use {
+                if (it.isSuccessful) {
                     // https://stackoverflow.com/a/29012988/5070653
                     val sink = location.sink(false).buffer()
                     try {
-                        response.body?.source()?.let {
+                        it.body?.source()?.let {
                             if (isBase64) {
                                 sink.writeAll(Base64Source(it).buffer())
                             } else {
@@ -80,7 +77,7 @@ internal class EmojiPackDownloader(
                     }
                     downloadListener.onDone()
                 } else {
-                    downloadListener.onFailure(IOException(response.code.toString()))
+                    downloadListener.onFailure(IOException(it.code.toString()))
                 }
             }
         }
