@@ -5,6 +5,7 @@ import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import okhttp3.*
 import okio.*
+import java.io.EOFException
 import java.io.File
 import java.io.IOException
 
@@ -22,7 +23,6 @@ internal class EmojiPackDownloader(
     private val url = pack.source
     private val fileName = pack.getFileName(false)
     private val downloadLocation = File(emojiStorage, fileName)
-    private var callback: DownloadedCallback? = null
 
     fun download(downloadListener: EmojiPackDownloadListener): Call {
         val client = OkHttpClient.Builder()
@@ -42,8 +42,8 @@ internal class EmojiPackDownloader(
             .build()
 
         val call = client.newCall(request)
-        callback = DownloadedCallback(downloadListener, downloadLocation, isBase64)
-        call.enqueue(callback!!)
+        val callback = DownloadedCallback(downloadListener, downloadLocation, isBase64)
+        call.enqueue(callback)
         return call
     }
 
@@ -67,9 +67,10 @@ internal class EmojiPackDownloader(
                     try {
                         response.body?.source()?.let {
                             if (isBase64) {
-                                sink.writeAll(Base64DecodingSource(it).buffer())
+                                sink.writeAll(Base64Source(it).buffer())
+                            } else {
+                                sink.writeAll(it)
                             }
-                            sink.writeAll(it)
                         }
                     } catch (e: IOException) {
                         sink.close()
@@ -83,34 +84,38 @@ internal class EmojiPackDownloader(
                 }
             }
         }
+    }
+
+    private class CancelableSink(delegate: Sink) : ForwardingSink(delegate) {
+        var cancelled = false
+
+        override fun write(source: Buffer, byteCount: Long) {
+            if (!cancelled) {
+                super.write(source, byteCount)
+            } else {
+                close()
+                throw EOFException("Write cancelled")
+            }
+        }
 
         fun cancel() {
-            response?.close()
+            cancelled = true
         }
     }
 
-    fun cancel() {
-        callback?.cancel()
-    }
-
-    private class Base64DecodingSource(val source: BufferedSource): Source {
+    /**
+     * Wrapper class that decodes a base64-encoded source
+     */
+    private class Base64Source(delegate: BufferedSource): ForwardingSource(delegate) {
         val buffer = Buffer()
-
-        override fun close() {
-            source.close()
-        }
 
         override fun read(sink: Buffer, byteCount: Long): Long {
             // We always need to read multiples of 4 bytes
-            val bytesRead = source.read(buffer, byteCount)
+            val bytesRead = delegate.read(buffer, byteCount)
             val bytesProcessed = (buffer.size - buffer.size % 4).toInt()
             val decoded = Base64.decode(buffer.readByteArray(bytesProcessed.toLong()), 0, bytesProcessed, Base64.DEFAULT)
             sink.write(decoded)
             return bytesRead
-        }
-
-        override fun timeout(): Timeout {
-            return source.timeout()
         }
     }
 
