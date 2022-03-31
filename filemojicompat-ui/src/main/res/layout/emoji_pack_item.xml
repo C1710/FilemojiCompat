@@ -43,7 +43,6 @@
         android:layout_height="wrap_content"
 
         android:textSize="16sp"
-        android:maxLines="1"
         android:textColor="?android:attr/textColorPrimary"
 
         android:clickable="false"
@@ -66,7 +65,6 @@
         android:layout_height="wrap_content"
 
         android:textSize="14sp"
-        android:maxLines="2"
         android:minLines="2"
         android:textColor="?android:attr/textColorSecondary"
 
