@@ -17,8 +17,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 32
-        versionCode 24
-        versionName "3.2.0-alpha3"
+        versionCode 25
+        versionName "$VERSION_NAME"
     }
 
 
