@@ -28,7 +28,7 @@ class DefaultEmojiPackList {
             val noto = DownloadableEmojiPack (
                 "noto",
                 "Noto Emoji",
-                URI("https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/emoji-compat/font/NotoColorEmojiCompat.ttf?format=TEXT"),
+                URI("https://github.com/C1710/noto-fonts/raw/master/emoji-compat/font/NotoColorEmojiCompat.ttf"),
                 context.resources.getString(R.string.noto_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_noto, null),
                 Version(intArrayOf(14, 0)),
