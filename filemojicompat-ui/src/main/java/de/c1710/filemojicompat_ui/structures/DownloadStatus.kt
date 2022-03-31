@@ -2,6 +2,7 @@ package de.c1710.filemojicompat_ui.structures
 
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import java.io.IOException
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * A data structure to collect/store updates from an [de.c1710.filemojicompat_ui.pack_helpers.EmojiPackDownloader]
@@ -38,7 +39,9 @@ class DownloadStatus : EmojiPackDownloadListener {
     var cancelled: Boolean = false
         private set
 
-    private val listeners: ArrayList<EmojiPackDownloadListener> = ArrayList(1)
+    // Because listeners often remove themselves from the list while it's being iterated over,
+    // we need to use a CopyOnWriteArrayList here
+    private val listeners: CopyOnWriteArrayList<EmojiPackDownloadListener> = CopyOnWriteArrayList()
 
     override fun onProgress(bytesRead: Long, contentLength: Long) {
         this.bytesRead = bytesRead

@@ -427,12 +427,10 @@ open class EmojiPackItemAdapter (
                 mainHandler.post {
                     holder.progress.progress =
                         displayedProgress(bytesRead, contentLength, maxProgress)
-                    if (holder.progress.progress % maxProgress == 0) {
                         // It may be possible that the Done state takes some while, for some reason.
                         // So, until then we set the state to indeterminate.
                         // Ideally, the user doesn't see it
-                        holder.progress.isIndeterminate = true
-                    }
+                        holder.progress.isIndeterminate = holder.progress.progress % maxProgress == 0
                 }
             }
 
