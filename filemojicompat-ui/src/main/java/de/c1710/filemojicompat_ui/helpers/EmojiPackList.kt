@@ -1,9 +1,7 @@
 package de.c1710.filemojicompat_ui.helpers
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import de.c1710.filemojicompat_ui.packs.CustomEmojiPack
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.packs.FilePickerDummyEmojiPack
@@ -11,7 +9,6 @@ import de.c1710.filemojicompat_ui.packs.SystemDefaultEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import de.c1710.filemojicompat_ui.versions.Version
 import java.io.File
-import java.util.*
 
 class EmojiPackList(
     context: Context,
@@ -27,11 +24,7 @@ class EmojiPackList(
 
     init {
         emojiPacks.add(0, SystemDefaultEmojiPack.getSystemDefaultPack(context))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            loadStoredPacksN(context)
-        } else {
-            loadStoredPacks(context)
-        }
+        loadStoredPacks(context)
         // TODO: First evaluate, whether this is a security-problem/possible with signatures...
         // emojiPacks.addAll(collectFontProviders(context))
         emojiPacks.add(FilePickerDummyEmojiPack.setAndGetFilePickerPack(context))
@@ -39,66 +32,11 @@ class EmojiPackList(
         EmojiPack.selectedPack = getSelectedPack(context)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun loadStoredPacksN(context: Context) {
-        if (emojiStorage.exists()) {
-            if (emojiStorage.isDirectory) {
-                // This cannot be null as we have already checked that we have a directory
-                Arrays.stream(emojiStorage.listFiles()!!)
-                    .filter { file: File -> file.extension == "ttf" }
-                    .map { file: File -> file.nameWithoutExtension }
-                    // Format: name-ver.sion.co.de
-                    .map { file: String -> file.split('-', ignoreCase = true, limit = 2) }
-                    .map { nameVersion: List<String> ->
-                        val name = nameVersion[0]
-                        val version = nameVersion.getOrNull(1)
-                        Pair(name, Version.fromStringOrNull(version))
-                    } // We now have a Pair with the name and the version (or null if no version is given)
-                    .forEach { entry ->
-                        // We distinguish here between custom and downloadable packs
-                        // Unfortunately, we don't store type information here.
-                        // But we store the names of custom packs, so if there is one, we can assume
-                        // that it is a custom pack
-                        val customName: String? =
-                            EmojiPreference.getNameForCustom(context, entry.first)
-                        if (customName != null) {
-                            // Looks, like it is a custom pack
-                            emojiPacks.add(CustomEmojiPack(context, entry.first))
-                        } else {
-                            // Okay, it's a downloaded pack. We can now add the actually downloaded
-                            // version
-                            val existingEntry = get(entry.first)
-                            if(existingEntry != null) {
-                                // it is a downloadable pack
-                                if (existingEntry is DownloadableEmojiPack) {
-                                    Log.d("FilemojiCompat", "Updating downloaded version for %s: %s".format(existingEntry, entry.second))
-                                    existingEntry.downloadedVersion = entry.second
-                                } else {
-                                    Log.w(
-                                        "FilemojiCompat", "loadStoredPacks: stored pack %s is " +
-                                                "neither a custom pack (at least without a name), nor a Downloadable pack, but %s"
-                                                    .format(entry.first, existingEntry::class)
-                                    )
-                                }
-                            } else {
-                                Log.w("FilemojiCompat", "loadStoredPacks: Unknown pack: %s".format(entry.first))
-                            }
-                        }
-                    }
-            } else {
-                Log.e("FilemojiCompat", "Emoji pack storage is not a directory!")
-            }
-        } else {
-            emojiStorage.mkdir()
-            Log.i("FilemojiCompat", "loadStoredPacks: Emoji storage does not exist; creating it")
-        }
-    }
-
     private fun loadStoredPacks(context: Context) {
         if (emojiStorage.exists()) {
             if (emojiStorage.isDirectory) {
                 // This cannot be null as we have already checked that we have a directory
-                emojiStorage.listFiles()!!
+                emojiStorage.listFiles()!!.asSequence()
                     .filter { file: File -> file.extension == "ttf" }
                     .map { file: File -> file.nameWithoutExtension }
                     // Format: name-ver.sion.co.de
