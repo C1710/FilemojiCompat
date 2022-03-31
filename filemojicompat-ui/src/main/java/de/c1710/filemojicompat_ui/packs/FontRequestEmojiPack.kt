@@ -33,7 +33,7 @@ import de.c1710.filemojicompat_ui.versions.Version
  * @param descriptionLong A longer description that is shown when the user expands the item for the emoji pack.
  *                        It may contain additional information like a copyright notice, etc.
  */
-class FontRequestEmojiPack(
+class FontRequestEmojiPack @JvmOverloads constructor(
     private var request: FontRequest,
     id: String,
     name: String,

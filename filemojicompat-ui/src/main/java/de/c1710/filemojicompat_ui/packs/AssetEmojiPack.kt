@@ -18,7 +18,7 @@ import java.io.File
  * The id will be "Asset-EmojiPack-pack.ttf" (with "pack.ttf" being the assetPath, with '/' replaced by '_')
  * For the parameters, cf. [EmojiPack]
  */
-class AssetEmojiPack(
+class AssetEmojiPack @JvmOverloads constructor(
     private val assetPath: String = FileMetadataRepoLoader.DEFAULT_FALLBACK,
     name: String,
     description: String,

@@ -13,7 +13,7 @@ import de.c1710.filemojicompat_ui.versions.VersionProvider
 /**
  * An emoji pack that can be deleted (somehow)
  */
-abstract class DeletableEmojiPack(
+abstract class DeletableEmojiPack @JvmOverloads constructor(
     id: String,
     name: String,
     description: String,

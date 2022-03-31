@@ -35,7 +35,7 @@ import java.net.URI
  * @param descriptionLong A longer description that is shown when the user expands the item for the emoji pack.
  *                        It may contain additional information like a copyright notice, etc.
  */
-class DownloadableEmojiPack(
+class DownloadableEmojiPack @JvmOverloads constructor(
     id: String,
     name: String,
     internal val source: URI,

@@ -13,7 +13,7 @@ import de.c1710.filemojicompat_ui.versions.Version
  * Represents a custom emoji pack, that has been imported through a file picker.
  * Usually, you don't create an object of this class manually.
  */
-class CustomEmojiPack(
+class CustomEmojiPack @JvmOverloads constructor(
     context: Context,
     hash: String
 ) : FileBasedEmojiPack(

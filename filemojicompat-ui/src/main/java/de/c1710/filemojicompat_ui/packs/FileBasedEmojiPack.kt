@@ -15,7 +15,7 @@ import java.io.File
 /**
  * An emoji pack that is stored in some file
  */
-abstract class FileBasedEmojiPack(
+abstract class FileBasedEmojiPack @JvmOverloads constructor(
     id: String,
     name: String,
     description: String,
