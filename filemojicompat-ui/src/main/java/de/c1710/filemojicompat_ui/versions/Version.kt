@@ -1,6 +1,5 @@
 package de.c1710.filemojicompat_ui.versions
 
-import java.lang.Integer.max
 
 /**
  * A simple structure for (comparable) versions
@@ -9,7 +8,7 @@ class Version(private var version: IntArray) : Comparable<Version>, VersionProvi
 
     override fun compareTo(other: Version): Int {
         // We need to pad the arrays to the longest size
-        val len = max(this.version.size, other.version.size)
+        val len = kotlin.math.max(this.version.size, other.version.size)
         // Version codes are reasonably small such that copying them is not too bad
         val thisVersion = this.version.copyOf(len)
         val otherVersion = other.version.copyOf(len)
