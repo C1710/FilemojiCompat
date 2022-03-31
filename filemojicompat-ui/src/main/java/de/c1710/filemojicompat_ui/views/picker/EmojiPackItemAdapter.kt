@@ -176,7 +176,8 @@ open class EmojiPackItemAdapter (
         expand: Boolean
     ) {
         // TODO: Animate
-        holder.description.isVisible = !expand
+        // We don't want to show the description while the font is downloading
+        holder.description.isVisible = !expand && !holder.progress.isVisible
         holder.expandedItem.isVisible = expand
     }
 
@@ -341,7 +342,8 @@ open class EmojiPackItemAdapter (
         holder.selectCurrent.isVisible = item.isDownloaded()
         holder.progress.isIndeterminate = item.getDownloadStatus()?.let {
             // Make it indeterminate when we have no or all progress
-           displayedProgress(it.bytesRead, it.size, holder.progress.max) % holder.progress.max == 0
+           trueProgress(it.bytesRead, it.size, holder.progress.max) == holder.progress.max
+                   || it.bytesRead == 0L
         } ?: false
 
         // We are now interested in the progress
@@ -356,7 +358,9 @@ open class EmojiPackItemAdapter (
         }
     }
 
-    private fun setDownloadable(holder: EmojiPackViewHolder, item: DownloadableEmojiPack) {
+    private fun setDownloadable(holder: EmojiPackViewHolder,
+                                item: DownloadableEmojiPack,
+                                failed: Boolean = false) {
         holder.item.isVisible = true
         holder.selection.isVisible = false
         holder.progress.isVisible = false
@@ -371,7 +375,11 @@ open class EmojiPackItemAdapter (
             ResourcesCompat.getDrawable(
                 holder.download.context.resources,
                 if (!item.isDownloaded()) {
-                    R.drawable.ic_download
+                    if (!failed) {
+                        R.drawable.ic_download
+                    } else {
+                        R.drawable.ic_sync_problem
+                    }
                 } else {
                     R.drawable.ic_update
                 },
@@ -425,12 +433,13 @@ open class EmojiPackItemAdapter (
             override fun onProgress(bytesRead: Long, contentLength: Long) {
                 val maxProgress = holder.progress.max
                 mainHandler.post {
+                    // It may be possible that the Done state takes some while, for some reason.
+                    // So, until then we set the state to indeterminate.
+                    // Ideally, the user doesn't see it
+                    holder.progress.isIndeterminate = trueProgress(bytesRead, contentLength, maxProgress) == maxProgress
+                            || bytesRead == 0L
                     holder.progress.progress =
                         displayedProgress(bytesRead, contentLength, maxProgress)
-                        // It may be possible that the Done state takes some while, for some reason.
-                        // So, until then we set the state to indeterminate.
-                        // Ideally, the user doesn't see it
-                        holder.progress.isIndeterminate = holder.progress.progress % maxProgress == 0
                 }
             }
 
@@ -438,7 +447,7 @@ open class EmojiPackItemAdapter (
                 Log.e("FilemojiCompat", "Download of Emoji Pack failed", e)
                 unbindDownload(holder)
                 mainHandler.post {
-                    setDownloadable(holder, item)
+                    setDownloadable(holder, item, true)
                 }
             }
 
@@ -469,12 +478,24 @@ open class EmojiPackItemAdapter (
         // According to https://chrisharrison.net/projects/progressbars/ProgBarHarrison.pdf
         // slightly accelerating progress bars are perceived as faster.
         // Therefore either Power or Fast Power is used. We use Power:
-        var progressDouble: Double = (bytesRead.toDouble() / contentLength)
-        progressDouble = (progressDouble + (1 - progressDouble) * 0.03) *
-                         (progressDouble + (1 - progressDouble) * 0.03)
-        val progress = progressDouble * maxProgress
-        // TODO: Make this behavior optional?
-        return progress.toInt()
+        return if (bytesRead != 0L && contentLength != 0L) {
+            var progressDouble: Double = (bytesRead.toDouble() / contentLength)
+            progressDouble = (progressDouble + (1 - progressDouble) * 0.03) *
+                    (progressDouble + (1 - progressDouble) * 0.03)
+            val progress = progressDouble * maxProgress
+            // TODO: Make this behavior optional?
+            return progress.toInt()
+        } else {
+            0
+        }
+    }
+
+    private fun trueProgress(bytesRead: Long, contentLength: Long, maxProgress: Int): Int {
+        return if (bytesRead != 0L && contentLength != 0L) {
+            ((bytesRead / contentLength) * maxProgress).toInt()
+        } else {
+            0
+        }
     }
 
     private fun unbindDownload(holder: EmojiPackViewHolder) {

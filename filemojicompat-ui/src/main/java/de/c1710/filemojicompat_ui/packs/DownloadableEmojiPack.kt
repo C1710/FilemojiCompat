@@ -149,12 +149,20 @@ class DownloadableEmojiPack @JvmOverloads constructor(
                 override fun onProgress(bytesRead: Long, contentLength: Long) {}
 
                 override fun onFailure(e: IOException?) {
+                    val fontFile = File(emojiStorage, getFileName(false))
+                    if (fontFile.isFile) {
+                        fontFile.delete()
+                    }
                     downloadStatus = null
                     call = null
                     downloader = null
                 }
 
                 override fun onCancelled() {
+                    val fontFile = File(emojiStorage, getFileName())
+                    if (fontFile.isFile) {
+                        fontFile.delete()
+                    }
                     downloadStatus = null
                     call = null
                     downloader = null
@@ -190,6 +198,7 @@ class DownloadableEmojiPack @JvmOverloads constructor(
         if (call?.isCanceled() == false) {
             call?.cancel()
             downloadStatus?.onCancelled()
+
         }
     }
 
