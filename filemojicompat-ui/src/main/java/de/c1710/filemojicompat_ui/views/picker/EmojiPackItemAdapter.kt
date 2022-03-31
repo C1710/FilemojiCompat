@@ -221,7 +221,7 @@ open class EmojiPackItemAdapter (
             } else {
                 Log.wtf(
                     "FilemojiCompat",
-                    "ViewHolder had deletion listener with non-deletable Emoji Pack"
+                    "ViewHolder had a deletion listener for a non-deletable Emoji Pack"
                 )
             }
         }
@@ -340,7 +340,8 @@ open class EmojiPackItemAdapter (
         // If an outdated version is available, it should be selectable through the selectCurrent button
         holder.selectCurrent.isVisible = item.isDownloaded()
         holder.progress.isIndeterminate = item.getDownloadStatus()?.let {
-            displayedProgress(it.bytesRead, it.size, holder.progress.max) == holder.progress.max
+            // Make it indeterminate when we have no or all progress
+           displayedProgress(it.bytesRead, it.size, holder.progress.max) % holder.progress.max == 0
         } ?: false
 
         // We are now interested in the progress
@@ -426,7 +427,7 @@ open class EmojiPackItemAdapter (
                 mainHandler.post {
                     holder.progress.progress =
                         displayedProgress(bytesRead, contentLength, maxProgress)
-                    if (holder.progress.progress == maxProgress) {
+                    if (holder.progress.progress % maxProgress == 0) {
                         // It may be possible that the Done state takes some while, for some reason.
                         // So, until then we set the state to indeterminate.
                         // Ideally, the user doesn't see it

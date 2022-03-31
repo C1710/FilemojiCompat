@@ -135,36 +135,41 @@ class DownloadableEmojiPack(
      * Downloads the pack
      * @param emojiStorage The directory to download the pack into (usually retrieved through [EmojiPackList.emojiStorage])
      */
+    @Synchronized
     fun download(emojiStorage: File) {
-        val status = DownloadStatus()
-        downloader = EmojiPackDownloader(this, emojiStorage)
-        call = downloader!!
-            .download(status)
-        this.downloadStatus = status
+        // Don't start another download while one is running
+        if (this.downloadStatus == null) {
+            val status = DownloadStatus()
+            downloader = EmojiPackDownloader(this, emojiStorage)
+            call = downloader!!
+                .download(status)
+            this.downloadStatus = status
 
-        status.addListener(object : EmojiPackDownloadListener {
-            override fun onProgress(bytesRead: Long, contentLength: Long) {}
+            status.addListener(object : EmojiPackDownloadListener {
+                override fun onProgress(bytesRead: Long, contentLength: Long) {}
 
-            override fun onFailure(e: IOException?) {
-                downloadStatus = null
-                call = null
-                downloader = null
-            }
-            override fun onCancelled() {
-                downloadStatus = null
-                call = null
-                downloader = null
-            }
+                override fun onFailure(e: IOException?) {
+                    downloadStatus = null
+                    call = null
+                    downloader = null
+                }
 
-            override fun onDone() {
-                call = null
-                downloader = null
-                val oldFile = File(emojiStorage, getFileName())
-                downloadedVersion = getVersion()
-                oldFile.delete()
-            }
+                override fun onCancelled() {
+                    downloadStatus = null
+                    call = null
+                    downloader = null
+                }
 
-        })
+                override fun onDone() {
+                    call = null
+                    downloader = null
+                    val oldFile = File(emojiStorage, getFileName())
+                    downloadedVersion = getVersion()
+                    oldFile.delete()
+                }
+
+            })
+        }
     }
 
     fun getDownloadStatus(): DownloadStatus? = downloadStatus
@@ -173,15 +178,19 @@ class DownloadableEmojiPack(
         return downloadedVersion != null
     }
 
+    @Synchronized
     fun isDownloading(): Boolean {
         return downloadStatus != null && !(downloadStatus!!.done
                 || downloadStatus!!.cancelled
                 || downloadStatus!!.error != null)
     }
 
+    @Synchronized
     fun cancelDownload() {
-        call?.cancel()
-        downloadStatus?.onCancelled()
+        if (call?.isCanceled() == false) {
+            call?.cancel()
+            downloadStatus?.onCancelled()
+        }
     }
 
     override fun getFileName(): String {
