@@ -42,9 +42,9 @@ class Version(private var version: IntArray) : Comparable<Version>, VersionProvi
     companion object {
         @JvmStatic
         fun fromString(string: String?): Version {
-            return Version((string ?: "").split('.').stream()
-                .mapToInt { subVersion: String -> subVersion.toIntOrNull() ?: 0 }
-                .toArray())
+            return Version((string ?: "").split('.')
+                .map { subversion: String -> subversion.toIntOrNull() ?: 0 }
+                .toIntArray())
         }
 
         internal fun fromStringOrNull(string: String?): Version? {
