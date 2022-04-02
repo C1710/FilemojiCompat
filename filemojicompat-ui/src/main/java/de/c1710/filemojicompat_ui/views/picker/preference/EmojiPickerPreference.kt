@@ -31,7 +31,7 @@ open class EmojiPickerPreference(
     init {
         setDefaultValue(EmojiPreference.getDefault(context))
         summaryProvider = SummaryProvider<EmojiPickerPreference> {
-            EmojiPackList.defaultList!![EmojiPreference.getSelected(context)]?.name ?: ""
+            EmojiPackList.defaultList[EmojiPreference.getSelected(context)]?.name ?: ""
         }
         key = EMOJI_PREFERENCE
         title = context.resources.getString(R.string.emoji_style)
@@ -57,7 +57,7 @@ open class EmojiPickerPreference(
                 where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
             val importer = EmojiPackImporter(
                 activity.activityResultRegistry,
-                EmojiPackList.defaultList!!,
+                EmojiPackList.defaultList,
                 activity as Context
             )
             activity.lifecycle.addObserver(importer)

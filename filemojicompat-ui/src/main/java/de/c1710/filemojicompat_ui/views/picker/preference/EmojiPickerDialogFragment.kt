@@ -23,7 +23,7 @@ open class EmojiPickerDialogFragment private constructor (
 
         val picker: RecyclerView? = view.findViewById(R.id.emoji_picker) as RecyclerView?
         picker?.adapter = EmojiPackItemAdapter(
-            EmojiPackList.defaultList!!,
+            EmojiPackList.defaultList,
             importer,
             callChangeListener,
             DelayedEmojiPreference

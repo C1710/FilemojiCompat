@@ -158,11 +158,10 @@ class EmojiPackList(
          * The default/"Singleton" emoji pack list. Can only be set once
          */
         @JvmStatic
-        var defaultList: EmojiPackList? = null
-            set(value) {
-                if (field == null) {
-                    field = value
-                }
-            }
+        lateinit var defaultList: EmojiPackList
+
+        internal fun isDefaultListInitialized(): Boolean {
+            return ::defaultList.isInitialized
+        }
     }
 }

@@ -38,7 +38,7 @@ object DelayedEmojiPreference: EmojiPreferenceInterface {
         selected?.let { EmojiPreference.setSelected(context, it) }
     }
 
-    fun dismissSelection(context: Context, list: EmojiPackList = EmojiPackList.defaultList!!) {
+    fun dismissSelection(context: Context, list: EmojiPackList = EmojiPackList.defaultList) {
         // Reset there as well
         EmojiPack.selectedPack = list[EmojiPreference.getSelected(context)]
         selected = null

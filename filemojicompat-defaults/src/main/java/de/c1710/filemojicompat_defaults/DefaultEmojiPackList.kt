@@ -10,6 +10,7 @@ import java.net.URI
 
 class DefaultEmojiPackList {
     companion object {
+        // TODO: Make all icons have the same size
         @JvmStatic
         fun get(context: Context): ArrayList<EmojiPack> {
             val blobmoji = DownloadableEmojiPack (

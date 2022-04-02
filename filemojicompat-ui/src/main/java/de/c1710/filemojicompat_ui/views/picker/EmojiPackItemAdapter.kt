@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.appcompat.app.AlertDialog
@@ -587,12 +588,12 @@ open class EmojiPackItemAdapter (
                 where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
             val emojiPackImporter = EmojiPackImporter(
                 activity.activityResultRegistry,
-                EmojiPackList.defaultList!!,
+                EmojiPackList.defaultList,
                 activity
             )
             activity.lifecycle.addObserver(emojiPackImporter)
             return EmojiPackItemAdapter(
-                EmojiPackList.defaultList!!,
+                EmojiPackList.defaultList,
                 emojiPackImporter,
                 callChangeListener
             )
