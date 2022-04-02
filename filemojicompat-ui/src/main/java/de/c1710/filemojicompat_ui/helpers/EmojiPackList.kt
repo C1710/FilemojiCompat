@@ -13,7 +13,8 @@ import java.io.File
 class EmojiPackList(
     context: Context,
     storageDirectory: String = "emoji",
-    private var emojiPacks: ArrayList<EmojiPack>
+    private var emojiPacks: ArrayList<EmojiPack>,
+    allowPackImports: Boolean = true
 ): Iterable<EmojiPack> {
     internal val size: Int
         get() {
@@ -27,7 +28,9 @@ class EmojiPackList(
         loadStoredPacks(context)
         // TODO: First evaluate, whether this is a security-problem/possible with signatures...
         // emojiPacks.addAll(collectFontProviders(context))
-        emojiPacks.add(FilePickerDummyEmojiPack.setAndGetFilePickerPack(context))
+        if (allowPackImports) {
+            emojiPacks.add(FilePickerDummyEmojiPack.setAndGetFilePickerPack(context))
+        }
 
         EmojiPack.selectedPack = getSelectedPack(context)
     }
