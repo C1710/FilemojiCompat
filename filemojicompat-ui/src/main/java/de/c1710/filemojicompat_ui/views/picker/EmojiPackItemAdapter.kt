@@ -148,7 +148,6 @@ open class EmojiPackItemAdapter (
                     pack: DeletableEmojiPack,
                     timeToDeletion: Long
                 ) {
-
                     // Adjust the UI
                     setDeleting(holder, pack)
 
