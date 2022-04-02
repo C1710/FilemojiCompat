@@ -69,13 +69,14 @@ open class EmojiPackItemAdapter (
                 holder.icon.context.theme
             )
         )
-        if (!item.tintableIcon && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.icon.imageTintList = null
-            holder.icon.backgroundTintList = null
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                holder.icon.foregroundTintList = null
-            }
+        if (!item.tintableIcon) {
+            removeTint(holder.icon)
         }
+
+        removeTint(holder.cancel)
+        removeTint(holder.download)
+        removeTint(holder.importFile)
+
         holder.name.text = item.name
         holder.description.text = item.description
 
@@ -240,6 +241,16 @@ open class EmojiPackItemAdapter (
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
+    private fun removeTint(view: ImageView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            view.imageTintList = null
+            view.backgroundTintList = null
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                view.foregroundTintList = null
+            }
+        }
+    }
+
     // STATE TRANSITIONS
 
     private fun setAvailable(holder: EmojiPackViewHolder, item: EmojiPack) {
@@ -374,14 +385,10 @@ open class EmojiPackItemAdapter (
         holder.download.setImageDrawable(
             ResourcesCompat.getDrawable(
                 holder.download.context.resources,
-                if (!item.isDownloaded()) {
-                    if (!failed) {
-                        R.drawable.ic_download
-                    } else {
-                        R.drawable.ic_sync_problem
-                    }
-                } else {
-                    R.drawable.ic_update
+                when {
+                    failed -> R.drawable.ic_sync_problem
+                    item.isDownloaded() -> R.drawable.ic_update
+                    else -> R.drawable.ic_download
                 },
                 holder.download.context.theme
             )

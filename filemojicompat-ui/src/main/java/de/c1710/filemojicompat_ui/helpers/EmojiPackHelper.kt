@@ -53,7 +53,7 @@ object EmojiPackHelper {
     }
 
     private fun getCurrentConfig(context: Context): EmojiCompat.Config {
-        val list = EmojiPackList.defaultList!!
+        val list = EmojiPackList.defaultList
 
         val emojiPack = list[EmojiPreference.getSelected(context)]
         val selectedPack = if (emojiPack != null) {

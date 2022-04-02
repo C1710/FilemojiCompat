@@ -159,7 +159,7 @@ class DownloadableEmojiPack @JvmOverloads constructor(
                 }
 
                 override fun onCancelled() {
-                    val fontFile = File(emojiStorage, getFileName())
+                    val fontFile = File(emojiStorage, getFileName(false))
                     if (fontFile.isFile) {
                         fontFile.delete()
                     }
