@@ -97,8 +97,8 @@ open class EmojiPackItemAdapter (
     /**
      * There are quite a few states:
      * - Available: Pack can be chosen, etc.
-     * - Downloadable: Pack can be downloaded
-     * - Downloading: Pack is currently being downloaded (Shows a different icon if it's just not the current version)
+     * - Downloadable: Pack can be downloaded (Shows a different icon if it's just not the current version or if the previous download failed)
+     * - Downloading: Pack is currently being downloaded
      * - FilePicker: Entry the file picker entry
      * - Deleting: Entry is waiting for deletion (on the UI it says that it _is_ deleted; this is a lie though)
      * - Deleted: Will directly transition to Downloadable for downloadable packs and to removal for
