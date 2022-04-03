@@ -1,3 +1,4 @@
 include ':filemojicompat'
 include ':filemojicompat-ui'
 include ':filemojicompat-defaults'
+include ':filemojicompat-autoinit'
