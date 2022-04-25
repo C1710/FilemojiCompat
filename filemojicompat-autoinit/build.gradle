@@ -38,6 +38,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.startup:startup-runtime:1.1.1'
-    implementation project(path: ':filemojicompat-defaults')
-    implementation project(path: ':filemojicompat-ui')
+    api project(path: ':filemojicompat-defaults')
+    api project(path: ':filemojicompat-ui')
 }
