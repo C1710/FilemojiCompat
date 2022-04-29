@@ -46,6 +46,7 @@ Integrating the emoji picker with your preferences involves two steps.
       getPreferenceScreen().addPreference(EmojiPickerPreference.get(requireActivity(), null))
    }
    ```
+   **Note: The EmojiPickerPreference has to be created before the Activity is in a `resume`d state.**
 2. In order to make the picker dialog show up, you need to override `onDisplayPreferenceDialog()`:
    ```kotlin
    @Override
