@@ -39,7 +39,7 @@ class EmojiPackList(
         if (emojiStorage.exists()) {
             if (emojiStorage.isDirectory) {
                 // This cannot be null as we have already checked that we have a directory
-                emojiStorage.listFiles()!!.asSequence()
+                emojiStorage.listFiles().orEmpty().asSequence()
                     .filter { file: File -> file.extension == "ttf" }
                     .map { file: File -> file.nameWithoutExtension }
                     // Format: name-ver.sion.co.de
