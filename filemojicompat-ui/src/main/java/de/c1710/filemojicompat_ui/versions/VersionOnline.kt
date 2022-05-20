@@ -35,36 +35,43 @@ class VersionOnline
         val client = getOrSetClient(context)
 
         versionOnline = executor.submit<Version?> {
-            val request = Request.Builder()
-                .url(source.toHttpUrlOrNull()!!)
-                .build()
+            val sourceUrl = source.toHttpUrlOrNull()
 
-            val call = client.newCall(request)
+            if (sourceUrl != null) {
+                val request = Request.Builder()
+                        // FIXME: Don't nonNull-assert
+                        .url(sourceUrl)
+                        .build()
 
-            val response = call.execute()
+                val call = client.newCall(request)
 
-            Version.fromStringOrNull(
-                if (response.isSuccessful) {
-                    val groups = regex.find(response.body?.string() ?: "")?.groups
-                    groups?.get(regexGroupId)?.value
-                } else {
-                    Log.e(
-                        "FilemojiCompat",
-                        "getVersionOnline: Could not get version from %s: %s".format(
-                            source.toString(),
-                            response.message
-                        )
-                    )
-                    null
-                }
-            )
+                val response = call.execute()
+
+                Version.fromStringOrNull(
+                        if (response.isSuccessful) {
+                            val groups = regex.find(response.body?.string() ?: "")?.groups
+                            groups?.get(regexGroupId)?.value
+                        } else {
+                            Log.e(
+                                    "FilemojiCompat",
+                                    "getVersionOnline: Could not get version from %s: %s".format(
+                                            source.toString(),
+                                            response.message
+                                    )
+                            )
+                            null
+                        }
+                )
+            } else {
+                null
+            }
         }
     }
 
     companion object {
         private var client: OkHttpClient? = null
         private val executor: ExecutorService by lazy {
-            return@lazy Executors.newSingleThreadExecutor()
+            Executors.newSingleThreadExecutor()
         }
 
         private fun getOrSetClient(context: Context): OkHttpClient {
