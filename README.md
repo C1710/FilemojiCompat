@@ -13,10 +13,10 @@ Integrating this library is done in a few steps.
 2. You need to include a dependency for the library in your app's `build.gradle`. It is split into four parts - you only need one of these:
    | Package name                             | Description                                                                                                                                                                                                                                                                                                           |
    |------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-   | `de.c1710:filemojicompat:3.2.1`          | The main library part. It supports emoji fonts to be placed in your app's `data` directory. Works like FilemojiCompat 2                                                                                                                                                                                               |
-   | `de.c1710:filemojicompat-ui:3.2.1`       | Includes an emoji picker and an emoji pack management. Can be integrated with `androidx.preferences`. Recommended                                                                                                                                                                                                     |
-   | `de.c1710:filemojicompat-defaults:3.2.1` | A default list of four downloadable emoji packs: Blobmoji, Noto-Emoji, Openmoji and Twemoji. Recommended if the app has internet permissions                                                                                                                                                                          |
-   | `de.c1710:filemojicompat-autoinit:3.2.1`       | An extension for `filemojicompat-defaults` which uses the `androidx.startup` library to directly initialize EmojiCompat with FilemojiCompat without having to modify your `Application` class, similar to how `Emoji2` would work. Recommended if you don't want to change the defaults or add any other emoji packs. |
+   | `de.c1710:filemojicompat:3.2.3`          | The main library part. It supports emoji fonts to be placed in your app's `data` directory. Works like FilemojiCompat 2                                                                                                                                                                                               |
+   | `de.c1710:filemojicompat-ui:3.2.3`       | Includes an emoji picker and an emoji pack management. Can be integrated with `androidx.preferences`. Recommended                                                                                                                                                                                                     |
+   | `de.c1710:filemojicompat-defaults:3.2.3` | A default list of four downloadable emoji packs: Blobmoji, Noto-Emoji, Openmoji and Twemoji. Recommended if the app has internet permissions                                                                                                                                                                          |
+   | `de.c1710:filemojicompat-autoinit:3.2.3`       | An extension for `filemojicompat-defaults` which uses the `androidx.startup` library to directly initialize EmojiCompat with FilemojiCompat without having to modify your `Application` class, similar to how `Emoji2` would work. Recommended if you don't want to change the defaults or add any other emoji packs. |
 3. If you don't want to use the emoji picker, you can continue with the [instructions for FilemojiCompat 2 below](#old-instructions-for-filemojicompat-2-maybe-not-up-to-date).  
    Otherwise, you need to initialize EmojiCompat/Emoji2/FilemojiCompat. If you use `filemojicompat-autoinit`, you can skip this step.  
    In your main `Application`''s `onCreate` function, the initialization can be done with one line (this example is for Kotlin, but it is the same for Java):
@@ -67,7 +67,7 @@ However, it requires a Activity that supports the Android Activity Results API a
 > ## How do I get this library?
 > That's relatively easy: Just add the following line to your module's > `build.gradle` inside `dependencies`:
 > ```
-> implementation 'de.c1710:filemojicompat:3.2.1'
+> implementation 'de.c1710:filemojicompat:3.2.3'
 > ```
 > 
 > ## Migration from FilemojiCompat 1.x
