@@ -58,7 +58,7 @@ class DefaultEmojiPackList {
                 URI("https://github.com/C1710/openmoji/raw/master/fonts/OpenMojiCompat.ttf"),
                 context.resources.getString(R.string.openmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_openmoji, null),
-                Version(intArrayOf(13, 1)),
+                Version(intArrayOf(14, 0)),
                 Uri.parse("https://openmoji.org/"),
                 Uri.parse("https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/LICENSE.txt"),
                 context.resources.getString(R.string.openmoji_description_long),
