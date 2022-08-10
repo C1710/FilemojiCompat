@@ -26,6 +26,19 @@ class DefaultEmojiPackList {
                 tintableIcon = false
             )
 
+            val fluent = DownloadableEmojiPack (
+                "fluent",
+                "Fluent Emoji",
+                URI("https://github.com/C1710/fluentui-emoji/raw/main/fonts/FluentEmojiCompat.ttf"),
+                context.resources.getString(R.string.fluent_description),
+                ResourcesCompat.getDrawable(context.resources, R.drawable.ic_fluent, null),
+                Version(intArrayOf(14, 0)),
+                Uri.parse("https://github.com/microsoft/fluentui-emoji"),
+                Uri.parse("https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE"),
+                context.resources.getString(R.string.fluent_description_long),
+                tintableIcon = false
+            )
+
             val noto = DownloadableEmojiPack (
                 "noto",
                 "Noto Emoji",
@@ -66,7 +79,7 @@ class DefaultEmojiPackList {
             )
 
             // Using alphabetical order here (although Blobmoji would probably stay on top anyway :P)
-            return arrayListOf(blobmoji, noto, openmoji, twemoji)
+            return arrayListOf(blobmoji, fluent, noto, openmoji, twemoji)
         }
     }
 }
