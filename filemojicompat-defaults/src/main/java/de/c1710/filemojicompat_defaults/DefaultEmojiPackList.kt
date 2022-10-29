@@ -19,10 +19,23 @@ class DefaultEmojiPackList {
                 URI("https://github.com/C1710/blobmoji/raw/main/fonts/BlobmojiCompat.ttf"),
                 context.resources.getString(R.string.blobmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_blobmoji, null),
-                Version(intArrayOf(14, 0, 1)),
+                Version(intArrayOf(15, 0)),
                 Uri.parse("https://github.com/C1710/blobmoji"),
                 Uri.parse("https://raw.githubusercontent.com/C1710/blobmoji/emoji14/LICENSE"),
                 context.resources.getString(R.string.blobmoji_description_long),
+                tintableIcon = false
+            )
+
+            val fluent = DownloadableEmojiPack (
+                "fluent",
+                context.resources.getString(R.string.fluent_broken_name),
+                URI("https://github.com/C1710/fluentui-emoji/raw/main/fonts/FluentEmojiCompat.ttf"),
+                context.resources.getString(R.string.fluent_description),
+                ResourcesCompat.getDrawable(context.resources, R.drawable.ic_fluent, null),
+                Version(intArrayOf(14, 0)),
+                Uri.parse("https://github.com/microsoft/fluentui-emoji"),
+                Uri.parse("https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE"),
+                context.resources.getString(R.string.fluent_description_long),
                 tintableIcon = false
             )
 
@@ -58,7 +71,7 @@ class DefaultEmojiPackList {
                 URI("https://github.com/C1710/openmoji/raw/master/fonts/OpenMojiCompat.ttf"),
                 context.resources.getString(R.string.openmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_openmoji, null),
-                Version(intArrayOf(13, 1)),
+                Version(intArrayOf(14, 0, 1)),
                 Uri.parse("https://openmoji.org/"),
                 Uri.parse("https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/LICENSE.txt"),
                 context.resources.getString(R.string.openmoji_description_long),
@@ -66,7 +79,7 @@ class DefaultEmojiPackList {
             )
 
             // Using alphabetical order here (although Blobmoji would probably stay on top anyway :P)
-            return arrayListOf(blobmoji, noto, openmoji, twemoji)
+            return arrayListOf(blobmoji, noto, openmoji, twemoji, fluent)
         }
     }
 }

@@ -8,4 +8,7 @@
     <string name="twemoji_description_long">Twemoji is an emoji pack that can be found on many platforms throughout the internet, including Twitter and Mastodon.\n<i>CC BY 4.0, Copyright 2020 Twitter, Inc and other contributors\nAdapted for usage with EmojiCompat</i></string>
     <string name="openmoji_description">An open-source emoji pack</string>
     <string name="openmoji_description_long">A rather recent emoji pack featuring a minimalistic style.\n<i>All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0\nAdapted for usage with EmojiCompat</i></string>
+    <string name="fluent_description">The new emojis from Microsoft</string>
+    <string name="fluent_description_long">The fresh, new emoji pack in its flat version.\n<i>Copyright (c) Microsoft Corporation.\nAdapted for usage with EmojiCompat</i>\nCurrently, emojis with skin tones, and the paperclip emoji are missing.</string>
+    <string name="fluent_broken_name">Fluent Emoji (currently incomplete)</string>
 </resources>
