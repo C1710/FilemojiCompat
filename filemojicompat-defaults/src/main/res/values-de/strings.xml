@@ -9,5 +9,6 @@
     <string name="openmoji_description">Ein open-source Emoji-Paket</string>
     <string name="openmoji_description_long">Ein relativ neues Emoji-Paket mit einem minimalistischen Design.\n<i>All emojis designed by OpenMoji – the open-source emoji and icon project. License: CC BY-SA 4.0\nAngepasst auf die Nutzung mit EmojiCompat</i></string>
     <string name="fluent_description">Die neuen Emojis von Microsoft</string>
-    <string name="fluent_description_long">Das frische, neue Emoji-Paket in seiner flachen Version</string>
+    <string name="fluent_description_long">Das frische, neue Emoji-Paket in seiner flachen Version\n<i>Copyright (c) Microsoft Corporation.\nAngepasst auf die Nutzung mit EmojiCompat</i>\nDerzeit fehlen Emojis mit Hauttönen, sowie die Büroklammer.</string>
+    <string name="fluent_broken_name">Fluent Emoji (derzeit unvollständig)</string>
 </resources>
