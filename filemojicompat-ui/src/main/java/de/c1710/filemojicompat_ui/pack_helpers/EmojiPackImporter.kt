@@ -131,11 +131,11 @@ class EmojiPackImporter(
     }
 
     private fun createTempFile(): File {
-        return File(list.emojiStorage, System.currentTimeMillis().toString() + ".ttf")
+        return File(list.emojiStorage, "%s.ttf".format(System.currentTimeMillis()))
     }
 
     private fun createFileFromHash(hash: ByteArray): File {
-        return File(list.emojiStorage, hashToString(hash) + ".ttf")
+        return File(list.emojiStorage, "%s.ttf".format(hashToString(hash)))
     }
 
     companion object {

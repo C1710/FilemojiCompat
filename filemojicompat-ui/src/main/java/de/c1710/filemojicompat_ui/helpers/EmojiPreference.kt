@@ -24,7 +24,7 @@ object EmojiPreference: EmojiPreferenceInterface {
 
     private fun getOrSetSharedPreferenceName(context: Context): String {
         if (sharedPreferenceName == null) {
-            sharedPreferenceName = context.packageName + "_" + SHARED_PREFERENCES
+            sharedPreferenceName = "%s_%s".format(context.packageName, SHARED_PREFERENCES)
         }
 
         return sharedPreferenceName!!
