@@ -11,7 +11,6 @@ import de.c1710.filemojicompat_ui.structures.DownloadStatus
 import de.c1710.filemojicompat_ui.versions.Version
 import de.c1710.filemojicompat_ui.versions.VersionProvider
 import okhttp3.Call
-import okio.ByteString
 import java.io.File
 import java.io.IOException
 
@@ -47,7 +46,7 @@ class DownloadableEmojiPack @JvmOverloads constructor(
     license: Uri? = null,
     descriptionLong: String? = null,
     tintableIcon: Boolean = true,
-    internal val hash: ByteString? = null
+    internal val hash: String? = null
 ) : FileBasedEmojiPack(id, name, description, version, website, license, descriptionLong, tintableIcon) {
     var downloadedVersion: Version? = null
 

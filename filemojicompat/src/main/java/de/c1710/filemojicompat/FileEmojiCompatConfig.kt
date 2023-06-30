@@ -2,8 +2,6 @@ package de.c1710.filemojicompat
 
 import android.content.Context
 import androidx.emoji2.text.EmojiCompat
-import androidx.emoji2.text.EmojiCompat.MetadataRepoLoaderCallback
-import androidx.emoji2.text.MetadataRepo
 import java.io.File
 
 /*
@@ -42,7 +40,7 @@ private constructor (
     private val context: Context,  // NEW
     private val fontFile: File?,
     private val fallbackFontName: String?,
-    var fallbackEnabled: MutableBoolean?,
+    var fallbackEnabled: MutableBoolean,
     dontWarnOnEmptyFileName: Boolean
 ) : EmojiCompat.Config(
     FileMetadataRepoLoader(
@@ -82,27 +80,7 @@ private constructor (
     }
 
     private fun getFallbackEnabled(): Boolean {
-        if (fallbackEnabled == null) {
-            // Looks like we don't know whether the fallback is enabled.
-            // Therefore, we'll need to try loading again...
-            val dummyCallback: MetadataRepoLoaderCallback = object : MetadataRepoLoaderCallback() {
-                override fun onLoaded(metadataRepo: MetadataRepo) {}
-                override fun onFailed(throwable: Throwable?) {}
-            }
-            fallbackEnabled = MutableBoolean(false)
-
-            // Now, load it again
-            val loader = FileMetadataRepoLoader(
-                context,
-                fontFile,
-                fallbackFontName,
-                fallbackEnabled,
-                false
-            )
-            loader.loadSync(dummyCallback)
-            // Now, fallbackEnabled is set.
-        }
-        return fallbackEnabled!!.get()
+        return fallbackEnabled.get()
     }
 
     companion object {

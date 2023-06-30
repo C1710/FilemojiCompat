@@ -6,6 +6,7 @@ import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import okhttp3.*
 import okio.*
+import okio.ByteString.Companion.decodeHex
 import java.io.EOFException
 import java.io.File
 import java.io.IOException
@@ -25,7 +26,7 @@ internal class EmojiPackDownloader(
     private val url = pack.source
     private val fileName = pack.getFileName(false)
     private val downloadLocation = File(emojiStorage, fileName)
-    private val expectedHash = pack.hash
+    private val expectedHash = pack.hash?.decodeHex()
 
     fun download(downloadListener: EmojiPackDownloadListener): Call {
         val client = OkHttpClient.Builder()
