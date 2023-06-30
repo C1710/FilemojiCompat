@@ -105,14 +105,6 @@ private constructor (
         return fallbackEnabled!!.get()
     }
 
-    /**
-     * @return Whether all emojis *are* replaced. Note: This does *not* return the
-     * strategy used, but how the actual state is.
-     */
-    val isReplaceAll: Boolean
-        get() = (replacementStrategy == ReplaceStrategy.ALWAYS
-                || replacementStrategy == ReplaceStrategy.NORMAL && !getFallbackEnabled())
-
     companion object {
         /**
          * Create a new configuration for this EmojiCompat based on a file
@@ -123,13 +115,6 @@ private constructor (
          * @param dontWarnOnEmptyFileName If set to true, don't log a warning (only info)
          * if the empty file was given as fontFile.
          * This is used in FilemojiCompat-UI when an asset is loaded
-         */
-        /**
-         * Create a new configuration for this EmojiCompat based on a file
-         *
-         * @param context      Context instance
-         * @param fontFile     The file containing the EmojiCompat font
-         * @param fallbackFontName The asset path of the fallback font
          */
         @JvmOverloads
         fun init(
@@ -159,51 +144,6 @@ private constructor (
         ): FileEmojiCompatConfig {
             return init(context, File(fontFile ?: ""), fallbackFontName)
         }
-        /**
-         * Creates a new FileEmojiCompatConfig based on an asset. Will set the replacement strategy
-         * to treat the "normal" and the asset version equally.
-         *
-         *
-         * The default location for a substituting font is
-         * `/sdcard/Android/data/your.apps.package/files/EmojiCompat.ttf`.
-         *
-         * @param context   The app's context is needed for several tasks
-         * @param assetPath The path inside the `assets` folder for the default font file
-         * @return A FileEmojiCompatConfig which will use the given font by default
-         */
-        /**
-         *
-         * Creates a new FileEmojiCompatConfig based on an asset. Will set the replacement strategy
-         * to treat the "normal" and the asset version equally.
-         *
-         *
-         * The default location for a substituting font is
-         * `/sdcard/Android/data/your.apps.package/files/EmojiCompat.ttf`.
-         *
-         *
-         * The default name for the Assets font is `NoEmojiCompat.ttf`.
-         * If you wish to use a different name for this font, please use
-         * [.createFromAsset].
-         *
-         * @param context The app's context is needed for several tasks
-         * @return A FileEmojiCompatConfig which will use the given font by default
-         */
-        @JvmOverloads
-        fun createFromAsset(
-            context: Context,
-            assetPath: String? = null
-        ): FileEmojiCompatConfig {
-            return if (assetPath != null) {
-                val config = init(
-                    context,
-                    null as File?,
-                    assetPath
-                )
-                config.setReplaceAll(if (config.replacementStrategy == ReplaceStrategy.NEVER) ReplaceStrategy.NEVER else ReplaceStrategy.ALWAYS)
-                config
-            } else {
-                createFromAsset(context)
-            }
-        }
+
     }
 }

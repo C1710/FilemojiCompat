@@ -1,11 +1,9 @@
 package de.c1710.filemojicompat
 
-import androidx.emoji2.text.EmojiCompat
-
 enum class ReplaceStrategy {
     /**
      * Never replace all emojis, but only those that are not supported.
-     * Corresponds to [androidx.emoji.text.EmojiCompat.Config.setReplaceAll] with false.
+     * Corresponds to [androidx.emoji2.text.EmojiCompat.Config.setReplaceAll] with false.
      *
      * Not recommended.
      */

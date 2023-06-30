@@ -11,6 +11,13 @@ import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.IOException
 
+/**
+ * This loader can load emoji metadata from a file. It will do so on a new Thread
+ * @param context The current Context (used to access the Asset Manager)
+ * @param fontFile The file from where to load the main font (will proceed to fallback if null)
+ * @param fallbackFontName The name of the fallback font (defaults to [.DEFAULT_FALLBACK])
+ * @param fallbackEnabled A reference to a boolean that will be set to true if the fallback font is enabled
+ */
 class FileMetadataRepoLoader(
     private val context: Context,
     fontFile: File?,
@@ -23,13 +30,6 @@ class FileMetadataRepoLoader(
     private val fallbackEnabled: MutableBoolean?
     private val dontWarnOnEmptyFileName: Boolean
 
-    /**
-     * This loader can load emoji metadata from a file. It will do so on a new Thread
-     * @param context The current Context (used to access the Asset Manager)
-     * @param fontFile The file from where to load the main font (will proceed to fallback if null)
-     * @param fallbackFontName The name of the fallback font (defaults to [.DEFAULT_FALLBACK])
-     * @param fallbackEnabled A reference to a boolean that will be set to true if the fallback font is enabled
-     */
     init {
         this.fontFile = fontFile
             ?: File(
@@ -43,10 +43,6 @@ class FileMetadataRepoLoader(
 
     override fun load(loaderCallback: MetadataRepoLoaderCallback) {
         loadSync(loaderCallback)
-    }
-
-    private fun loadAsync(loaderCallback: MetadataRepoLoaderCallback) {
-        Thread { loadSync(loaderCallback) }.start()
     }
 
     fun loadSync(loaderCallback: MetadataRepoLoaderCallback) {
