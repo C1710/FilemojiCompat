@@ -14,7 +14,6 @@ import okhttp3.Call
 import okio.ByteString
 import java.io.File
 import java.io.IOException
-import java.net.URI
 
 /**
  * An emoji pack that can be downloaded through the UI.
@@ -40,7 +39,7 @@ import java.net.URI
 class DownloadableEmojiPack @JvmOverloads constructor(
     id: String,
     name: String,
-    internal val source: URI,
+    internal val source: Uri,
     description: String,
     private val icon: Drawable?,
     version: VersionProvider?,
