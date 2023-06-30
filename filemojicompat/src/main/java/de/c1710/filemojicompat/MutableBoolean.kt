@@ -1,17 +1,11 @@
-package de.c1710.filemojicompat;
+package de.c1710.filemojicompat
 
-public class MutableBoolean {
-    private boolean state;
-
-    public MutableBoolean (boolean initialValue) {
-        this.state = initialValue;
+class MutableBoolean(private var state: Boolean) {
+    fun set(newState: Boolean) {
+        state = newState
     }
 
-    public void set(boolean newState) {
-        this.state = newState;
-    }
-
-    public boolean get() {
-        return this.state;
+    fun get(): Boolean {
+        return state
     }
 }

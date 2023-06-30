@@ -1,99 +1,96 @@
-package de.c1710.filemojicompat;
+package de.c1710.filemojicompat
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
-import android.util.Log;
+import android.content.Context
+import android.graphics.Typeface
+import android.util.Log
+import androidx.emoji2.text.EmojiCompat.MetadataRepoLoader
+import androidx.emoji2.text.EmojiCompat.MetadataRepoLoaderCallback
+import androidx.emoji2.text.MetadataRepo
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.IOException
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.emoji2.text.EmojiCompat;
-import androidx.emoji2.text.MetadataRepo;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-public class FileMetadataRepoLoader implements EmojiCompat.MetadataRepoLoader {
-    public static final String DEFAULT_FALLBACK = "NoEmojiCompat.ttf";
-    public static final String DEFAULT_FILE = "EmojiCompat.ttf";
-
-    private final Context context;
-    private final File fontFile;
-    private final String fallbackFontName;
-    private final MutableBoolean fallbackEnabled;
-    private final boolean dontWarnOnEmptyFileName;
-
+class FileMetadataRepoLoader(
+    private val context: Context,
+    fontFile: File?,
+    fallbackFontName: String?,
+    fallbackEnabled: MutableBoolean?,
+    dontWarnOnEmptyFileName: Boolean
+) : MetadataRepoLoader {
+    private val fontFile: File?
+    private val fallbackFontName: String?
+    private val fallbackEnabled: MutableBoolean?
+    private val dontWarnOnEmptyFileName: Boolean
 
     /**
      * This loader can load emoji metadata from a file. It will do so on a new Thread
      * @param context The current Context (used to access the Asset Manager)
      * @param fontFile The file from where to load the main font (will proceed to fallback if null)
-     * @param fallbackFontName The name of the fallback font (defaults to {@link #DEFAULT_FALLBACK})
+     * @param fallbackFontName The name of the fallback font (defaults to [.DEFAULT_FALLBACK])
      * @param fallbackEnabled A reference to a boolean that will be set to true if the fallback font is enabled
      */
-    public FileMetadataRepoLoader(
-            @NonNull Context context,
-            @Nullable File fontFile,
-            @Nullable String fallbackFontName,
-            @Nullable MutableBoolean fallbackEnabled,
-            boolean dontWarnOnEmptyFileName
-    ) {
-        this.context = context;
-        this.fontFile = fontFile != null ? fontFile : new File(context.getExternalFilesDir(null), DEFAULT_FILE);
-        this.fallbackFontName = fallbackFontName;
-        this.fallbackEnabled = fallbackEnabled;
-        this.dontWarnOnEmptyFileName = dontWarnOnEmptyFileName;
+    init {
+        this.fontFile = fontFile
+            ?: File(
+                context.getExternalFilesDir(null),
+                DEFAULT_FILE
+            )
+        this.fallbackFontName = fallbackFontName
+        this.fallbackEnabled = fallbackEnabled
+        this.dontWarnOnEmptyFileName = dontWarnOnEmptyFileName
     }
 
-    @Override
-    public void load(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
-        this.loadSync(loaderCallback);
+    override fun load(loaderCallback: MetadataRepoLoaderCallback) {
+        loadSync(loaderCallback)
     }
 
-    private void loadAsync(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
-        new Thread(() -> this.loadSync(loaderCallback)).start();
+    private fun loadAsync(loaderCallback: MetadataRepoLoaderCallback) {
+        Thread { loadSync(loaderCallback) }.start()
     }
 
-    public void loadSync(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
+    fun loadSync(loaderCallback: MetadataRepoLoaderCallback) {
         if (fontFile != null && fontFile.exists() && fontFile.canRead()) {
             // The file seems to be okay. We can load the file
-            Typeface font = Typeface.createFromFile(this.fontFile);
+            val font = Typeface.createFromFile(fontFile)
             try {
-                FileInputStream fontStream = new FileInputStream(fontFile);
-                MetadataRepo repo = MetadataRepo.create(font, fontStream);
-                fontStream.close();
-                loaderCallback.onLoaded(repo);
-            } catch (IOException e) {
-                Log.e("FilemojiCompat", "Could not load font file", e);
-                loadFallback(loaderCallback);
+                val fontStream = FileInputStream(fontFile)
+                val repo = MetadataRepo.create(font, fontStream)
+                fontStream.close()
+                loaderCallback.onLoaded(repo)
+            } catch (e: IOException) {
+                Log.e("FilemojiCompat", "Could not load font file", e)
+                loadFallback(loaderCallback)
             }
         } else {
             // Something is wrong with the file, load the fallback instead
-            FileNotFoundException notFound = new FileNotFoundException(
-                    fontFile != null ? fontFile.getPath() : "null"
-            );
+            val notFound = FileNotFoundException(
+                if (fontFile != null) fontFile.path else "null"
+            )
             // Just don't warn on an empty file if it shouldn't
-            if (fontFile == null || !fontFile.toString().equals("") || !dontWarnOnEmptyFileName) {
-                Log.w("FilemojiCompat", "Could not load font file", notFound);
+            if (fontFile == null || fontFile.toString() != "" || !dontWarnOnEmptyFileName) {
+                Log.w("FilemojiCompat", "Could not load font file", notFound)
             }
-            loadFallback(loaderCallback);
+            loadFallback(loaderCallback)
         }
     }
 
-    private void loadFallback(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
-        this.fallbackEnabled.set(true);
-        Log.i("FilemojiCompat", "Using the fallback font");
-
-        final AssetManager assetManager = this.context.getAssets();
+    private fun loadFallback(loaderCallback: MetadataRepoLoaderCallback) {
+        fallbackEnabled!!.set(true)
+        Log.i("FilemojiCompat", "Using the fallback font")
+        val assetManager = context.assets
         try {
-            String fallbackFontName = this.fallbackFontName != null ? this.fallbackFontName : DEFAULT_FALLBACK;
-            final MetadataRepo repo = MetadataRepo.create(assetManager, fallbackFontName);
-            loaderCallback.onLoaded(repo);
-        } catch (IOException e) {
-            Log.e("FilemojiCompat", "Could not load the fallback font", e);
-            loaderCallback.onFailed(e);
+            val fallbackFontName = fallbackFontName ?: DEFAULT_FALLBACK
+            val repo = MetadataRepo.create(assetManager, fallbackFontName)
+            loaderCallback.onLoaded(repo)
+        } catch (e: IOException) {
+            Log.e("FilemojiCompat", "Could not load the fallback font", e)
+            loaderCallback.onFailed(e)
         }
+    }
+
+    companion object {
+        const val DEFAULT_FALLBACK = "NoEmojiCompat.ttf"
+        const val DEFAULT_FILE = "EmojiCompat.ttf"
     }
 }

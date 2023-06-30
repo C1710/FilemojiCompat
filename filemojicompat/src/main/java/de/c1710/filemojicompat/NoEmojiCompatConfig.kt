@@ -1,37 +1,28 @@
-package de.c1710.filemojicompat;
+package de.c1710.filemojicompat
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.util.Log;
+import android.content.Context
+import android.util.Log
+import androidx.emoji2.text.EmojiCompat
+import androidx.emoji2.text.EmojiCompat.MetadataRepoLoader
+import androidx.emoji2.text.EmojiCompat.MetadataRepoLoaderCallback
+import androidx.emoji2.text.MetadataRepo
+import java.io.IOException
 
-import androidx.annotation.NonNull;
-import androidx.emoji2.text.EmojiCompat;
-import androidx.emoji2.text.MetadataRepo;
-
-import java.io.IOException;
-
-public class NoEmojiCompatConfig extends EmojiCompat.Config {
-    public NoEmojiCompatConfig(Context context) {
-        super(new DummyMetadataLoader(context));
-        setReplaceAll(false);
+class NoEmojiCompatConfig(context: Context) : EmojiCompat.Config(DummyMetadataLoader(context)) {
+    init {
+        setReplaceAll(false)
     }
 
-    private static class DummyMetadataLoader implements EmojiCompat.MetadataRepoLoader {
-        private final Context context;
-
-        DummyMetadataLoader(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public void load(@NonNull EmojiCompat.MetadataRepoLoaderCallback loaderCallback) {
-            final AssetManager assetManager = this.context.getAssets();
+    private class DummyMetadataLoader(private val context: Context) :
+        MetadataRepoLoader {
+        override fun load(loaderCallback: MetadataRepoLoaderCallback) {
+            val assetManager = context.assets
             try {
-                final MetadataRepo repo = MetadataRepo.create(assetManager, "NoEmojiCompat");
-                loaderCallback.onLoaded(repo);
-            } catch (IOException e) {
-                Log.e("FilemojiCompat", "Could not load the fallback font", e);
-                loaderCallback.onFailed(e);
+                val repo = MetadataRepo.create(assetManager, "NoEmojiCompat")
+                loaderCallback.onLoaded(repo)
+            } catch (e: IOException) {
+                Log.e("FilemojiCompat", "Could not load the fallback font", e)
+                loaderCallback.onFailed(e)
             }
         }
     }
