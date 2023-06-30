@@ -1,6 +1,7 @@
 package de.c1710.filemojicompat_ui.pack_helpers
 
 import android.util.Base64
+import android.util.Log
 import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import okhttp3.*
@@ -8,6 +9,7 @@ import okio.*
 import java.io.EOFException
 import java.io.File
 import java.io.IOException
+import java.io.StreamCorruptedException
 
 // Adapted from https://github.com/square/okhttp/blob/master/samples/guide/src/main/java/okhttp3/recipes/Progress.java;
 // rewritten in Kotlin with minor changes and additions to work in this context
@@ -18,11 +20,12 @@ import java.io.IOException
 internal class EmojiPackDownloader(
     pack: DownloadableEmojiPack,
     emojiStorage: File,
-    private val isBase64: Boolean = "googlesource.com" in pack.source.toString(),
+    private val isBase64: Boolean = "googlesource.com" in pack.source.toString()
 ) {
     private val url = pack.source
     private val fileName = pack.getFileName(false)
     private val downloadLocation = File(emojiStorage, fileName)
+    private val expectedHash = pack.hash
 
     fun download(downloadListener: EmojiPackDownloadListener): Call {
         val client = OkHttpClient.Builder()
@@ -42,7 +45,7 @@ internal class EmojiPackDownloader(
             .build()
 
         val call = client.newCall(request)
-        val callback = DownloadedCallback(downloadListener, downloadLocation, isBase64)
+        val callback = DownloadedCallback(downloadListener, downloadLocation, isBase64, expectedHash)
         call.enqueue(callback)
         return call
     }
@@ -50,7 +53,8 @@ internal class EmojiPackDownloader(
     private class DownloadedCallback(
         val downloadListener: EmojiPackDownloadListener,
         val location: File,
-        val isBase64: Boolean
+        val isBase64: Boolean,
+        val expectedHash: ByteString? = null
     ) : Callback {
         override fun onFailure(call: Call, e: IOException) {
             downloadListener.onFailure(e)
@@ -63,10 +67,26 @@ internal class EmojiPackDownloader(
                     val sink = location.sink(false).buffer()
                     try {
                         it.body?.source()?.let {
+                            val hashingSource = HashingSource.sha256(it)
                             if (isBase64) {
-                                sink.writeAll(Base64Source(it).buffer())
+                                sink.writeAll(Base64Source(hashingSource).buffer())
                             } else {
-                                sink.writeAll(it)
+                                sink.writeAll(hashingSource)
+                            }
+                            val actualHash = hashingSource.hash
+                            Log.d("EmojiPackDownloader",
+                                "SHA-256 of downloaded version of %s: %s".format(location, actualHash))
+                            if (expectedHash != null) {
+                                if (expectedHash != actualHash) {
+                                    val e = StreamCorruptedException("Invalid hash for file %s: Expected %s, got %s".format(location, expectedHash, actualHash))
+                                    Log.e("EmojiPackDownloader", "Invalid hash: Expected %s, got %s".format(expectedHash, actualHash))
+                                    downloadListener.onFailure(e)
+                                } else {
+                                    // Everything is alright
+                                }
+                            } else {
+                                Log.d("EmojiPackDownloader", "No hash to check against.")
+                                // Everything is alright
                             }
                         }
                     } catch (e: IOException) {
@@ -103,7 +123,7 @@ internal class EmojiPackDownloader(
     /**
      * Wrapper class that decodes a base64-encoded source
      */
-    private class Base64Source(delegate: BufferedSource): ForwardingSource(delegate) {
+    private class Base64Source(delegate: Source): ForwardingSource(delegate) {
         val buffer = Buffer()
 
         override fun read(sink: Buffer, byteCount: Long): Long {
