@@ -43,4 +43,7 @@ class EmojiPackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     internal var downloadListener: EmojiPackDownloadListener? = null
     internal var downloadBoundTo: DownloadStatus? = null
+    // Counter for clicking 7 times to enable file import
+    internal var clickCounter: UInt = 0u
+    internal var lastClicked: Long = 0
 }

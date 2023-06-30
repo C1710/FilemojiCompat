@@ -28,7 +28,9 @@ class EmojiPackList(
         loadStoredPacks(context)
         // TODO: First evaluate, whether this is a security-problem/possible with signatures...
         // emojiPacks.addAll(collectFontProviders(context))
-        if (allowPackImports) {
+        val sharedPref = context.getSharedPreferences("de.c1710.filemojicompat_ui.OVERRIDE_FILEPICKER",
+        Context.MODE_PRIVATE)
+        if (allowPackImports || sharedPref.getBoolean("allowPackImports", false)) {
             emojiPacks.add(FilePickerDummyEmojiPack.setAndGetFilePickerPack(context))
         }
 
