@@ -45,7 +45,7 @@ class DefaultEmojiPackList {
                 URI("https://github.com/C1710/noto-fonts/raw/master/emoji-compat/font/NotoColorEmojiCompat.ttf"),
                 context.resources.getString(R.string.noto_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_noto, null),
-                Version(intArrayOf(14, 0)),
+                Version(intArrayOf(15, 0)),
                 Uri.parse("https://github.com/googlefonts/noto-emoji"),
                 Uri.parse("https://github.com/googlefonts/noto-emoji/blob/main/LICENSE"),
                 context.resources.getString(R.string.noto_description_long),
@@ -71,14 +71,14 @@ class DefaultEmojiPackList {
                 URI("https://github.com/C1710/openmoji/raw/master/fonts/OpenMojiCompat.ttf"),
                 context.resources.getString(R.string.openmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_openmoji, null),
-                Version(intArrayOf(14, 0, 1)),
+                Version(intArrayOf(14, 0, 2)),
                 Uri.parse("https://openmoji.org/"),
                 Uri.parse("https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/LICENSE.txt"),
                 context.resources.getString(R.string.openmoji_description_long),
                 tintableIcon = false
             )
 
-            // Using alphabetical order here (although Blobmoji would probably stay on top anyway :P)
+            // Using alphabetical order here
             return arrayListOf(blobmoji, noto, openmoji, twemoji, fluent)
         }
     }
