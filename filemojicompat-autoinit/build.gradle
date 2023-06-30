@@ -46,7 +46,6 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.startup:startup-runtime:1.1.1'
     api project(path: ':filemojicompat-defaults')
     api project(path: ':filemojicompat-ui')
