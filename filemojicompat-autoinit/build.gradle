@@ -4,6 +4,10 @@ plugins {
     id 'com.vanniktech.maven.publish'
 }
 
+kotlin {
+    jvmToolchain(11)
+}
+
 android {
     compileSdkVersion 33
     namespace "de.c1710.filemojicompat_autoinit"
@@ -33,8 +37,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
