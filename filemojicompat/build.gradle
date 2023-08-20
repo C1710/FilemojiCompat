@@ -9,14 +9,12 @@ kotlin {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
     namespace "de.c1710.filemojicompat"
 
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 33
-        versionCode 26
-        versionName "$VERSION_NAME"
     }
 
     buildTypes {

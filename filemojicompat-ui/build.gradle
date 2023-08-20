@@ -9,14 +9,12 @@ kotlin {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
     namespace "de.c1710.filemojicompat_ui"
 
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 33
-        versionCode 6
-        versionName "$VERSION_NAME"
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
