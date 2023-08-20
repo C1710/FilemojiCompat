@@ -26,7 +26,11 @@ import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.DelayedEmojiPreference
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
-import de.c1710.filemojicompat_ui.interfaces.*
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackImportListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackSelectionListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPreferenceInterface
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
 import de.c1710.filemojicompat_ui.packs.CustomEmojiPack
 import de.c1710.filemojicompat_ui.packs.DeletableEmojiPack
@@ -81,6 +85,7 @@ open class EmojiPackItemAdapter (
 
         holder.name.text = item.name
         holder.description.text = item.description
+        holder.pack = item
 
         if (item !is SystemDefaultEmojiPack) {
             holder.item.setOnClickListener {

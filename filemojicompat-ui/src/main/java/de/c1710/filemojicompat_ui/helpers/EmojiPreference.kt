@@ -15,7 +15,7 @@ const val DEFAULT_PREFERENCE = "de.c1710.filemojicompat.DEFAULT_EMOJI_PACK"
  * @see EmojiPreferenceInterface
  */
 object EmojiPreference: EmojiPreferenceInterface {
-    var sharedPreferenceName: String? = null
+    private var sharedPreferenceName: String? = null
 
     private fun getSharedPreferences(context: Context): SharedPreferences {
         return context
