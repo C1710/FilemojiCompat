@@ -5,16 +5,19 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    namespace "de.c1710.filemojicompat_defaults"
+
+    compileSdkVersion 35
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 32
+        minSdkVersion 21
+        targetSdkVersion 35
         versionCode 5
         versionName "$VERSION_NAME"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -24,16 +27,16 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '21'
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.core:core-ktx:1.16.0'
     api project(path: ':filemojicompat-ui')
 }

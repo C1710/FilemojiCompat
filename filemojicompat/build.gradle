@@ -12,23 +12,24 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 32
+    namespace "de.c1710.filemojicompat"
+    compileSdkVersion 35
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 32
+        minSdkVersion 21
+        targetSdkVersion 35
         versionCode 26
         versionName "$VERSION_NAME"
     }
 
 
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
 
 dependencies {
-    implementation 'androidx.emoji2:emoji2:1.2.0'
+    implementation 'androidx.emoji2:emoji2:1.5.0'
 }
 

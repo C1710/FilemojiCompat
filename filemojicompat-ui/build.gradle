@@ -5,11 +5,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    namespace "de.c1710.filemojicompat_ui"
+
+    compileSdkVersion 35
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 32
+        minSdkVersion 21
+        targetSdkVersion 35
         versionCode 6
         versionName "$VERSION_NAME"
 
@@ -18,24 +20,24 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '21'
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.activity:activity-ktx:1.5.1'
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.5.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.emoji2:emoji2:1.2.0'
+    implementation 'androidx.core:core-ktx:1.16.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+    implementation 'androidx.activity:activity-ktx:1.10.1'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.8.7'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.emoji2:emoji2:1.5.0'
     api project(path: ':filemojicompat')
 }
