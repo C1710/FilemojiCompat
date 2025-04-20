@@ -1,20 +1,23 @@
 plugins {
     id 'com.android.library'
+    id 'kotlin-android'
     id 'org.jetbrains.kotlin.android'
     id 'com.vanniktech.maven.publish'
 }
 
-kotlin {
-    jvmToolchain(11)
-}
-
 android {
-    compileSdk 33
     namespace "de.c1710.filemojicompat_autoinit"
 
+    compileSdkVersion 35
+
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 33
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode 2
+        versionName "$VERSION_NAME"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -35,13 +38,18 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+
+    kotlinOptions {
+        jvmTarget = '21'
     }
 }
 
 dependencies {
-    implementation 'androidx.startup:startup-runtime:1.1.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.startup:startup-runtime:1.2.0'
     api project(path: ':filemojicompat-defaults')
     api project(path: ':filemojicompat-ui')
 }
