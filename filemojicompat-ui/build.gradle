@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
     id 'com.vanniktech.maven.publish'
 }
 
@@ -15,14 +15,29 @@ android {
         versionCode 7
         versionName "$VERSION_NAME"
 
-        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            // Based on https://developer.android.com/build/shrink-code#groovy
+            // Disable code shrinking
+            minifyEnabled false
+
+            // Includes the default ProGuard rules files that are packaged with
+            // the Android Gradle plugin. To learn more, go to the section about
+            // R8 configuration files.
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
     }
+
     kotlinOptions {
         jvmTarget = '21'
     }
