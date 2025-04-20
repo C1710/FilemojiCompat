@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'de.c1710.filemojicompat_testapp'
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         applicationId "de.c1710.filemojicompat_testapp"
         minSdk 21
-        targetSdk 33
+        targetSdk 35
         versionCode 1
         versionName "$VERSION_NAME"
 
@@ -20,28 +20,23 @@ android {
     // This app is just for testing purposes, we don't really need size optimization
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    //noinspection GradleDependency
-    implementation("androidx.emoji2:emoji2:1.3.0")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.core:core-ktx:1.16.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.emoji2:emoji2:1.5.0")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation(project(path: ":filemojicompat-autoinit"))
-    implementation("androidx.core:core-ktx:1.10.1")
 
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.1"
-    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.6.1"
+    androidTestImplementation 'androidx.test:runner:1.6.2'
 }
