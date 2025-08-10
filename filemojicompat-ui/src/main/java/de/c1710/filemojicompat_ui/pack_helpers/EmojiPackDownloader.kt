@@ -34,9 +34,7 @@ internal class EmojiPackDownloader(
                 val response = chain.proceed(chain.request())
                 response
                     .newBuilder()
-                    .body(response.body?.let {
-                        ProgressResponseBody(it, downloadListener)
-                    })
+                    .body(ProgressResponseBody(response.body, downloadListener))
                     .build()
             }
             .build()

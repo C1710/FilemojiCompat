@@ -34,7 +34,7 @@ class VersionOnline
     init {
         val client = getOrSetClient(context)
 
-        versionOnline = executor.submit<Version?> {
+        versionOnline = executor.submit<Version> {
             val sourceUrl = source.toHttpUrlOrNull()
 
             if (sourceUrl != null) {
@@ -49,7 +49,7 @@ class VersionOnline
 
                 Version.fromStringOrNull(
                         if (response.isSuccessful) {
-                            val groups = regex.find(response.body?.string() ?: "")?.groups
+                            val groups = regex.find(response.body.string())?.groups
                             groups?.get(regexGroupId)?.value
                         } else {
                             Log.e(
