@@ -1,7 +1,6 @@
 package de.c1710.filemojicompat_defaults
 
 import android.content.Context
-import android.net.Uri
 import androidx.core.content.res.ResourcesCompat
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
@@ -28,7 +27,7 @@ class DefaultEmojiPackList {
 
             val fluent = DownloadableEmojiPack (
                 "fluent",
-                context.resources.getString(R.string.fluent_broken_name),
+                context.resources.getString(R.string.fluent_name),
                 "https://github.com/C1710/fluentui-emoji/raw/main/fonts/FluentEmojiCompat.ttf".toUri(),
                 context.resources.getString(R.string.fluent_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_fluent, null),
