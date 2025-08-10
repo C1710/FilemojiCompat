@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/preference_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open preferences"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/emoji13view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="13: 🥲"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/preference_button"
+        android:textAlignment="center"
+        tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/emoji14view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="14: 🫠"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emoji13view"
+        android:textAlignment="center"
+        tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/emoji15view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15: 🫨"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emoji14view"
+        android:textAlignment="center"
+        tools:ignore="HardcodedText"
+        />
+    <TextView
+        android:id="@+id/emoji151view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15.1: 🙂‍↔️"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emoji15view"
+        android:textAlignment="center"
+        tools:ignore="HardcodedText"
+        />
+    <TextView
+        android:id="@+id/emoji16view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="16: 🫩"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emoji151view"
+        android:textAlignment="center"
+        tools:ignore="HardcodedText"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

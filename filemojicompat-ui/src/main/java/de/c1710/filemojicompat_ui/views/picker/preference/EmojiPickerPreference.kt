@@ -20,8 +20,6 @@ import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
 
 /**
  * A preference dialog that can be easily integrated with the [androidx.preference] library.
- * @param activity In order to correctly handle emoji pack imports, it needs a surrounding Activity.
- *                 @see [androidx.preference.PreferenceFragmentCompat.requireActivity]
  */
 open class EmojiPickerPreference(
     val importer: EmojiPackImporter,
@@ -89,7 +87,7 @@ open class EmojiPickerPreference(
                 val dialog = EmojiPickerDialogFragment.newInstance(
                     preference.importer,
                     callChangeListener = callChangeListener)
-                // Yes, this is deprecated, no, there is currently no alternative
+                // Yes, this is deprecated, when I wrote this code, there was no alternative provided
                 dialog.setTargetFragment(fragment, 0)
                 dialog.show(fragment.parentFragmentManager, "androidx.preference.PreferenceFragment.DIALOG")
                 true

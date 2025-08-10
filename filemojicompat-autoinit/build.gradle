@@ -1,41 +1,43 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
     id 'org.jetbrains.kotlin.android'
     id 'com.vanniktech.maven.publish'
 }
 
 android {
-    compileSdkVersion 32
+    namespace "de.c1710.filemojicompat_autoinit"
+
+    compileSdkVersion 36
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 32
-        versionCode 1
-        versionName "$VERSION_NAME"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+        minSdkVersion 21
+        targetSdkVersion 36
     }
 
     buildTypes {
         release {
+            // Based on https://developer.android.com/build/shrink-code#groovy
+            // Disable code shrinking
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Includes the default ProGuard rules files that are packaged with
+            // the Android Gradle plugin. To learn more, go to the section about
+            // R8 configuration files.
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
         }
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.startup:startup-runtime:1.1.1'
+    implementation 'androidx.startup:startup-runtime:1.2.0'
     api project(path: ':filemojicompat-defaults')
     api project(path: ':filemojicompat-ui')
 }

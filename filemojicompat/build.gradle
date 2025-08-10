@@ -1,34 +1,41 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.vanniktech.maven.publish'
-
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
-    }
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.vanniktech.maven.publish'
 }
 
 android {
-    compileSdkVersion 32
+    namespace "de.c1710.filemojicompat"
+
+    compileSdkVersion 36
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 32
-        versionCode 26
-        versionName "$VERSION_NAME"
+        minSdkVersion 21
+        targetSdkVersion 36
     }
 
+    buildTypes {
+        release {
+            // Based on https://developer.android.com/build/shrink-code#groovy
+            // Disable code shrinking
+            minifyEnabled false
+
+            // Includes the default ProGuard rules files that are packaged with
+            // the Android Gradle plugin. To learn more, go to the section about
+            // R8 configuration files.
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+    }
 
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
 
 dependencies {
-    implementation 'androidx.emoji2:emoji2:1.2.0'
+    implementation 'androidx.emoji2:emoji2:1.5.0'
 }
 

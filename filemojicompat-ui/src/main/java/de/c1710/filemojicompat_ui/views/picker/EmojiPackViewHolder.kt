@@ -12,6 +12,14 @@ import de.c1710.filemojicompat_ui.structures.DownloadStatus
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 
 /**
+ * Annotation to mark functions that provide information about the view holder's current emoji pack.
+ */
+@RequiresOptIn(message = "This function is required for testing purposes. It should usually not be needed.")
+@Retention(AnnotationRetention.BINARY)
+@Target(AnnotationTarget.FUNCTION)
+annotation class HolderPackInfo
+
+/**
  * A [RecyclerView.ViewHolder] for an item in the Emoji Picker. If you want to create a custom layout,
  * all views here need to be included
  */
@@ -43,4 +51,12 @@ class EmojiPackViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     internal var downloadListener: EmojiPackDownloadListener? = null
     internal var downloadBoundTo: DownloadStatus? = null
+    // Counter for clicking 7 times to enable file import
+    internal var clickCounter: UInt = 0u
+    internal var lastClicked: Long = 0
+
+    @HolderPackInfo
+    fun getPackId(): String? {
+        return pack?.id
+    }
 }

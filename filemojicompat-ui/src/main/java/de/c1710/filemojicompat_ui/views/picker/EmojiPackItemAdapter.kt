@@ -26,12 +26,17 @@ import de.c1710.filemojicompat_ui.R
 import de.c1710.filemojicompat_ui.helpers.DelayedEmojiPreference
 import de.c1710.filemojicompat_ui.helpers.EmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
-import de.c1710.filemojicompat_ui.interfaces.*
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackDeletionListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackDownloadListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackImportListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPackSelectionListener
+import de.c1710.filemojicompat_ui.interfaces.EmojiPreferenceInterface
 import de.c1710.filemojicompat_ui.pack_helpers.EmojiPackImporter
 import de.c1710.filemojicompat_ui.packs.CustomEmojiPack
 import de.c1710.filemojicompat_ui.packs.DeletableEmojiPack
 import de.c1710.filemojicompat_ui.packs.DownloadableEmojiPack
 import de.c1710.filemojicompat_ui.packs.FilePickerDummyEmojiPack
+import de.c1710.filemojicompat_ui.packs.SystemDefaultEmojiPack
 import de.c1710.filemojicompat_ui.structures.EmojiPack
 import java.io.File
 import java.io.IOException
@@ -80,9 +85,35 @@ open class EmojiPackItemAdapter (
 
         holder.name.text = item.name
         holder.description.text = item.description
+        holder.pack = item
 
-        holder.item.setOnClickListener {
-            transitionCollapsedAndExpanded(holder, holder.expandedItem.visibility == View.GONE)
+        if (item !is SystemDefaultEmojiPack) {
+            holder.item.setOnClickListener {
+                transitionCollapsedAndExpanded(holder, holder.expandedItem.visibility == View.GONE)
+            }
+        } else {
+            // For the system default pack, there is no expanded view to open.
+            // Instead, it will enable the file based pack import (kinda like developer settings)
+            holder.item.setOnClickListener {
+                if (System.currentTimeMillis() - holder.lastClicked > 300) {
+                    holder.clickCounter = 1u
+                } else {
+                    holder.clickCounter++
+                }
+
+                // After 20 taps (which probably no one will do accidentally), the setting gets enabled
+                if (holder.clickCounter == 20u) {
+                    Toast.makeText(holder.itemView.context, "Restart app to import emoji packs from files", Toast.LENGTH_LONG).show()
+                    val sharedPref = holder.itemView.context.getSharedPreferences("de.c1710.filemojicompat_ui.OVERRIDE_FILEPICKER", Context.MODE_PRIVATE)
+                    with (sharedPref.edit()) {
+                        putBoolean("allowPackImports", true)
+                        apply()
+                    }
+                    holder.clickCounter = 0u
+                }
+
+                holder.lastClicked = System.currentTimeMillis()
+            }
         }
 
         // Handle the expanded item

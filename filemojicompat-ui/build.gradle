@@ -1,41 +1,52 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
     id 'com.vanniktech.maven.publish'
 }
 
 android {
-    compileSdkVersion 32
+    namespace "de.c1710.filemojicompat_ui"
+
+    compileSdkVersion 36
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 32
-        versionCode 6
-        versionName "$VERSION_NAME"
+        minSdkVersion 21
+        targetSdkVersion 36
 
-        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    buildTypes {
+        release {
+            // Based on https://developer.android.com/build/shrink-code#groovy
+            // Disable code shrinking
+            minifyEnabled false
+
+            // Includes the default ProGuard rules files that are packaged with
+            // the Android Gradle plugin. To learn more, go to the section about
+            // R8 configuration files.
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.activity:activity-ktx:1.5.1'
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.5.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.emoji2:emoji2:1.2.0'
+    implementation 'androidx.core:core-ktx:1.16.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+    implementation 'androidx.activity:activity-ktx:1.10.1'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.9.2'
+    implementation 'com.squareup.okhttp3:okhttp:5.1.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.emoji2:emoji2:1.5.0'
     api project(path: ':filemojicompat')
 }
