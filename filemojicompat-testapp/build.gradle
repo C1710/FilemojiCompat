@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'de.c1710.filemojicompat_testapp'
-    compileSdk 35
+    compileSdkVersion 36
 
     defaultConfig {
         applicationId "de.c1710.filemojicompat_testapp"
         minSdk 21
-        targetSdk 35
+        targetSdkVersion 36
         versionCode 2
         versionName "$VERSION_NAME"
 

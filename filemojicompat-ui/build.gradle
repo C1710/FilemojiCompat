@@ -7,11 +7,11 @@ plugins {
 android {
     namespace "de.c1710.filemojicompat_ui"
 
-    compileSdkVersion 35
+    compileSdkVersion 36
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 35
+        targetSdkVersion 36
 
         vectorDrawables.useSupportLibrary = true
     }
