@@ -15,14 +15,14 @@ const val DEFAULT_PREFERENCE = "de.c1710.filemojicompat.DEFAULT_EMOJI_PACK"
  * @see EmojiPreferenceInterface
  */
 object EmojiPreference: EmojiPreferenceInterface {
-    private var sharedPreferenceName: String? = null
+    var sharedPreferenceName: String? = null
 
-    private fun getSharedPreferences(context: Context): SharedPreferences {
+    fun getSharedPreferences(context: Context): SharedPreferences {
         return context
             .getSharedPreferences(getOrSetSharedPreferenceName(context), Context.MODE_PRIVATE)
     }
 
-    private fun getOrSetSharedPreferenceName(context: Context): String {
+    fun getOrSetSharedPreferenceName(context: Context): String {
         if (sharedPreferenceName == null) {
             sharedPreferenceName = "%s_%s".format(context.packageName, SHARED_PREFERENCES)
         }
