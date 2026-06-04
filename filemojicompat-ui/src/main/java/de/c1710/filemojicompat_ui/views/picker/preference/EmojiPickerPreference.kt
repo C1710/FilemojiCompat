@@ -87,8 +87,6 @@ open class EmojiPickerPreference(
                 val dialog = EmojiPickerDialogFragment.newInstance(
                     preference.importer,
                     callChangeListener = callChangeListener)
-                // Yes, this is deprecated, when I wrote this code, there was no alternative provided
-                dialog.setTargetFragment(fragment, 0)
                 dialog.show(fragment.parentFragmentManager, "androidx.preference.PreferenceFragment.DIALOG")
                 true
             } else {
