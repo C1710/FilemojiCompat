@@ -4,9 +4,9 @@ plugins {
 }
 
 android {
-    namespace "de.c1710.filemojicompat_ui"
+    namespace = "de.c1710.filemojicompat_ui"
 
-    compileSdkVersion 37
+    compileSdkVersion = 37
 
     defaultConfig {
         minSdkVersion 23
@@ -18,7 +18,7 @@ android {
         release {
             // Based on https://developer.android.com/build/shrink-code#groovy
             // Disable code shrinking
-            minifyEnabled false
+            minifyEnabled = false
 
             // Includes the default ProGuard rules files that are packaged with
             // the Android Gradle plugin. To learn more, go to the section about
@@ -30,8 +30,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

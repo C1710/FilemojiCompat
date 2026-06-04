@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'de.c1710.filemojicompat_testapp'
+    namespace = "de.c1710.filemojicompat_testapp"
     compileSdkVersion 37
 
     defaultConfig {

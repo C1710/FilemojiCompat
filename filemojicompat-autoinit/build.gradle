@@ -4,9 +4,9 @@ plugins {
 }
 
 android {
-    namespace "de.c1710.filemojicompat_autoinit"
+    namespace = "de.c1710.filemojicompat_autoinit"
 
-    compileSdkVersion 37
+    compileSdkVersion = 37
 
     defaultConfig {
         minSdkVersion 23
