@@ -11,4 +11,6 @@
     <string name="fluent_description">Die neuen Emojis von Microsoft</string>
     <string name="fluent_description_long">Das frische, neue Emoji-Paket in seiner flachen Version\n<i>Copyright (c) Microsoft Corporation.\nAngepasst auf die Nutzung mit EmojiCompat</i>\nDerzeit fehlen Emojis mit Hauttönen, sowie die Büroklammer.</string>
     <string name="fluent_name">Fluent Emoji (unvollständig)</string>
+    <string name="blobmoji_name">Blobmoji (veraltet)</string>
+    <string name="twemoji_name">Twemoji (veraltet)</string>
 </resources>

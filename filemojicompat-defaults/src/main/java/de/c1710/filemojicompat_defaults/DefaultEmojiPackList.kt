@@ -13,8 +13,8 @@ class DefaultEmojiPackList {
         @JvmStatic
         fun get(context: Context): ArrayList<EmojiPack> {
             val blobmoji = DownloadableEmojiPack (
-            "blobmoji",
-            "Blobmoji",
+                "blobmoji",
+                context.resources.getString(R.string.blobmoji_name),
                 "https://github.com/C1710/blobmoji/raw/main/fonts/BlobmojiCompat.ttf".toUri(),
                 context.resources.getString(R.string.blobmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_blobmoji, null),
@@ -44,7 +44,7 @@ class DefaultEmojiPackList {
                 "https://github.com/googlefonts/noto-emoji/raw/refs/heads/main/fonts/Noto-COLRv1-emojicompat.ttf".toUri(),
                 context.resources.getString(R.string.noto_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_noto, null),
-                Version(intArrayOf(16, 0)),
+                Version(intArrayOf(17, 0)),
                 "https://github.com/googlefonts/noto-emoji".toUri(),
                 "https://github.com/googlefonts/noto-emoji/blob/main/LICENSE".toUri(),
                 context.resources.getString(R.string.noto_description_long),
@@ -53,7 +53,7 @@ class DefaultEmojiPackList {
 
             val twemoji = DownloadableEmojiPack (
                 "twemoji",
-                "Twemoji",
+                context.resources.getString(R.string.twemoji_name),
                 "https://github.com/C1710/twemoji/raw/master/fonts/TwemojiCompat.ttf".toUri(),
                 context.resources.getString(R.string.twemoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_twemoji, null),
@@ -77,8 +77,12 @@ class DefaultEmojiPackList {
                 tintableIcon = false
             )
 
-            // Using alphabetical order here
-            return arrayListOf(blobmoji, noto, openmoji, twemoji, fluent)
+            // Sorted by supported emoji version and then alphabetically
+            val packs: ArrayList<EmojiPack> = arrayListOf(blobmoji, noto, openmoji, twemoji, fluent)
+            packs.sortByDescending {
+                emojiPack -> emojiPack.getVersion()
+            }
+            return packs
         }
     }
 }

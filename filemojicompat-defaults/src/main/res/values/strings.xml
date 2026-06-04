@@ -11,4 +11,6 @@
     <string name="fluent_description">The new emojis from Microsoft</string>
     <string name="fluent_description_long">The fresh, new emoji pack in its flat version.\n<i>Copyright (c) Microsoft Corporation.\nAdapted for usage with EmojiCompat</i>\nCurrently, emojis with skin tones, and the paperclip emoji are missing.</string>
     <string name="fluent_name">Fluent Emoji (incomplete)</string>
+    <string name="blobmoji_name">Blobmoji (deprecated)</string>
+    <string name="twemoji_name">Twemoji (deprecated)</string>
 </resources>
