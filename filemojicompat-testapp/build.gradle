@@ -4,12 +4,11 @@ plugins {
 
 android {
     namespace 'de.c1710.filemojicompat_testapp'
-    compileSdkVersion 36
+    compileSdkVersion 37
 
     defaultConfig {
         applicationId "de.c1710.filemojicompat_testapp"
-        minSdk 21
-        targetSdkVersion 36
+        minSdk 23
         versionCode 2
         versionName "$VERSION_NAME"
 
@@ -26,10 +25,10 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.16.0")
+    implementation("androidx.core:core-ktx:1.19.0")
     implementation("androidx.appcompat:appcompat:1.7.1")
-    implementation("androidx.emoji2:emoji2:1.5.0")
-    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.emoji2:emoji2:1.6.0")
+    implementation("com.google.android.material:material:1.14.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation(project(path: ":filemojicompat-autoinit"))
 
