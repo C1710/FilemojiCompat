@@ -67,10 +67,10 @@ class DefaultEmojiPackList {
             val openmoji = DownloadableEmojiPack (
                 "openmoji",
                 "OpenMoji",
-                "https://github.com/C1710/openmoji/raw/master/fonts/OpenMojiCompat.ttf".toUri(),
+                "https://github.com/C1710/openmoji/raw/master/emojicompat/OpenMoji-emojicompat.ttf".toUri(),
                 context.resources.getString(R.string.openmoji_description),
                 ResourcesCompat.getDrawable(context.resources, R.drawable.ic_openmoji, null),
-                Version(intArrayOf(14, 0, 2)),
+                Version(intArrayOf(17, 0)),
                 "https://openmoji.org/".toUri(),
                 "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/LICENSE.txt".toUri(),
                 context.resources.getString(R.string.openmoji_description_long),
