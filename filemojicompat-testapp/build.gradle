@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "de.c1710.filemojicompat_testapp"
         minSdk 23
-        versionCode 2
+        versionCode 3
         versionName "$VERSION_NAME"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
