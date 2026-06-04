@@ -53,6 +53,7 @@ object EmojiPackHelper {
     fun reset(context: Context) {
         val config = getCurrentConfig(context)
 
+        @Suppress("RestrictedApi")
         EmojiCompat.reset(config)
     }
 
